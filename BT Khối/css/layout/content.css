@@ -1,0 +1,50 @@
+@import url(../base/button/button.css);
+@import url(../base/search/search.css);
+@import url(../base/table/table.css);
+@import url(./dialog.css);
+@import url(./overlay.css);
+@import url(../base/contextmenu.css);
+.content{
+    height: calc(100vh - 48px);
+    background-color: #f4f5f8;
+}
+.content-top{
+    display: flex;
+    justify-content: space-between;
+    padding: 16px 16px;
+    align-items: center;
+}
+.title{
+    font-size: 24px;
+    font-weight: bold;
+}
+.content-data{
+    width: calc(100% - 32px);
+    background-color: #fff;
+    height: calc(100vh - 48px + 18px - 83.6px);
+    margin: 0 auto;
+    position: relative;
+}
+.list-employee{
+    height: 484px;
+    width: 1310px;
+    overflow-x: auto;
+    overflow-y: auto;
+    margin: 0 auto;
+    position: relative;
+}
+.functions{
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    margin-right: 16px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
+
+#loading{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}

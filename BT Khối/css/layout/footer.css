@@ -1,0 +1,39 @@
+footer{
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 56px;
+    background-color: #fff;
+}
+.total-record{
+    margin-left: 16px;
+}
+.pagenumber{
+    display: flex;
+    align-items: center;
+}
+.select-records{
+    width: 200px;
+    height: 32px;
+    margin-right: 10px;
+    border: 1px solid #babec5;
+    border-radius: 2px;
+}
+.pagenumber div{
+    margin-right: 10px;
+}
+.pagination{
+    display: flex;
+    align-items: center;
+}
+.current-page{
+    width: 16px;
+    height: 16px;
+    text-align: center;
+    line-height: 16px;
+    border: 1px solid #c7c7c7;
+    font-weight: bold;
+}

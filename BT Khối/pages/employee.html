@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="../assets/favicon.ico">
+    <title>AMIS KẾ TOÁN</title>
+    <link rel="stylesheet" href="../css/main.css">
+</head>
+<body>
+    <div class="container">
+        <div class="menu">
+            <div class="logo-container">
+                <div class="menu-icon"></div>
+                <img src="../assets/img/Logo_Module_TiengViet_White.66947422.svg" alt="" class="logo">
+            </div>
+            <div class="menu-wrapper">
+                <div class="menu-item">
+                    <div class="icon24 icon-dashboard"></div>
+                    <div class="menu-option">Tổng quan</div>
+                </div>
+                <div class="menu-item">
+                    <div class="icon24 icon-buy"></div>
+                    <div class="menu-option">Tiền mặt</div>
+                </div>
+                <div class="menu-item">
+                    <div class="icon24 icon-cash"></div>
+                    <div class="menu-option">Tiền gửi</div>
+                </div>
+                <div class="menu-item">
+                    <div class="icon24 icon-bank"></div>
+                    <div class="menu-option">Mua hàng</div>
+                </div>
+                <div class="menu-item">
+                    <div class="icon24 icon-sell"></div>
+                    <div class="menu-option">Bán hàng</div>
+                </div>
+                <div class="menu-item">
+                    <div class="icon24 icon-invoice"></div>
+                    <div class="menu-option">Quản lí hóa đơn</div>
+                </div>
+                <div class="menu-item">
+                    <div class="icon24 icon-stock"></div>
+                    <div class="menu-option">Kho</div>
+                </div>
+                <div class="menu-item">
+                    <div class="icon24 icon-tool"></div>
+                    <div class="menu-option">Công cụ dụng cụ</div>
+                </div>
+                <div class="menu-item">
+                    <div class="icon24 icon-asset"></div>
+                    <div class="menu-option">Tài sản cố định</div>
+                </div>
+                <div class="menu-item">
+                    <div class="icon24 icon-tax"></div>
+                    <div class="menu-option">Thuế</div>
+                </div>
+                <div class="menu-item">
+                    <div class="icon24 icon-cost"></div>
+                    <div class="menu-option">Giá thành</div>
+                </div>
+                <div class="menu-item">
+                    <div class="icon24 icon-general"></div>
+                    <div class="menu-option">Tổng hợp</div>
+                </div>
+                <div class="menu-item">
+                    <div class="icon24 icon-budget"></div>
+                    <div class="menu-option">Ngân sách</div>
+                </div>
+                <div class="menu-item">
+                    <div class="icon24 icon-report"></div>
+                    <div class="menu-option">Báo cáo</div>
+                </div>
+                <div class="menu-item">
+                    <div class="icon24 icon-finance"></div>
+                    <div class="menu-option">Phân tích tài chính</div>
+                </div>
+            </div>
+        </div>
+        <div class="main">
+            <div class="header">
+                <div class="header-left">
+                    <div class="bars"></div>
+                    <div>CÔNG TY TNHH SẢN XUẤT - THƯƠNG MẠI - DỊCH VỤ QUI PHÚC</div>
+                    <div class="chevron-down"></div>
+                </div>
+                <div class="header-right">
+                    <div class="bell"></div>
+                    <img src="../assets/img/default-avatar.jpg" alt="default avt" class="default-avatar">
+                    <div class="user-name">Nguyễn Hoài Nam</div>
+                    <div class="chevron-down-mini"></div>
+                </div>
+            </div>
+            <div class="content">
+                <div class="content-top">
+                    <div class="title">Nhân viên</div>
+                    <button id="addEmployee" class="button">Thêm mới nhân viên</button>
+                </div>
+                <div class="content-data">
+                    <div class="functions">
+                        <div class="search-box">
+                            <input  type="text" placeholder="Tìm theo mã, tên nhân viên">
+                            <div class="search-icon"></div>
+                        </div>
+                        <div class="refresh"></div>
+                        <div class="excel"></div>
+                    </div>
+                    <div class="list-employee">
+                        <table class="data" id="tblEmployee" cellspacing="0">
+                        <tr>
+                            <th class="col60"><input type="checkbox" name="" id=""></th>
+                            <th class="col150 align-left">MÃ NHÂN VIÊN</th>
+                            <th class="col250 align-left">TÊN NHÂN VIÊN</th>
+                            <th class="col150 align-center">NGÀY SINH</th>
+                            <th class="col150 align-left">GIỚI TÍNH</th>
+                            <th class="col150 align-left">SỐ ĐIỆN THOẠI</th>
+                            <th class="col250 align-left">CHỨC DANH</th>
+                            <th class="col150 align-left">Số CMND</th>
+                            <th class="col250 align-left">TÊN ĐƠN VỊ</th>
+                            <th class="col250 align-left">SỐ TÀI KHOẢN</th>
+                            <th class="col250 align-left">TÊN NGÂN HÀNG</th>
+                            <th class="col250 align-left">CHI NHÁNH</th>
+                            <th class="col200">CHỨC NĂNG</th>
+                        </tr>
+                        
+                    </table>
+                        <div class="context-menu">
+                            <div class="context-menu-item">Nhân bản</div>
+                            <div class="context-menu-item">Xóa</div>
+                            <div class="context-menu-item">Ngừng sử dụng</div>
+                        </div>          
+                        <div id="loading"> 
+                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="32" height="32" viewBox="0 0 32 32"><title>32px_dots 06</title><g class="nc-loop_dots-06-32" transform="rotate(45 16 16)"><circle fill="#2ca01c" cx="16" cy="3" r="3"/><circle fill="#2ca01c" cx="25.19239" cy="6.80761" r="3" opacity="0.4"/><circle fill="#2ca01c" cx="29" cy="16" r="3" opacity="0.4"/><circle fill="#2ca01c" cx="25.19239" cy="25.19239" r="3" opacity="0.4"/><circle fill="#2ca01c" cx="16" cy="29" r="3" opacity="0.4"/><circle fill="#2ca01c" cx="6.80761" cy="25.19239" r="3" opacity="0.4"/><circle fill="#2ca01c" cx="3" cy="16" r="3" opacity="0.6"/><circle fill="#2ca01c" cx="6.80761" cy="6.80761" r="3" opacity="0.8"/></g><script>!function(){function t(t){this.element=t,this.animationId,this.start=null,this.init()}if(!window.requestAnimationFrame){var i=null;window.requestAnimationFrame=function(t,n){var e=(new Date).getTime();i||(i=e);var a=Math.max(0,16-(e-i)),o=window.setTimeout(function(){t(e+a)},a);return i=e+a,o}}t.prototype.init=function(){var t=this;this.animationId=window.requestAnimationFrame(t.triggerAnimation.bind(t))},t.prototype.reset=function(){var t=this;window.cancelAnimationFrame(t.animationId)},t.prototype.triggerAnimation=function(t){var i=this;this.start||(this.start=t);var n=t-this.start;800>n||(this.start=this.start+800),this.element.setAttribute("transform","rotate("+parseInt(Math.min(n/100,8))%8*45+" 16 16)");if(document.documentElement.contains(this.element))window.requestAnimationFrame(i.triggerAnimation.bind(i))};var n=document.getElementsByClassName("nc-loop_dots-06-32"),e=[];if(n)for(var a=0;n.length>a;a++)!function(i){e.push(new t(n[i]))}(a);document.addEventListener("visibilitychange",function(){"hidden"==document.visibilityState?e.forEach(function(t){t.reset()}):e.forEach(function(t){t.init()})})}();</script></svg>
+                        </div>
+                    </div>
+                    
+                    <footer>
+                        <div class="total-record">Tổng số: <span style="font-family: Notosans-SemiBold;">138</span> bản ghi</div>
+                        <div class="pagination">
+                            <div class="record-option">
+                                <select name="" id="" class="select-records">
+                                    <option value="">10 bản ghi trên 1 trang</option>
+                                    <option value="">30 bản ghi trên 1 trang</option>
+                                    <option value="">50 bản ghi trên 1 trang</option>
+                                    <option value="">100 bản ghi trên 1 trang</option>
+                                </select>
+                            </div>
+                            <div class="pagenumber">
+                                <div>Trước</div><div class="current-page">1</div><div>2</div><div>Sau</div>
+                            </div>  
+                        </div>
+                    </footer>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="overlay" class="overlay" style="display: none;"> 
+        <div class="dialog">
+            <div class="dialog-button">
+                <div class="icon-hint"></div>
+                <div class="icon-close" id="btnClose"></div>
+            </div>
+            <div class="dialog-header">
+                <div class="dialog-title">Thông tin nhân viên</div>
+                <div class="dialog-option">
+                    <input type="checkbox" name="" id=""> <label for="">Là khách hàng</label>
+                    <input type="checkbox" name="" id=""> <label for="">Là nhà cung cấp</label>
+                </div>
+            </div>
+            <div class="data-field">
+                <div class="field-above flexbox">
+                    <div class="field-above-left"  style="margin-right: 26px;">
+                        <div class="flexbox">
+                            <div class="m-b-12" style="margin-right: 8px;">
+                                <label for="">Mã <span class="red">*</span></label> <br>
+                                <input type="text" class="input input150">
+                            </div>
+                            <div class="m-b-12">
+                                <label for="">Tên <span class="red">*</span></label> <br>
+                                <input type="text" class="input input230">
+                            </div>
+                        </div>
+                        <div class="m-b-12">
+                            <label for="">Đơn vị <span class="red">*</span></label> <br>
+                            <input type="text" class="input input385">
+                        </div>
+                        <div>
+                            <label for="">Chức danh</label> <br>
+                            <input type="text" class="input input385">
+                        </div>
+                    </div>
+                    <div class="field-above-right">
+                        <div class="flexbox">
+                            <div class="m-b-12" style="margin-right: 10px;" class="m-b-12">
+                                <label for="">Ngày sinh</label> <br>
+                                <input type="date" class="input input150">
+                            </div>
+                            <div class="m-b-12">
+                                <label for="">Giới tính</label> <br>
+                                <div style="line-height: 32px; margin-top: 6px;" class="flexbox">
+                                    <input checked class="m-l-10 m-r-5" type="radio" name="gender"> Nam
+                                    <input class="m-l-10 m-r-5" type="radio" name="gender"> Nữ
+                                    <input class="m-l-10 m-r-5" type="radio" name="gender"> Khác
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flexbox">
+                            <div class="m-b-12" style="margin-right: 8px;">
+                                <label for="">Số CMND</label> <br>
+                                <input type="datetime" class="input input240">
+                            </div>
+                            <div class="m-b-12" style="margin-right: 8px;">
+                                <label for="">Ngày cấp</label> <br>
+                                <input type="date" class="input input150">
+                            </div>
+                        </div>
+                        <div>
+                            <label for="">Nơi cấp</label> <br>
+                            <input type="datetime" class="input input395">
+                        </div>
+                    </div>
+                </div>
+                <div class="field-below">
+                    <div class="m-b-12">
+                        <label for="">Địa chỉ</label> <br>
+                        <input class="input input800">
+                    </div>
+                    <div class="flexbox">
+                        <div class="m-b-12" style="margin-right: 8px;">
+                            <label for="">ĐT di động</label> <br>
+                            <input class="input input200">
+                        </div>
+                        <div class="m-b-12" style="margin-right: 8px;">
+                            <label for="">ĐT cố định</label> <br>
+                            <input class="input input200">
+                        </div>
+                        <div class="m-b-12">
+                            <label for="">Email</label> <br>
+                            <input class="input input200">
+                        </div>
+                    </div>
+                    <div class="flexbox">
+                        <div style="margin-right: 8px;">
+                            <label for="">Tài khoản ngân hàng</label> <br>
+                            <input class="input input200">
+                        </div>
+                        <div style="margin-right: 8px;">
+                            <label for="">Tên ngân hàng</label> <br>
+                            <input class="input input200">
+                        </div>
+                        <div>
+                            <label for="">Chi nhánh</label> <br>
+                            <input class="input input200">
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="dialog-footer">
+                <button class="button-white" id="btnCancel">Hủy</button>
+                <div>
+                    <button class="button-white">Cất</button>
+                    <button class="button">Cất và Thêm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Thư viện -->
+    <script src="../lib/jquery-3.6.3.min.js"></script>
+    <!-- Js dùng chung -->
+    <script src="../js/base/common.js"></script>
+    <script src="../js/base/enum.js"></script>
+    <script src="../js/base/resource.js"></script>
+
+    <script src="../js/pages/employee.js"></script>
+</body>
+</html>

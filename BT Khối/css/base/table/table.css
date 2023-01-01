@@ -1,0 +1,107 @@
+.data{
+    margin: 0 auto;
+    font-size: 13px;
+    width: 150%;
+}
+.data tr:first-child{
+    background-color: #e5e8ec;
+    position: sticky;
+    top: 0;
+    z-index: 5;
+}
+.data tr td{
+    text-indent: 6px;
+}
+.data tr th{
+    text-indent: 6px;
+}
+th, td{
+    height: 48px;
+    border-right: 1px solid #c7c7c7;
+    border-bottom: 1px solid #c7c7c7;
+}
+.data tr:hover td{
+    background-color: #e5f3ff!important;
+}
+.data tr td:first-child{
+    background-color: #fff;
+    position: sticky;
+    left: 0;
+    text-align: center;
+}
+.data tr th:first-child{
+    position: sticky;
+    text-align: center;
+    left: 0;
+    z-index: 3;
+    background-color: #e5e8ec;
+}
+.data tr td:last-child{
+    color: #0075c0;
+    font-family: Notosans-SemiBold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: sticky;
+    right: 0;
+    z-index: 3;
+    background-color: #fff;
+    border-left: 1px solid #c7c7c7;
+}
+.data tr th:last-child{
+    position: sticky;
+    right: 0;
+    z-index: 3;
+    background-color: #e5e8ec;
+    border-left: 1px solid #c7c7c7;
+}
+
+/* độ rộng các cột */
+.col250{
+    width: 250px;
+}
+.col150{
+    width: 150px;
+}
+.col60{
+    width: 60px;
+}
+.col100{
+    width: 100px;
+}
+.col200{
+    width: 200px;
+}
+
+/* ======================= */
+.align-left{
+    text-align: left;
+}
+.align-right{
+    text-align: right;
+}
+.align-center{
+    text-align: center;
+}
+
+/* custom scroll bar  */
+/* width */
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+  
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+   
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888; 
+}
+  
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+}

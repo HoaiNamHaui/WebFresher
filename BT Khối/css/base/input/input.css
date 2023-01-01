@@ -1,0 +1,50 @@
+.red{
+    color: red;
+}
+.input{
+    height: 36px;
+    border-radius: 2px;
+    border: 1px solid #babec5;
+    box-sizing: border-box;
+    outline: none;
+    margin-top: 6px;
+    text-indent: 8px;
+}
+input[type="radio"]{
+    transform: scale(1.4);
+    accent-color: #2ca01c;
+}
+.input:focus{
+    border: 1px solid #2ca01c;
+}
+/* độ dài các ô field text  */
+
+.input150{
+    width: 150px;
+}
+.input140{
+    width: 140px;
+}
+.input130{
+    width: 130px;
+}
+.input240{
+    width: 240px;
+}
+.input230{
+    width: 230px;
+}
+.input385{
+    width: 385px;
+}
+.input395{
+    width: 397px;
+}
+.input200{
+    width: 200px;
+}
+.input800{
+    width: 812px;
+} 
+
+

@@ -1,0 +1,33 @@
+.header{
+    height: 48px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: Notosans-SemiBold;
+    font-size: 14px;
+}
+
+.header-left{
+    display: flex;
+    height: 100%;
+    align-items: center;
+}
+
+
+.header-right{
+    display: flex;
+    height: 100%;
+    align-items: center;
+}
+
+.default-avatar{
+    margin-left: 10px;
+    margin-right: 10px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+}
+
+
+
