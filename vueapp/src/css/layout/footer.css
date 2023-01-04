@@ -1,0 +1,102 @@
+footer{
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 56px;
+    background-color: #fff;
+}
+.total-record{
+    margin-left: 16px;
+}
+.pagenumber{
+    display: flex;
+    align-items: center;
+}
+.select-records{
+    width: 200px;
+    height: 32px;
+    margin-right: 10px;
+    border: 1px solid #babec5;
+    border-radius: 2px;
+}
+.pagenumber div{
+    margin-right: 10px;
+}
+.pagination{
+    display: flex;
+    align-items: center;
+}
+.current-page{
+    width: 16px;
+    height: 16px;
+    text-align: center;
+    line-height: 16px;
+    border: 1px solid #c7c7c7;
+    font-weight: bold;
+}
+
+/* _________________________________________ */
+.box-icon{
+    height: 28px;
+    width: 28px;
+    display: flex;
+    align-items: center;
+    border-radius: 0 0 2px 2px;
+    cursor: pointer;
+}
+.box-icon:hover{
+    background-color: #e0e0e0;
+    border-color: #e0e0e0;
+}
+.pages{
+    display: flex;
+}
+.pages-option{
+    position: relative;
+    border-radius: 4px;
+    text-indent: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 200px;
+    height: 30px;
+    border: 1px solid #c7c7c7;
+}
+
+.pages-current{
+    height: 30px;
+    display: flex;
+    align-items: center;
+}
+.pages-current span{
+    padding: 3px 8px;
+    margin: 5px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.pages-current span:hover{
+    color: #7f8c8d;
+}
+
+.selected-page{
+    border: 1px solid #c7c7c7;
+    font-family: Notosans-Bold;
+}
+.cbx-icon{
+	background: url('../../assets/img/Sprites.64af8f61.svg'); 
+    background-position: -564px -365px;
+    background-repeat: no-repeat;
+    width: 8px;
+    height: 5px;
+    border: none;
+    cursor: pointer;
+    margin: 0 auto;
+    transform: rotate(0deg);
+    transition: .2s;
+}
+.toogle-rotate{
+    transform: rotate(180deg) !important;
+}

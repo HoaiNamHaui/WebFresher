@@ -1,0 +1,41 @@
+.menu{
+    width: 178px;
+    background-color: #393a3d;
+    height: 100vh;
+    color: #ffff;
+}
+
+
+/* logo page */
+.logo-container{
+    display: flex;
+    width: 100%;
+    height: 48px;
+    align-items: center;
+}
+.menu-icon{
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+    margin-left: 16px;
+    background: url(../../assets/img/Sprites.64af8f61.svg) no-repeat -424px -86px;
+}
+
+.logo{
+    height: 32px;
+}
+
+/* menu option  */
+.menu-item{
+    height: 42px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+.menu-item:hover{
+    border-left: 4px solid #2ca01c;
+    background-color: #58595d;
+}
+.menu-item:hover .icon24{
+    margin-left: 10px;
+}

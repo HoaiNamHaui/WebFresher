@@ -1,0 +1,40 @@
+.button{
+    background-color: #2ca01c;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #ffff;
+    font-family: Notosans-semibold;
+    outline: none;
+    height: 36px;
+    line-height: 36px;
+    padding: 0 16px;
+    border: none;
+    cursor: pointer;
+}
+.button-white{
+    background-color: #fff;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #212121;
+    font-family: Notosans-semibold;
+    outline: none;
+    height: 36px;
+    line-height: 36px;
+    padding: 0 16px;
+    border: 1px solid #8d9096;
+    cursor: pointer;
+    margin-right: 12px;
+    min-width: 80px;
+}
+.button-white:hover{
+    background-color: #d2d3d6;
+}
+.button-white:active{
+    background-color: #bbbcbc;
+}
+.button:hover{
+    background-color:  #35bf22;
+}
+.button:active{
+    background-color:  #248b15;
+}

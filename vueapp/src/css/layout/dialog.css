@@ -1,0 +1,67 @@
+@import url(../base/input/input.css);
+.dialog{
+    width: 880px;
+    height: 640px;
+    border-radius: 2px;
+    background-color: white;
+    position: relative;
+}
+.flexbox{
+    display: flex;
+}
+.dialog-header{
+    display: flex;
+    margin-top: 22px;
+    margin-left: 36px;
+}
+.dialog-title{
+    font-size: 23px;
+    font-family: Notosans-semiBold;
+}
+.data-field{
+    margin: 0 36px;
+    margin-top: 20px;
+}
+.data-field label{
+    font-family: Notosans-Bold;
+}
+.field-above{
+    margin-bottom: 30px;
+}
+.dialog-option{
+    display: flex;
+    align-items: center;
+}
+.dialog-option input[type='checkbox'] {
+    margin-right: 10px;
+    margin-left: 20px;
+    transform: scale(1.4);
+}
+.dialog .dialog-button{
+    display: flex;
+    position: absolute;
+    align-items: center;
+    top: 12px;
+    right: 12px;
+}
+.m-b-12{
+    margin-bottom: 12px;
+}
+.m-l-10{
+    margin-left: 10px;
+}
+.m-r-5{
+    margin-right: 5px;
+}
+
+.dialog-footer{
+    /* border-top: 1px solid #babec5; */
+    height: 100px;
+    width: 808px;
+    left: 36px;
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
