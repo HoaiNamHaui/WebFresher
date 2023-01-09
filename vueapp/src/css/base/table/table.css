@@ -14,9 +14,11 @@
 }
 .data tr td:first-child{
     text-indent: unset;
+    text-align: center;
 }
 .data tr th:first-child{
     text-indent: unset;
+    text-align: center;
 }
 .data tr th{
     text-indent: 6px;
@@ -33,14 +35,15 @@ th, td{
     background-color: #fff;
     position: sticky;
     left: 0;
-    text-align: center;
 }
 .data tr th:first-child{
     position: sticky;
-    text-align: center;
     left: 0;
     z-index: 3;
     background-color: #e5e8ec;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .data tr td:last-child{
     color: #0075c0;

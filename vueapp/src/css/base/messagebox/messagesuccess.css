@@ -1,0 +1,27 @@
+.msgbox{
+    width: 400px;
+    max-width: 400px;
+    height: 173px;
+    border-radius: 4px;
+    box-sizing: border-box;
+    position: relative;
+    background-color: white;
+}
+.msg-content{
+    display: flex;
+    padding-left: 24px;
+    align-items: center;
+    height: 113px;
+}
+.messagebox-success-icon {
+	background: url('../../../assets/img/Sprites.64af8f61.svg') no-repeat -990px -462px;
+	width: 36px;
+	height: 36px;
+    margin-right: 24px;
+}
+.msg-footer{
+    position: absolute;
+    bottom: 24px;
+    left: 50%;
+    transform: translate(-50%, 0);
+}

@@ -1,0 +1,48 @@
+.messagebox{
+    width: 400px;
+    max-width: 400px;
+    height: 173px;
+    border-radius: 4px;
+    box-sizing: border-box;
+    position: relative;
+    background-color: #fff;
+}
+.messagebox-header-title{
+    font-weight: 700;
+    font-size: 20px;
+}
+.messagebox-warning-icon {
+	background: url('../../../assets/img/Sprites.64af8f61.svg') no-repeat -598px -463px;
+	width: 36px;
+	height: 37px;
+    margin-right: 24px;
+}
+.messagebox-header, .messagebox-content {
+    display: flex;
+    align-items: center;
+}
+.messagebox-header{
+    height: 48px;
+    padding-top: 22px;
+    padding-left: 24px;
+    justify-content: space-between;
+    
+}
+.messagebox-content-describe{
+    font-weight: 400;
+    font-size: 14px;
+}
+.messagebox-content{
+    margin-top: 22px;
+    margin-left: 24px;
+    margin-bottom: 24px;
+}
+.messagebox-footer{
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 24px;
+}
+.messagebox-footer button:first-child{
+    margin-right: 8px;
+}
+

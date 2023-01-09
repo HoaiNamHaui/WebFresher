@@ -1,7 +1,8 @@
 @import url(../base/input/input.css);
 .dialog{
     width: 880px;
-    height: 640px;
+    /* height: 640px; */
+    height: 634px;
     border-radius: 2px;
     background-color: white;
     position: relative;
@@ -64,4 +65,11 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+.line{
+    width: 200px;
+    margin: 0 auto;
+    height: .5px;
+    background-color: #babec5;
+    margin-bottom: 24px;
 }

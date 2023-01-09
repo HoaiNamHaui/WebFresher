@@ -3,7 +3,7 @@
     <the-menu/>
     <div class="main">
       <the-header/>
-      <the-content/>
+      <employee-list/>
     </div>
   </div>
 </template>
@@ -11,11 +11,11 @@
 <script>
 import TheMenu from './components/layout/TheMenu.vue';
 import TheHeader from './components/layout/TheHeader.vue';
-import TheContent from './components/layout/TheContent.vue';
+import EmployeeList from './components/layout/EmployeeList.vue';
 export default {
   name: 'App',
   components: {
-    TheMenu, TheHeader, TheContent
+    TheMenu, TheHeader, EmployeeList
   }
 }
 </script>
