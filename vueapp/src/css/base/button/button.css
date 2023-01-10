@@ -10,6 +10,7 @@
     padding: 0 16px;
     border: none;
     cursor: pointer;
+    min-width: 80px;
 }
 .button-white{
     background-color: #fff;

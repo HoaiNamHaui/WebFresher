@@ -1,6 +1,10 @@
 <template>
     <div class="overlay-message">
         <div class="msgbox">
+            <div class="messagebox-header">
+                <div class="messagebox-header-title">Thông báo</div>
+                <div class="messagebox-header-close"  @click="close"></div>
+            </div>
             <div class="msg-content">
                 <div class="messagebox-validate-icon"></div>
                 <div class="messagebox-content-describe">{{ error }}</div>
@@ -33,11 +37,11 @@
 
 </script>
 <style>
-@import url(../../../css/base/messagebox/messagesuccess.css);
+@import url(../../../css/base/messagebox/message-success.css);
 .messagebox-validate-icon {
 	background: url('../../../assets/img/Sprites.64af8f61.svg') no-repeat -32px -959px;
 	width: 36px;
 	height: 36px;
-    margin-right: 24px;
+    margin-right: 8px;
 }
 </style>

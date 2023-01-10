@@ -5,7 +5,7 @@
                 <img src="../../assets/img/Logo_Module_TiengViet_White.66947422.svg" alt="" class="logo">
             </div>
             <div class="menu-wrapper">
-                <div class="menu-item">
+                <div class="menu-item select">
                     <div class="icon24 icon-dashboard"></div>
                     <div class="menu-option">Tổng quan</div>
                 </div>

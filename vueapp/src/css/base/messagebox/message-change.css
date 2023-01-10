@@ -1,0 +1,17 @@
+.msg-change-footer{
+    position: absolute;
+    bottom: 24px;
+    right: 24px;
+    display: flex;
+    justify-content: space-between;
+     width: calc(400px - 48px);
+}
+.msg-footer-right{
+    display: flex;
+}
+.messagebox-change-icon {
+	background: url('../../../assets/img/Sprites.64af8f61.svg') no-repeat -672px -462px;;
+	width: 36px;
+	height: 36px;
+    margin-right: 8px;
+}

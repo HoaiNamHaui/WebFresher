@@ -27,13 +27,13 @@
                 />
                 </th>
               <th class="col150 align-left">MÃ NHÂN VIÊN</th>
-              <th class="col250 align-left">TÊN NHÂN VIÊN</th>
+              <th class="col300 align-left">TÊN NHÂN VIÊN</th>
               <th class="col150 align-center">NGÀY SINH</th>
               <th class="col150 align-left">GIỚI TÍNH</th>
               <th class="col150 align-left">SỐ ĐIỆN THOẠI</th>
-              <th class="col250 align-left">CHỨC DANH</th>
+              <th class="col350 align-left">CHỨC DANH</th>
               <th class="col150 align-left">Số CMND</th>
-              <th class="col250 align-left">TÊN ĐƠN VỊ</th>
+              <th class="col350 align-left">TÊN ĐƠN VỊ</th>
               <th class="col250 align-left">SỐ TÀI KHOẢN</th>
               <th class="col250 align-left">TÊN NGÂN HÀNG</th>
               <th class="col250 align-left">CHI NHÁNH</th>
@@ -90,10 +90,10 @@
               :page-range="2"
               :margin-pages="1"
               :click-handler="clickCallback"
-              :prev-text="'Trước'"
-              :next-text="'Sau'"
+              :prev-text = "'Trước'"
+              :next-text ="'Sau'"
               :container-class="'pagination'"
-              :page-class="'page-item'"
+              :page-class = "'page-item'"
             />
           </div>
         </footer>
@@ -101,9 +101,12 @@
     </div>
     <employee-dialog 
     v-if="isShowDialog" 
-    @onClose="isShowDialog = false" 
+    @onClose="isShowDialog = !isShowDialog" 
     :employeeIdSelected = "employeeIdSelected"
     @sendMessage="sendMessage"
+    @confirmClose = "confirmClose"
+    :acceptSave= "isAcceptSave"
+    @showToast = "showToast"
     />
     <base-message-delete 
     v-if="confirmDelete"
@@ -111,22 +114,29 @@
     @cancelDelete="cancelDelete"
     @DeleteSuccess="DeleteSuccess"
     />
-    <base-message-success
-      :message="message"
-      v-if="successMessage"
-      @hideMessage="hideMessage"
-    />
     <base-message-error
     :error="errForm"
     v-if="isShowMessageError"
     @close="isShowMessageError=false"
     />
+    <base-toast
+    v-if="isShowToast"
+    @hideToast = "isShowToast = false"
+    :message = "message"
+    />
+    <base-message-change
+    v-if="isShowChangeMessage"
+    @closeMessageChange = "isShowChangeMessage = !isShowChangeMessage"
+    @hideDialogAndMessage = "hideDialogAndMessage"
+    />
   </template>
   <script>
+  import MISAResource from '../../js/base/resource'
+  import BaseMessageChange from '../Base/message/BaseMessageChange.vue';
   import BaseMessageError from '../Base/message/BaseMessageError.vue';
-  import BaseMessageSuccess from '../Base/message/BaseMessageSuccess.vue';
   import BaseMessageDelete from '../Base/message/BaseMessageDelete.vue';
   import EmployeeDialog from './EmployeeDetail.vue'
+  import BaseToast from '../Base/BaseToast.vue';
   import BaseButton from "../Base/button/BaseButton.vue";
   import PageCombobox from "../Base/PageCombobox.vue"
   import BaseCheckBox from '../Base/BaseCheckbox.vue';
@@ -143,11 +153,14 @@
       PageCombobox, 
       BaseCheckBox,
       BaseMessageDelete,
-      BaseMessageSuccess,
-      BaseMessageError
+      BaseMessageError,
+      BaseToast,
+      BaseMessageChange
     },
     data() {
       return {
+        isShowChangeMessage: false,
+        isShowToast: false,
         isShowMessageError: false,
         errForm: "",
         employeeSelected: {},
@@ -166,9 +179,9 @@
         isCheckAll: false,
         isActive: false,
         confirmDelete: false,
-        successMessage: false,
         message: "",
         employeeIdSelected: null,
+        isAcceptSave: false,
       };
     },
     watch: {
@@ -178,6 +191,42 @@
       }
     },
     methods: {
+      /**
+       * Xác nhận đóng hoặc cất dữ liệu
+       * Author: NHNam (10/1/2023)
+       */
+      confirmClose(){
+        this.isShowChangeMessage = true;
+      },
+      /**
+       * Đóng tất cả thông báo, dialog
+       * Author: NHNam (10/1/2023)
+       */
+      hideDialogAndMessage(){
+        this.isShowChangeMessage = false;
+        this.isShowDialog = false;
+        this.isAcceptSave = false;
+      },
+      /**
+       * Đồng ý lưu
+       * Author: NHNam (10/1/2023)
+       */
+      acceptSave(){
+        this.isAcceptSave = true;
+      },
+      /**
+       * Hiển thị toast message theo mode thêm hoặc sửa
+       * Author: NHNam (9/1/2023)
+       */
+      async showToast(e){
+        this.message = e;
+        console.log(this.message);
+        console.log(123);
+        this.isShowToast = true;
+        await this.filterEmployee();
+        var me = this;
+        setTimeout(function() {me.isShowToast = false}, 3000)
+      },
       /**
        * Lấy thông báo validate
        * Author: NHNam (7/1/2023)
@@ -199,25 +248,8 @@
        * Author: NHNam (7/1/2023)
        */
       handleEditClick(){
-        
         this.employeeIdSelected = this.employeeSelected.EmployeeId;
         this.isShowDialog = true;
-      },
-      /**
-       * Thông báo xóa thành công
-       * Author: NHNam (7/1/2023)
-       */
-      DeleteSuccess(){
-        this.successMessage = true;
-        this.message = "Xóa nhân viên thành công"
-      },
-      /**
-       * Ẩn thông báo xóa thành công
-       * Author: NHNam (7/1/2023)
-       */
-      hideMessage(e){
-        this.successMessage = e;
-        this.filterEmployee();
       },
       /**
        * Đóng thông xác nhận xóa
@@ -227,10 +259,21 @@
         this.confirmDelete = e;
       },
       /**
+       * Xóa thành công hiện toast message
+       * Author: NHNam (9/1/2023)
+       */
+      async DeleteSuccess(){
+        this.isShowToast = true;
+        await this.filterEmployee();
+        var me = this;
+        setTimeout(function() {me.isShowToast = false}, 3000)
+      },
+      /**
        * hiện thông báo xác nhận xóa
        * Author: NHNam (7/1/2023)
        */
       deleteEmployee(){
+        this.message = MISAResource.vi.delete;
         this.confirmDelete = true;
       },
       /**

@@ -11,11 +11,21 @@
     font-weight: 700;
     font-size: 20px;
 }
+.messagebox-header-close {
+	background: url('../../../assets/img/Sprites.64af8f61.svg') no-repeat -1178px -362px;
+	width: 12px;
+	height: 12px;
+    /* padding-right: 30px; */
+    position: absolute;
+    cursor: pointer;
+    right: 30px;
+    top: 30px;
+}
 .messagebox-warning-icon {
 	background: url('../../../assets/img/Sprites.64af8f61.svg') no-repeat -598px -463px;
 	width: 36px;
 	height: 37px;
-    margin-right: 24px;
+    margin-right: 8px;
 }
 .messagebox-header, .messagebox-content {
     display: flex;

@@ -1,0 +1,53 @@
+.toast{
+    background-color: #fff;
+    width: 450px;
+    height: 56px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    box-sizing: border-box;
+    border-radius: 4px;
+    box-shadow:0 8px 8px 0 rgba(103, 151, 255, .11), 0 4px 6px 0 rgba(103, 151, 255, .11);
+    position: absolute;
+    top: 120px;
+    right: 18px;
+    z-index: 99;
+    animation: 2s slide ease;
+}
+@keyframes slide{
+    0%{
+        left: 100%;
+    }
+    100%{
+        left: calc(100vw - 450px - 18px);
+    }
+}
+.toast-left , .toast-right{
+    display: flex;
+    align-items: center;
+}
+.toast-message span{
+    color: #2ca01c;
+    font-weight: bold;
+}
+.toast-icon{
+	background: url('../../../assets/img/Sprites.64af8f61.svg') no-repeat -848px -312px;
+	width: 16px;
+	height: 16px;    
+    margin-left: 18px;
+    margin-right: 10px;
+}
+.undo{
+    text-decoration: underline;
+    font-weight: bold;
+    margin-right: 16px;
+    cursor: pointer;
+}
+.close-icon{
+    background: url('../../../assets/img/Sprites.64af8f61.svg') no-repeat -1178px -362px;
+	width: 12px;
+	height: 12px;
+    margin-right: 16px;
+    cursor: pointer;
+}

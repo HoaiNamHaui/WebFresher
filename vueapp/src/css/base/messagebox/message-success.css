@@ -11,13 +11,15 @@
     display: flex;
     padding-left: 24px;
     align-items: center;
-    height: 113px;
+    /* height: 113px; */
+    margin-top: 19px;
+    margin-bottom: 24px;
 }
 .messagebox-success-icon {
 	background: url('../../../assets/img/Sprites.64af8f61.svg') no-repeat -990px -462px;
 	width: 36px;
 	height: 36px;
-    margin-right: 24px;
+    margin-right: 8px;
 }
 .msg-footer{
     position: absolute;

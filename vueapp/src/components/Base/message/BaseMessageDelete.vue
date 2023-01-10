@@ -3,6 +3,7 @@
         <div class="messagebox">
         <div class="messagebox-header">
             <div class="messagebox-header-title">Xóa nhân viên</div>
+            <div class="messagebox-header-close" @click="closeMessage"></div>
         </div>
         <div class="messagebox-content">
             <div class="messagebox-content-describe">Bạn có chắc chắn muốn xóa nhân viên <b>{{ employeeSelected.EmployeeCode }}</b></div>
@@ -44,7 +45,7 @@ export default{
 }
 </script>
 <style>
-@import url(../../../css/base/messagebox/messagedelete.css);
+@import url(../../../css/base/messagebox/message-delete.css);
 @import url(../../../css/layout/overlay.css);
 
 </style>

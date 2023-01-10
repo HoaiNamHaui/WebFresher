@@ -3,7 +3,7 @@
     <div class="dialog">
       <div class="dialog-button">
         <div class="icon-hint"></div>
-        <div @click="hideDialog" class="icon-close" id="btnClose"></div>
+        <div @click="checkChangeAndHideDialog" class="icon-close" id="btnClose"></div>
       </div>
       <div class="dialog-header">
         <div class="dialog-title">{{ titleForm }}</div>
@@ -25,7 +25,9 @@
                   v-model="employee.EmployeeCode"
                   type="text"
                   class="input input150"
+                  tabindex="1"
                 />
+                <br />
               </div>
               <div class="m-b-12">
                 <label for="">Tên <span class="red">*</span></label> <br />
@@ -34,6 +36,7 @@
                   v-model="employee.FullName"
                   type="text"
                   class="input input230"
+                  tabindex="2"
                 />
               </div>
             </div>
@@ -41,7 +44,6 @@
               <label for="">Đơn vị <span class="red">*</span></label>
               <!-- <input type="text" class="input input385"> -->
               <base-input-combobox
-                ref="cbxDepartment"
                 :id="employee.DepartmentId"
                 :name="employee.DepartmentName"
                 @deparment="deparmentSelect"
@@ -53,6 +55,7 @@
                 v-model="employee.PositionName"
                 type="text"
                 class="input input385"
+                tabindex="6"
               />
             </div>
           </div>
@@ -64,6 +67,7 @@
                   v-model="employee.DateOfBirth"
                   type="date"
                   class="input input150"
+                  tabindex="3"
                 />
               </div>
               <div class="m-b-12">
@@ -78,8 +82,22 @@
                     value="0"
                   />
                   Nam
-                  <input v-model="employee.Gender" value="1" class="m-l-10 m-r-5" type="radio" name="gender" /> Nữ
-                  <input v-model="employee.Gender" value="2" class="m-l-10 m-r-5" type="radio" name="gender" /> Khác
+                  <input
+                    v-model="employee.Gender"
+                    value="1"
+                    class="m-l-10 m-r-5"
+                    type="radio"
+                    name="gender"
+                  />
+                  Nữ
+                  <input
+                    v-model="employee.Gender"
+                    value="2"
+                    class="m-l-10 m-r-5"
+                    type="radio"
+                    name="gender"
+                  />
+                  Khác
                 </div>
               </div>
             </div>
@@ -94,6 +112,7 @@
                   v-model="employee.IdentityNumber"
                   type="text"
                   class="input input240"
+                  tabindex="4"
                 />
               </div>
               <div class="m-b-12" style="margin-right: 8px">
@@ -102,6 +121,7 @@
                   v-model="employee.IdentityDate"
                   type="date"
                   class="input input150"
+                  tabindex="5"
                 />
               </div>
             </div>
@@ -111,6 +131,7 @@
                 v-model="employee.IdentityPlace"
                 type="text"
                 class="input input395"
+                tabindex="7"
               />
             </div>
           </div>
@@ -119,34 +140,46 @@
         <div class="field-below">
           <div class="m-b-12">
             <label for="">Địa chỉ</label> <br />
-            <input v-model="employee.Address" class="input input800" />
+            <input
+              v-model="employee.Address"
+              class="input input800"
+              tabindex="8"
+            />
           </div>
           <div class="flexbox">
             <div class="m-b-12" style="margin-right: 8px">
               <label for="">ĐT di động</label> <br />
-              <input v-model="employee.PhoneNumber" class="input input200" />
+              <input
+                v-model="employee.PhoneNumber"
+                class="input input200"
+                tabindex="9"
+              />
             </div>
             <div class="m-b-12" style="margin-right: 8px">
               <label for="">ĐT cố định</label> <br />
-              <input class="input input200" />
+              <input class="input input200" tabindex="10" />
             </div>
             <div class="m-b-12">
               <label for="">Email</label> <br />
-              <input v-model="employee.Email" class="input input200" />
+              <input
+                v-model="employee.Email"
+                class="input input200"
+                tabindex="11"
+              />
             </div>
           </div>
           <div class="flexbox">
             <div style="margin-right: 8px">
               <label for="">Tài khoản ngân hàng</label> <br />
-              <input class="input input200" />
+              <input class="input input200" tabindex="12" />
             </div>
             <div style="margin-right: 8px">
               <label for="">Tên ngân hàng</label> <br />
-              <input class="input input200" />
+              <input class="input input200" tabindex="13" />
             </div>
             <div>
               <label for="">Chi nhánh</label> <br />
-              <input class="input input200" />
+              <input class="input input200" tabindex="14" />
             </div>
           </div>
         </div>
@@ -156,7 +189,7 @@
           Hủy
         </button>
         <div>
-          <button class="button-white" @click="saveData">Cất</button>
+          <button class="button-white" @click="saveEmployee">Cất</button>
           <button class="button" @click="saveAndAdd">Cất và Thêm</button>
         </div>
       </div>
@@ -166,6 +199,7 @@
 
 <script>
 import axios from "axios";
+import MISAResource from "@/js/base/resource";
 import BaseInputCombobox from "../Base/BaseInputCombobox.vue";
 export default {
   name: "EmployeeDialog",
@@ -184,9 +218,29 @@ export default {
       department: {},
     };
   },
-  props: ["employeeIdSelected"],
-  watch: {},
+  props: ["employeeIdSelected","acceptSave"],
+  watch: {
+    acceptSave: function(){
+      this.saveEmployee();
+    }
+  },
   methods: {
+    /**
+     * Lưu và đóng form
+     * Author: NHNam (9/1/2023)
+     */
+    async saveEmployee() {
+      try{
+        // this.validate();
+        if(this.validate()){
+          await this.saveData();
+          this.hideDialog();
+        }
+      }catch(error){
+        console.log(error);
+      }
+      
+    },
     /**
      * Chọn phòng ban, lấy id , tên phòng cho employee
      * Author: NHNam (8/1/2023)
@@ -252,31 +306,33 @@ export default {
      * Lưu data
      * Author: NHNam (7/1/2023)
      */
-    saveData() {
-      this.validate();
-      if(this.validate()){
-        var newData = this.employee;
-        console.log(newData);
-        if (!this.employee.EmployeeId) {
-          axios
-            .post("https://cukcuk.manhnv.net/api/v1/Employees", newData)
-            .then((data) => console.log(data))
-            .catch((error) => console.log(error));
-            this.hideDialog();
-        }else {
-          axios
-            .put(
-              `https://cukcuk.manhnv.net/api/v1/Employees/${this.employee.EmployeeId}`,
-              newData
-            )
-            .then((data) => console.log(data))
-            .catch((error) => console.log(error));
-            this.hideDialog();
-        }
+    async saveData() {
+      var me = this;
+      var newData = this.employee;
+      var res
+      if (!this.employee.EmployeeId) {
+        res = await axios.post("https://cukcuk.manhnv.net/api/v1/Employees", newData)
+            console.log(res.data);
+            console.log("test1")
+            me.$emit("showToast", MISAResource.vi.add);
+            console.log("test1")
+      } else {
+        res = await axios.put(`https://cukcuk.manhnv.net/api/v1/Employees/${this.employee.EmployeeId}`,newData)
+            console.log(res.data);
+            console.log("test2")
+            me.$emit("showToast", MISAResource.vi.update);
+            console.log("test2")
       }
     },
-    saveAndAdd(){
-
+    /**
+     * Cất và thêm (lưu data và reset form)
+     */
+    saveAndAdd() {
+      if(this.validate()){
+        this.saveData();
+        this.employee = {};
+        this.getNewEmployeeCode();
+      }
     },
     /**
      * Đóng form
@@ -284,6 +340,12 @@ export default {
      */
     hideDialog() {
       this.$emit("onClose");
+    },
+    /**
+     * dữ liệu thay đổi, xác nhận có muốn cất dữ liệu hay không
+     */
+    checkChangeAndHideDialog(){
+      this.$emit("confirmClose")
     },
     /**
      * Lấy mã nhân viên mới
@@ -297,9 +359,9 @@ export default {
           me.employee.EmployeeCode = res.data;
           me.$refs.txtCode.focus();
         });
-    }
-},
-  computed:{
+    },
+  },
+  computed: {
     /**
      * Đổi Tiêu đề form theo form mode
      * Author: NHNam (7/1/2023)
@@ -319,7 +381,6 @@ export default {
           `https://cukcuk.manhnv.net/api/v1/Employees/${this.employeeIdSelected}`
         )
         .then(function (res) {
-          console.log(res.data);
           me.employee = res.data;
           me.employee.DateOfBirth = me.fomartDate(res.data.DateOfBirth);
           me.employee.IdentityDate = me.fomartDate(res.data.IdentityDate);
