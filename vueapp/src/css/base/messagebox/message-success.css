@@ -1,6 +1,6 @@
 .msgbox{
-    width: 400px;
-    max-width: 400px;
+    width: 416px;
+    max-width: 416px;
     height: 173px;
     border-radius: 4px;
     box-sizing: border-box;
@@ -12,7 +12,7 @@
     padding-left: 24px;
     align-items: center;
     /* height: 113px; */
-    margin-top: 19px;
+    margin-top: 16px;
     margin-bottom: 24px;
 }
 .messagebox-success-icon {

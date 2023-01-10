@@ -1,6 +1,6 @@
 .messagebox{
-    width: 400px;
-    max-width: 400px;
+    width: 416px;
+    max-width: 416px;
     height: 173px;
     border-radius: 4px;
     box-sizing: border-box;
@@ -43,7 +43,7 @@
     font-size: 14px;
 }
 .messagebox-content{
-    margin-top: 22px;
+    margin-top: 16px;
     margin-left: 24px;
     margin-bottom: 24px;
 }

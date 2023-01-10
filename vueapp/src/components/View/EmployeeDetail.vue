@@ -3,7 +3,11 @@
     <div class="dialog">
       <div class="dialog-button">
         <div class="icon-hint"></div>
-        <div @click="checkChangeAndHideDialog" class="icon-close" id="btnClose"></div>
+        <div
+          @click="checkChangeAndHideDialog"
+          class="icon-close"
+          id="btnClose"
+        ></div>
       </div>
       <div class="dialog-header">
         <div class="dialog-title">{{ titleForm }}</div>
@@ -64,6 +68,7 @@
               <div class="m-b-12" style="margin-right: 10px">
                 <label for="">Ngày sinh</label> <br />
                 <input
+                  ref="dob"
                   v-model="employee.DateOfBirth"
                   type="date"
                   class="input input150"
@@ -218,11 +223,11 @@ export default {
       department: {},
     };
   },
-  props: ["employeeIdSelected","acceptSave"],
+  props: ["employeeIdSelected", "acceptSave"],
   watch: {
-    acceptSave: function(){
+    acceptSave: function () {
       this.saveEmployee();
-    }
+    },
   },
   methods: {
     /**
@@ -230,16 +235,15 @@ export default {
      * Author: NHNam (9/1/2023)
      */
     async saveEmployee() {
-      try{
+      try {
         // this.validate();
-        if(this.validate()){
+        if (this.validate()) {
           await this.saveData();
           this.hideDialog();
         }
-      }catch(error){
+      } catch (error) {
         console.log(error);
       }
-      
     },
     /**
      * Chọn phòng ban, lấy id , tên phòng cho employee
@@ -299,6 +303,20 @@ export default {
       } else {
         this.$refs.txtName.classList.remove("error");
       }
+      // Dưới 18 tuổi
+      if (this.employee.DateOfBirth) {
+        var year = new Date(this.employee.DateOfBirth);
+        var dob = year.getFullYear();
+        var current = new Date();
+        if (current.getFullYear() - dob < 18) {
+          this.errors.dob = "Tuổi nhân viên phải trên 18";
+          this.$refs.dob.classList.add("error");
+          this.$emit("sendMessage", this.errors.dob);
+          return false;
+        } else {
+          this.$refs.dob.classList.remove("error");
+        }
+      }
 
       return true;
     },
@@ -309,26 +327,32 @@ export default {
     async saveData() {
       var me = this;
       var newData = this.employee;
-      var res
+      var res;
       if (!this.employee.EmployeeId) {
-        res = await axios.post("https://cukcuk.manhnv.net/api/v1/Employees", newData)
-            console.log(res.data);
-            console.log("test1")
-            me.$emit("showToast", MISAResource.vi.add);
-            console.log("test1")
+        res = await axios.post(
+          "https://cukcuk.manhnv.net/api/v1/Employees",
+          newData
+        );
+        console.log(res.data);
+        console.log("test1");
+        me.$emit("showToast", MISAResource.vi.add);
+        console.log("test1");
       } else {
-        res = await axios.put(`https://cukcuk.manhnv.net/api/v1/Employees/${this.employee.EmployeeId}`,newData)
-            console.log(res.data);
-            console.log("test2")
-            me.$emit("showToast", MISAResource.vi.update);
-            console.log("test2")
+        res = await axios.put(
+          `https://cukcuk.manhnv.net/api/v1/Employees/${this.employee.EmployeeId}`,
+          newData
+        );
+        console.log(res.data);
+        console.log("test2");
+        me.$emit("showToast", MISAResource.vi.update);
+        console.log("test2");
       }
     },
     /**
      * Cất và thêm (lưu data và reset form)
      */
     saveAndAdd() {
-      if(this.validate()){
+      if (this.validate()) {
         this.saveData();
         this.employee = {};
         this.getNewEmployeeCode();
@@ -344,8 +368,8 @@ export default {
     /**
      * dữ liệu thay đổi, xác nhận có muốn cất dữ liệu hay không
      */
-    checkChangeAndHideDialog(){
-      this.$emit("confirmClose")
+    checkChangeAndHideDialog() {
+      this.$emit("confirmClose");
     },
     /**
      * Lấy mã nhân viên mới

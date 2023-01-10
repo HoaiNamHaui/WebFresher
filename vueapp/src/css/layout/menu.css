@@ -33,13 +33,9 @@
     cursor: pointer;
 }
 .menu-item:hover{
-    border-left: 4px solid #2ca01c;
     background-color: #58595d;
 }
 .select{
     border-left: 4px solid #2ca01c;
     background-color: #58595d;
-}
-.menu-item:hover .icon24{
-    margin-left: 10px;
 }

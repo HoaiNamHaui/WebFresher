@@ -90,8 +90,8 @@
               :page-range="2"
               :margin-pages="1"
               :click-handler="clickCallback"
-              :prev-text = "'Trước'"
-              :next-text ="'Sau'"
+              :prev-text = "page ==1?'':'Trước'"
+              :next-text ="page == totalPage?'':'Sau'"
               :container-class="'pagination'"
               :page-class = "'page-item'"
             />
