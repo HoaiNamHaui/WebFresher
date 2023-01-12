@@ -31,11 +31,16 @@
     display: flex;
     align-items: center;
     cursor: pointer;
+    text-decoration: none;
+    color: #fff;
 }
 .menu-item:hover{
     background-color: #58595d;
 }
-.select{
+.router-link-active {
     border-left: 4px solid #2ca01c;
     background-color: #58595d;
+}
+.router-link-active .icon24{
+    margin-left: 10px;
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="content" id="content">
+  <div>
     <div class="content-top">
       <div class="title">Nhân viên</div>
       <base-button @click="ShowDialog" btnName="Thêm nhân viên" />
@@ -111,37 +111,37 @@
         </div>
       </footer>
     </div>
+    <employee-dialog
+      v-if="isShowDialog"
+      @onClose="isShowDialog = !isShowDialog"
+      :employeeIdSelected="employeeIdSelected"
+      @sendMessage="sendMessage"
+      @confirmClose="confirmClose"
+      :acceptSave="isAcceptSave"
+      @showToast="showToast"
+    />
+    <base-message-delete
+      v-if="confirmDelete"
+      :employeeSelected="employeeSelected"
+      @cancelDelete="cancelDelete"
+      @DeleteSuccess="DeleteSuccess"
+    />
+    <base-message-error
+      :error="errForm"
+      v-if="isShowMessageError"
+      @close="isShowMessageError = false"
+    />
+    <base-toast
+      v-if="isShowToast"
+      @hideToast="isShowToast = false"
+      :message="message"
+    />
+    <base-message-change
+      v-if="isShowChangeMessage"
+      @closeMessageChange="isShowChangeMessage = !isShowChangeMessage"
+      @hideDialogAndMessage="hideDialogAndMessage"
+    />
   </div>
-  <employee-dialog
-    v-if="isShowDialog"
-    @onClose="isShowDialog = !isShowDialog"
-    :employeeIdSelected="employeeIdSelected"
-    @sendMessage="sendMessage"
-    @confirmClose="confirmClose"
-    :acceptSave="isAcceptSave"
-    @showToast="showToast"
-  />
-  <base-message-delete
-    v-if="confirmDelete"
-    :employeeSelected="employeeSelected"
-    @cancelDelete="cancelDelete"
-    @DeleteSuccess="DeleteSuccess"
-  />
-  <base-message-error
-    :error="errForm"
-    v-if="isShowMessageError"
-    @close="isShowMessageError = false"
-  />
-  <base-toast
-    v-if="isShowToast"
-    @hideToast="isShowToast = false"
-    :message="message"
-  />
-  <base-message-change
-    v-if="isShowChangeMessage"
-    @closeMessageChange="isShowChangeMessage = !isShowChangeMessage"
-    @hideDialogAndMessage="hideDialogAndMessage"
-  />
 </template>
 <script>
 import MISAResource from "../../js/base/resource";
@@ -462,10 +462,11 @@ document.addEventListener("click", function (event) {
   cursor: default !important;
   color: #9e9e9e;
 }
-tr.active{
+tr.active {
   background-color: #e5f3ff;
 }
-tr.active td:first-child ,tr.active td:last-child{
+tr.active td:first-child,
+tr.active td:last-child {
   background-color: #e5f3ff;
 }
 </style>
