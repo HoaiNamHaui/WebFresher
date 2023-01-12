@@ -423,6 +423,7 @@ export default {
           me.employee = res.data;
           me.employee.DateOfBirth = me.fomartDate(res.data.DateOfBirth);
           me.employee.IdentityDate = me.fomartDate(res.data.IdentityDate);
+          console.log(me.employee.DepartmentId)
           me.$refs.txtCode.focus();
         });
     } else {

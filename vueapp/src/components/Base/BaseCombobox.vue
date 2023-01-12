@@ -53,6 +53,7 @@ export default {
         });
     }
   },
+  
   props: ["id", "api", "propName", "propValue", "modelValue"],
   emits: ["update:modelValue"],
   components: {},
@@ -90,6 +91,8 @@ export default {
     setItemSelected() {
       var me = this;
       // Tìm item tương ứng với cái modelValue:
+      console.log(this.entities);
+      console.log(me.modelValue);
       let entitySelected = this.entities.find(
         (item) => item[me.propValue] == me["modelValue"]
       );
