@@ -2,7 +2,7 @@
     <div class="content" id="content">
       <div class="content-top">
         <div class="title">Nhân viên</div>
-        <base-button @click="ShowDialog" />
+        <base-button @click="ShowDialog" btnName = "Thêm nhân viên"/>
       </div>
       <div class="content-data">
         <div class="functions">
@@ -224,7 +224,7 @@
         this.isShowToast = true;
         await this.filterEmployee();
         var me = this;
-        setTimeout(function() {me.isShowToast = false}, 4000)
+        setTimeout(function() {me.isShowToast = false}, 8000)
       },
       /**
        * Lấy thông báo validate

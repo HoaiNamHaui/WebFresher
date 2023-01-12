@@ -44,13 +44,14 @@
                 />
               </div>
             </div>
-            <div class="m-b-12">
+            <div class="m-b-12" style="width: 385px">
               <label for="">Đơn vị <span class="red">*</span></label>
-              <!-- <input type="text" class="input input385"> -->
-              <base-input-combobox
-                :id="employee.DepartmentId"
-                :name="employee.DepartmentName"
-                @deparment="deparmentSelect"
+              <BaseCombobox
+                id="cbxDepartment"
+                api="https://cukcuk.manhnv.net/api/v1/Departments"
+                propName="DepartmentName"
+                propValue="DepartmentId"
+                v-model="employee.DepartmentId"
               />
             </div>
             <div>
@@ -205,11 +206,11 @@
 <script>
 import axios from "axios";
 import MISAResource from "@/js/base/resource";
-import BaseInputCombobox from "../Base/BaseInputCombobox.vue";
+import BaseCombobox from "../Base/BaseCombobox.vue";
 export default {
   name: "EmployeeDialog",
   components: {
-    BaseInputCombobox,
+    BaseCombobox,
   },
   data() {
     return {
@@ -219,6 +220,8 @@ export default {
         name: "",
         phone: "",
         dob: "",
+        dept: "",
+        email: "",
       },
       department: {},
     };
@@ -245,15 +248,7 @@ export default {
         console.log(error);
       }
     },
-    /**
-     * Chọn phòng ban, lấy id , tên phòng cho employee
-     * Author: NHNam (8/1/2023)
-     */
-    deparmentSelect(e) {
-      this.department = e;
-      this.employee.DepartmentName = this.department.DepartmentName;
-      this.employee.DepartmentId = this.department.DepartmentId;
-    },
+
     /**
      * Định dạng lại ngày để bind vào input
      * Author: NHNam (7/1/2023)
@@ -303,6 +298,12 @@ export default {
       } else {
         this.$refs.txtName.classList.remove("error");
       }
+      // Bỏ trống đơn vị
+      if (!this.employee.DepartmentId) {
+        this.errors.dept = "Đơn vị không được bỏ trống";
+        this.$emit("sendMessage", this.errors.dept);
+        return false;
+      }
       // Dưới 18 tuổi
       if (this.employee.DateOfBirth) {
         var year = new Date(this.employee.DateOfBirth);
@@ -317,7 +318,25 @@ export default {
           this.$refs.dob.classList.remove("error");
         }
       }
-
+      // Số điện thoại không đúng độ dài, định dạng, đầu số
+      if (this.employee.PhoneNumber) {
+        var phoneRegex = /((09|03|07|08|05)+([0-9]{8})\b)/g;
+        if (phoneRegex.test(this.employee.PhoneNumber) == false) {
+          this.errors.phone = "Số điện thoại không đúng định dạng";
+          this.$emit("sendMessage", this.errors.phone);
+          return false;
+        }
+      }
+      // Email không hợp lệ
+      if (this.employee.Email) {
+        var emailRegex =
+          /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+        if (!this.employee.Email.match(emailRegex)) {
+          this.errors.email = "Email không đúng định dạng";
+          this.$emit("sendMessage", this.errors.email);
+          return false;
+        }
+      }
       return true;
     },
     /**

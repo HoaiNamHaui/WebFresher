@@ -13,7 +13,7 @@
     top: 120px;
     right: 18px;
     z-index: 99;
-    animation: 6s slide ease;
+    animation: 8s slide ease;
 }
 @keyframes slide{
     0%{

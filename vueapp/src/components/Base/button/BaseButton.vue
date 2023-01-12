@@ -1,9 +1,10 @@
 <template>
-    <button id="addEmployee" class="button">Thêm mới nhân viên</button>
+    <button id="addEmployee" class="button">{{ btnName }}</button>
 </template>
 <script>
     export default{
-        name: "AddButton"
+        name: "AddButton",
+        props:["btnName"]
     }
 </script>
 <style>

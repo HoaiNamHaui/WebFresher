@@ -1,70 +1,128 @@
 <template>
   <div class="combobox-container">
-    <input id="id" type="text" 
-    class="combobox-input" 
-    :value="textSelected"
+    <input
+      id="id"
+      type="text"
+      class="combobox-input"
+      v-model="textSelected"
+      @input="onSearchItem"
     />
-    <div class="combobox-button" 
-    @click="onShowHideData"
-    >
-        <div class="combobox-button-icon"></div>
+    <div class="combobox-button" @click="onShowHideData">
+      <div class="combobox-button-icon"></div>
     </div>
     <div class="combobox-data" v-show="isShowData">
-      <a class="combobox-item" 
-      v-for="(item,index) in entities" 
-      :key="index"
-      :value="item[propValue]"
-      @click="itemOnSelect(item)"
-      >{{ item[propName] }}</a>
+      <a
+        :ref="`item_${index}`"
+        :class="{ 'item-selected': index == indexItemSelect }"
+        class="combobox-item"
+        v-for="(item, index) in entitySearch"
+        :key="index"
+        :value="item[propValue]"
+        @click="itemOnSelect(item)"
+        >{{ item[propName] }}</a
+      >
     </div>
   </div>
 </template>
 
 <script>
-import axios from 'axios'
+import axios from "axios";
 export default {
   name: "ComboxboxInput",
-  data(){
-    return{
-        isShowData: false,
-        entities: [],
-        textSelected: null,
+  data() {
+    return {
+      isShowData: false,
+      entities: [],
+      textSelected: null,
+      entitySearch: [],
+      indexItemSelect: 0,
+      itemSelected: null,
+    };
+  },
+  created() {
+    if (this.api) {
+      axios
+        .get(this.api)
+        .then((data) => {
+          this.entities = data.data;
+          this.entitySearch = data.data;
+          this.setItemSelected();
+        })
+        .catch((res) => {
+          console.log(res);
+        });
     }
   },
-  created(){
-     if(this.api){
-        axios.get(this.api).then((data) => {
-            this.entities = data.data;
-            this.setItemSelected();
-        }).
-        catch(res => {console.log(res);})
-     }
-  },
-  props: ['id','api','propName','propValue','modelValue'],
+  props: ["id", "api", "propName", "propValue", "modelValue"],
+  emits: ["update:modelValue"],
   components: {},
-  methods:{ 
-    onShowHideData(){
-        this.isShowData = !this.isShowData;
+  methods: {
+    /**
+     * Ẩn hiện combobox data
+     * Author: NHNam (11/1/2023)
+     */
+    onShowHideData() {
+      this.isShowData = !this.isShowData;
     },
-    itemOnSelect(item){
-        this.textSelected = item[this.propName];
-        this.isShowData = false;
+    /**
+     * Chọn item và highlight item đc chọn, bind 2 chiều
+     * Author: NHNam (11/1/2023)
+     */
+    itemOnSelect(entity) {
+      var me = this;
+      //reset lại danh sách
+      this.entitySearch = this.entities;
+      this.itemSelected = entity;
+      // Tính toán lại Index của item đã được chọn
+      let findIndex = this.entitySearch.findIndex(
+        (item) => item[me.propValue] == entity[me.propValue]
+      );
+      // Set index của item được chọn
+      this.indexItemSelect = findIndex;
+      this.textSelected = entity[this.propName];
+      this.isShowData = false;
+      this.$emit("update:modelValue", entity[this.propValue]);
     },
-    setItemSelected(){
-        var me = this;
-        // Tìm item tương ứng với cái modelValue:
-        let entitySelected = this.entities.find(item => item[me.propValue] == me.modelValue);
-        if(entitySelected){
-            me.textSelected = entitySelected[me.propName];
-        }
-    }
-  }
+    /**
+     * Bind giá trị được select, hightlight item đc chọn
+     * Author: NHNam (1/1/2023)
+     */
+    setItemSelected() {
+      var me = this;
+      // Tìm item tương ứng với cái modelValue:
+      let entitySelected = this.entities.find(
+        (item) => item[me.propValue] == me["modelValue"]
+      );
+      if (entitySelected) {
+        me.textSelected = entitySelected[me.propName];
+        // Tính toán lại Index của item đã được chọn
+        let findIndex = this.entities.findIndex(
+          (item) => item[me.propValue] == entitySelected[me.propValue]
+        );
+        // Set index của item được chọn
+        this.indexItemSelect = findIndex;
+      }
+    },
+    /**
+     * Search phòng ban
+     * Author: NHNam (11/1/2023)
+     */
+    onSearchItem() {
+      var me = this;
+      // Tìm item tương ứng với cái modelValue:
+      this.entitySearch = this.entities.filter((item) =>
+        item[me.propName].toLowerCase().includes(me.textSelected.toLowerCase())
+      );
+      this.isShowData = true;
+    },
+  },
 };
 </script>
 
 <style>
 .combobox-container {
-  width: 300px;
+  margin-top: 6px;
+  width: 100%;
   position: relative;
 }
 .combobox-input {
@@ -74,49 +132,63 @@ export default {
   border: 1px solid #c2c2c2;
   border-radius: 2px;
   box-sizing: border-box;
+  font-family: Notosans-Regular;
 }
-.combobox-button{
-    width: 36px;
-    height: 36px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: antiquewhite;
-    position: absolute;
-    right: 0;
-    top: 0;
-    border-radius:0 2px 2px 0;
-    cursor: pointer;
+.combobox-button {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  position: absolute;
+  right: 0;
+  top: 0;
+  border-radius: 0 2px 2px 0;
+  cursor: pointer;
+  box-sizing: border-box;
+  border-top: 1px solid #c2c2c2;
+  border-right: 1px solid #c2c2c2;
+  border-bottom: 1px solid #c2c2c2;
 }
-.combobox-button-icon{
-    background: url('../../../assets/img/Sprites.64af8f61.svg') no-repeat -1756px -317px;
-	width: 8px;
-	height: 5px;
-
+.combobox-button:hover {
+  background-color: #e0e0e0;
 }
-.combobox-data{
-    width: 100%;
-    position: absolute;
-    top: calc(100% + 2px);
-    display: flex;
-    flex-direction: column;
-    z-index: 999;
-    background-color: #fff;
-    box-shadow: 0 0 6px #ccc;
-    
+.combobox-button-icon {
+  background: url("../../assets/img/Sprites.64af8f61.svg") no-repeat -1756px -317px;
+  width: 8px;
+  height: 5px;
 }
-.combobox-item{
-    width: 100%;
-    height: 36px;
-    line-height: 36px;  
-    padding: 0 16px;
-    box-sizing: border-box;
-    border-top: 1px solid #c2c2c2;
+.combobox-data {
+  width: 100%;
+  position: absolute;
+  top: calc(100% + 2px);
+  display: flex;
+  flex-direction: column;
+  z-index: 999;
+  background-color: #fff;
+  box-shadow: 0 0 6px #ccc;
+  font-family: Notosans-Regular;
+  font-size: 14px;
 }
-.combobox-item:hover{
-    background-color: #2ecc71; 
-    color: #fff;
+.combobox-item {
+  width: 100%;
+  height: 36px;
+  line-height: 36px;
+  padding: 0 8px;
+  box-sizing: border-box;
+  border-top: 1px solid #c2c2c2;
 }
-
-
+.combobox-item:hover {
+  background-color: #ebedf0;
+  color: #2ca01c;
+}
+.item-selected {
+  background-color: #2ca01c;
+  color: #fff;
+}
+@font-face {
+  font-family: Notosans-Regular;
+  src: url(../../assets/fonts/notosans-regular.2cb88a13.woff2);
+}
 </style>
