@@ -50,7 +50,9 @@
 .messagebox-footer{
     display: flex;
     justify-content: flex-end;
-    margin-right: 24px;
+    position: absolute;
+    bottom: 24px;
+    right: 24px;
 }
 .messagebox-footer button:first-child{
     margin-right: 8px;

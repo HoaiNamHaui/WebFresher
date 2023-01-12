@@ -32,9 +32,13 @@ export default{
         closeMessage(){
             this.$emit('cancelDelete',false)
         },
-        deleteEmployee(){
+        /**
+         * gọi api xóa nhân viên
+         * Author: NHNam (5/1/2023)
+         */
+        async deleteEmployee(){
             var me = this;
-            axios
+            await axios
                 .delete(`https://cukcuk.manhnv.net/api/v1/Employees/${me.employeeSelected.EmployeeId}`)
                 .then((data) => console.log(data))
                 .catch((error) => console.log(error));

@@ -1,7 +1,7 @@
 .data{
     margin: 0 auto;
     font-size: 13px;
-    width: 170%;
+    width: 200%;
 }
 .data tr:first-child{
     background-color: #e5e8ec;
@@ -10,7 +10,7 @@
     z-index: 5;
 }
 .data tr td{
-    text-indent: 6px;
+    padding: 0 16px;
 }
 .data tr td:first-child{
     text-indent: unset;
@@ -21,7 +21,7 @@
     text-align: center;
 }
 .data tr th{
-    text-indent: 6px;
+    padding: 0 16px;
 }
 th, td{
     height: 48px;
@@ -74,6 +74,9 @@ th, td{
 }
 .col150{
     width: 150px;
+}
+.col180{
+    width: 180px;
 }
 .col60{
     width: 60px;

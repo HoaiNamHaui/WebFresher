@@ -4,7 +4,7 @@
     right: 24px;
     display: flex;
     justify-content: space-between;
-     width: calc(400px - 48px);
+     width: calc(416px - 48px);
 }
 .msg-footer-right{
     display: flex;

@@ -2,7 +2,7 @@
 .dialog{
     width: 880px;
     /* height: 640px; */
-    height: 609px;
+    height: 653px;
     border-radius: 2px;
     background-color: white;
     position: relative;
@@ -27,7 +27,7 @@
     font-family: Notosans-Bold;
 }
 .field-above{
-    margin-bottom: 30px;
+    margin-bottom: 24px;
 }
 .dialog-option{
     display: flex;
@@ -42,11 +42,11 @@
     display: flex;
     position: absolute;
     align-items: center;
-    top: 12px;
-    right: 12px;
+    top: 24px;
+    right: 32px;
 }
 .m-b-12{
-    margin-bottom: 12px;
+    margin-bottom: 24px;
 }
 .m-l-10{
     margin-left: 10px;

@@ -334,18 +334,14 @@ export default {
           newData
         );
         console.log(res.data);
-        console.log("test1");
         me.$emit("showToast", MISAResource.vi.add);
-        console.log("test1");
       } else {
         res = await axios.put(
           `https://cukcuk.manhnv.net/api/v1/Employees/${this.employee.EmployeeId}`,
           newData
         );
         console.log(res.data);
-        console.log("test2");
         me.$emit("showToast", MISAResource.vi.update);
-        console.log("test2");
       }
     },
     /**

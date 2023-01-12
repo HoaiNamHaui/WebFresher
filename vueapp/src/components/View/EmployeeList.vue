@@ -29,14 +29,14 @@
               <th class="col150 align-left">MÃ NHÂN VIÊN</th>
               <th class="col300 align-left">TÊN NHÂN VIÊN</th>
               <th class="col150 align-center">NGÀY SINH</th>
-              <th class="col150 align-left">GIỚI TÍNH</th>
+              <th class="col180 align-left">GIỚI TÍNH</th>
               <th class="col150 align-left">SỐ ĐIỆN THOẠI</th>
               <th class="col350 align-left">CHỨC DANH</th>
               <th class="col150 align-left">Số CMND</th>
               <th class="col350 align-left">TÊN ĐƠN VỊ</th>
               <th class="col250 align-left">SỐ TÀI KHOẢN</th>
               <th class="col250 align-left">TÊN NGÂN HÀNG</th>
-              <th class="col250 align-left">CHI NHÁNH</th>
+              <th class="col350 align-left">CHI NHÁNH</th>
               <th class="col150">CHỨC NĂNG</th>
             </tr>
             <tr v-for="employee in employees" v-bind:key="employee.EmployeeId" @dblclick="handleEditClick" @click="employeeSelected = employee">
@@ -90,8 +90,8 @@
               :page-range="2"
               :margin-pages="1"
               :click-handler="clickCallback"
-              :prev-text = "page ==1?'':'Trước'"
-              :next-text ="page == totalPage?'':'Sau'"
+              :prev-text = "'Trước'"
+              :next-text ="'Sau'"
               :container-class="'pagination'"
               :page-class = "'page-item'"
             />
@@ -176,12 +176,13 @@
         newEmployeeCode: null,
         isSuccess: true,
         btnMenuContext: null,
-        isCheckAll: false,
         isActive: false,
         confirmDelete: false,
         message: "",
         employeeIdSelected: null,
         isAcceptSave: false,
+        rowSlected: [],
+        isCheckAll: false,
       };
     },
     watch: {
@@ -220,8 +221,6 @@
        */
       async showToast(e){
         this.message = e;
-        console.log(this.message);
-        console.log(123);
         this.isShowToast = true;
         await this.filterEmployee();
         var me = this;
@@ -403,6 +402,7 @@
   @import url(../../css/base/combobox/combobox.css);
   .pagination {
     margin-left: 20px;
+    margin-right: 4px;
     list-style: none;
     display: flex;
     justify-content: center;
@@ -431,5 +431,9 @@
     width: 24px;
     text-align: center;
   }
+  .page-item.disabled{
+    cursor: default!important;
+    color: #9e9e9e;
+}
   </style>
   
