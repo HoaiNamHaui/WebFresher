@@ -13,8 +13,13 @@
 .search-box input{
     color: #b8bcc3;
     border: none;
-    text-indent: 10px;
+    /* text-indent: 10px; */
     width: 240px;
     outline: none;
     height: 30px;
+    font-family:Notosans-Italic;
+}
+@font-face {
+    font-family: Notosans-Italic;
+    src: url(../../../assets/fonts/notosans-italic.1c1aaac9.woff2);
 }

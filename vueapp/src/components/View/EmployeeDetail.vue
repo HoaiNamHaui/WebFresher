@@ -2,7 +2,7 @@
   <div id="overlay" class="overlay">
     <div class="dialog">
       <div class="dialog-button">
-        <div class="icon-hint"></div>
+        <!-- <div class="icon-hint"></div> -->
         <div
           @click="checkChangeAndHideDialog"
           class="icon-close"
@@ -80,7 +80,7 @@
                 <div style="line-height: 32px; margin-top: 6px" class="flexbox">
                   <input
                     ref="checked"
-                    class="m-l-10 m-r-5"
+                    class="m-l-5 m-r-10"
                     type="radio"
                     name="gender"
                     v-model="employee.Gender"
@@ -90,7 +90,7 @@
                   <input
                     v-model="employee.Gender"
                     value="1"
-                    class="m-l-10 m-r-5"
+                    class="m-l-30 m-r-10"
                     type="radio"
                     name="gender"
                   />
@@ -98,7 +98,7 @@
                   <input
                     v-model="employee.Gender"
                     value="2"
-                    class="m-l-10 m-r-5"
+                    class="m-l-30 m-r-10"
                     type="radio"
                     name="gender"
                   />

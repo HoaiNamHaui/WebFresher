@@ -224,7 +224,7 @@
         this.isShowToast = true;
         await this.filterEmployee();
         var me = this;
-        setTimeout(function() {me.isShowToast = false}, 3000)
+        setTimeout(function() {me.isShowToast = false}, 4000)
       },
       /**
        * Lấy thông báo validate
@@ -265,7 +265,7 @@
         this.isShowToast = true;
         await this.filterEmployee();
         var me = this;
-        setTimeout(function() {me.isShowToast = false}, 3000)
+        setTimeout(function() {me.isShowToast = false}, 4000)
       },
       /**
        * hiện thông báo xác nhận xóa

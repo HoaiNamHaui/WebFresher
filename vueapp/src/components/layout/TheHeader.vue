@@ -3,7 +3,7 @@
     <div class="header-left">
       <div class="bars"></div>
       <div>CÔNG TY TNHH SẢN XUẤT - THƯƠNG MẠI - DỊCH VỤ QUI PHÚC</div>
-      <div class="chevron-down"></div>
+      <!-- <div class="chevron-down"></div> -->
     </div>
     <div class="header-right">
       <div class="bell"></div>

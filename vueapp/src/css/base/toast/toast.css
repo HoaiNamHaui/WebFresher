@@ -13,14 +13,17 @@
     top: 120px;
     right: 18px;
     z-index: 99;
-    animation: 2s slide ease;
+    animation: 6s slide ease;
 }
 @keyframes slide{
     0%{
         left: 100%;
     }
-    100%{
+    50%{
         left: calc(100vw - 450px - 18px);
+    }
+    100%{
+        left: 100%;
     }
 }
 .toast-left , .toast-right{

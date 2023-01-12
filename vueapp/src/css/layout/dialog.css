@@ -2,7 +2,7 @@
 .dialog{
     width: 880px;
     /* height: 640px; */
-    height: 653px;
+    height: 661px;
     border-radius: 2px;
     background-color: white;
     position: relative;
@@ -12,8 +12,8 @@
 }
 .dialog-header{
     display: flex;
-    margin-top: 22px;
-    margin-left: 36px;
+    margin-top: 30px;
+    margin-left: 32px;
 }
 .dialog-title{
     font-size: 23px;
@@ -42,22 +42,26 @@
     display: flex;
     position: absolute;
     align-items: center;
-    top: 24px;
+    top: 30px;
     right: 32px;
 }
 .m-b-12{
     margin-bottom: 24px;
 }
-.m-l-10{
-    margin-left: 10px;
+.m-l-5{
+    margin-left: 5px;
 }
-.m-r-5{
-    margin-right: 5px;
+.m-l-30{
+    margin-left: 40px;
+}
+.m-r-10{
+    margin-right: 10px;
 }
 
 .dialog-footer{
     /* border-top: 1px solid #babec5; */
-    height: 100px;
+    height: auto;
+    margin: 32px 0;
     width: 808px;
     left: 36px;
     position: absolute;

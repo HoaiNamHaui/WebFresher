@@ -27,7 +27,8 @@
 }
 .list-employee{
     height: 484px;
-    width: 1310px;
+    /* width: 1310px; */
+    width: 100%;
     overflow-x: auto;
     overflow-y: auto;
     margin: 0 auto;

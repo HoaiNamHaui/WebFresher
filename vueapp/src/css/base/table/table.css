@@ -1,7 +1,9 @@
+
 .data{
     margin: 0 auto;
     font-size: 13px;
     width: 200%;
+    min-width: 2620px;
 }
 .data tr:first-child{
     background-color: #e5e8ec;

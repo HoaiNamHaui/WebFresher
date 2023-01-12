@@ -20,6 +20,10 @@ input[type="date"]{
     padding: 8px;
     text-indent: 0px;
 }
+input[type="text"]{
+    padding: 8px;
+    text-indent: 0px;
+}
 .input:focus{
     border: 1px solid #2ca01c;
 }
@@ -53,7 +57,7 @@ input[type="date"]{
     width: 397px;
 }
 .input200{
-    width: 200px;
+    width: 265px;
 }
 .input800{
     width: 812px;
