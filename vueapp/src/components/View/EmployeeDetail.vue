@@ -47,6 +47,7 @@
             <div class="m-b-12" style="width: 385px">
               <label for="">Đơn vị <span class="red">*</span></label>
               <BaseCombobox
+                tabindex="4"
                 id="cbxDepartment"
                 api="https://cukcuk.manhnv.net/api/v1/Departments"
                 propName="DepartmentName"

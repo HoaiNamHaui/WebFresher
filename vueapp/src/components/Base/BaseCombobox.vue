@@ -1,6 +1,7 @@
 <template>
   <div class="combobox-container">
     <input
+      :tabindex="tabindex"
       id="id"
       type="text"
       class="combobox-input"
@@ -40,21 +41,33 @@ export default {
     };
   },
   created() {
+    /**
+     * Gọi API lấy danh sách phòng ban
+     * Author: NHNam (11/1/2023)
+     */
     if (this.api) {
       axios
         .get(this.api)
         .then((data) => {
           this.entities = data.data;
           this.entitySearch = data.data;
-          this.setItemSelected();
+          // this.setItemSelected();
         })
         .catch((res) => {
           console.log(res);
         });
     }
   },
-  
-  props: ["id", "api", "propName", "propValue", "modelValue"],
+  updated(){
+    /**
+     * ModelValue cập nhật bind dữ liệu input, set item
+     * Author: NHNam (12/1/2023)
+     */
+    if(this.modelValue){
+      this.setItemSelected();
+    }
+  },
+  props: ["id", "api", "propName", "propValue", "modelValue","tabindex"],
   emits: ["update:modelValue"],
   components: {},
   methods: {
