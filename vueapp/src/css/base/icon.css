@@ -61,6 +61,15 @@
 	height: 24px;
     margin-left: 16px;
     margin-right: 10px;
+    cursor: pointer;
+}
+.bars-white{
+    background: url('../../assets/img/Sprites.64af8f61.svg') no-repeat -315px -32px;
+	width: 24px;
+	height: 24px;
+    margin-left: 16px;
+    margin-right: 10px;
+    cursor: pointer;
 }
 .chevron-down{
     margin-left: 10px;

@@ -225,6 +225,7 @@ export default {
         email: "",
       },
       department: {},
+      titleForm: ""
     };
   },
   props: ["employeeIdSelected", "acceptSave"],
@@ -371,6 +372,8 @@ export default {
       if (this.validate()) {
         this.saveData();
         this.employee = {};
+        // Cất và thêm đổi tiêu đề form
+        this.titleForm = "Thêm nhân viên";
         this.getNewEmployeeCode();
       }
     },
@@ -400,20 +403,22 @@ export default {
           me.$refs.txtCode.focus();
         });
     },
-  },
-  computed: {
     /**
      * Đổi Tiêu đề form theo form mode
      * Author: NHNam (7/1/2023)
      */
-    titleForm() {
-      return this.employeeIdSelected === null
-        ? "Thêm nhân viên"
-        : "Thông tin nhân viên";
+     handleTitleForm() {
+      if(this.employeeIdSelected == null){
+        this.titleForm = "Thêm nhân viên";
+      }
+      else{
+        this.titleForm = "Thông tin nhân viên";
+      }
     },
   },
   created() {
     // Có Id thì call api lấy thông tin nhân viên, nếu không lấy mã nhân viên mới
+    this.handleTitleForm();
     if (this.employeeIdSelected != null) {
       var me = this;
       axios

@@ -47,7 +47,7 @@
             @click="employeeSelected = employee"
             :class="{ active: rowSelected.includes(employee.EmployeeId) }"
           >
-            <td>
+            <td class="col60">
               <base-check-box
                 :checked="rowSelected.includes(employee.EmployeeId)"
                 :id="employee.EmployeeId"

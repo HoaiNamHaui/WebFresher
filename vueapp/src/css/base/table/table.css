@@ -82,6 +82,7 @@ th, td{
 }
 .col60{
     width: 60px;
+    max-width: 60px;
 }
 .col100{
     width: 100px;

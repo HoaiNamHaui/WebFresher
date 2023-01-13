@@ -5,7 +5,9 @@
     color: #ffff;
 }
 
-
+.collapse{
+    width: 50px !important;
+}
 /* logo page */
 .logo-container{
     display: flex;
