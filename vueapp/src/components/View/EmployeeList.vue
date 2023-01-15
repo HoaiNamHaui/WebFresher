@@ -8,9 +8,9 @@
       <div class="functions">
         <div class="search-box">
           <input
-            v-model="txtSearch"
             type="text"
             placeholder="Tìm theo mã, tên nhân viên"
+            @input="debounceSearch"
           />
           <div class="search-icon"></div>
         </div>
@@ -145,6 +145,7 @@
 </template>
 <script>
 import MISAResource from "../../js/base/resource";
+import MISAEnum from "../../js/base/enum";
 import BaseMessageChange from "../Base/message/BaseMessageChange.vue";
 import BaseMessageError from "../Base/message/BaseMessageError.vue";
 import BaseMessageDelete from "../Base/message/BaseMessageDelete.vue";
@@ -196,17 +197,32 @@ export default {
       isAcceptSave: false,
       rowSelected: [],
       isCheckAll: false,
+      debounce: null,
     };
   },
   watch: {
-    //theo dõi ô search để tìm kiếm
     txtSearch: function () {
       this.filterEmployee();
     },
   },
   methods: {
+    /**
+     * Trì hoãn 1s trước khi gắn txtSearch = value của input search
+     * Author: NHNam (14/1/2023)
+     */
+    debounceSearch(event) {
+      clearTimeout(this.debounce);
+      this.txtSearch = null;
+      this.debounce = setTimeout(() => {
+        this.txtSearch = event.target.value;
+      }, 1000);
+    },
+    /**
+     * Check All , uncheck CheckBox
+     * Author: NHNam (10/1/2023)
+     */
     changeCheckbox(active, id) {
-      console.log(active, id);
+      // Check all
       if (id === "checkall" && active) {
         this.rowSelected = this.employees.map((item) => item.EmployeeId);
       } else if (id === "checkall" && !active) {
@@ -218,6 +234,7 @@ export default {
           this.rowSelected = this.rowSelected.filter((x) => x != id);
         }
       }
+      // So sánh độ dài số dòng được chọn bằng số lượng bản ghi 1 trang thì check all
       if (this.rowSelected.length === this.employees.length) {
         this.isCheckAll = true;
       } else {
@@ -252,10 +269,24 @@ export default {
      * Hiển thị toast message theo mode thêm hoặc sửa
      * Author: NHNam (9/1/2023)
      */
-    async showToast(e) {
-      this.message = e;
+    // async showToast(e) {
+    //   this.message = e;
+    //   this.isShowToast = true;
+    //   await this.filterEmployee();
+    //   var me = this;
+    //   setTimeout(function () {
+    //     me.isShowToast = false;
+    //   }, 8000);
+    // },
+    async showToast(mess, data, formMode) {
+      this.message = mess;
       this.isShowToast = true;
-      await this.filterEmployee();
+      if (formMode == MISAEnum.FormMode.Add) {
+        this.employees.unshift(data);
+      } else {
+        await this.filterEmployee();
+      }
+
       var me = this;
       setTimeout(function () {
         me.isShowToast = false;
@@ -306,7 +337,9 @@ export default {
     // },
     DeleteSuccess() {
       this.isShowToast = true;
-      this.employees = this.employees.filter(item => item != this.employeeSelected);
+      this.employees = this.employees.filter(
+        (item) => item != this.employeeSelected
+      );
       var me = this;
       setTimeout(function () {
         me.isShowToast = false;

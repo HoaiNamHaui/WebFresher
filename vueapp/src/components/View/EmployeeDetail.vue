@@ -207,6 +207,7 @@
 <script>
 import axios from "axios";
 import MISAResource from "@/js/base/resource";
+import MISAEnum from "@/js/base/enum";
 import BaseCombobox from "../Base/BaseCombobox.vue";
 export default {
   name: "EmployeeDialog",
@@ -355,14 +356,14 @@ export default {
           newData
         );
         console.log(res.data);
-        me.$emit("showToast", MISAResource.vi.add);
+        me.$emit("showToast", MISAResource.vi.add, newData, MISAEnum.FormMode.Add);
       } else {
         res = await axios.put(
           `https://cukcuk.manhnv.net/api/v1/Employees/${this.employee.EmployeeId}`,
           newData
         );
         console.log(res.data);
-        me.$emit("showToast", MISAResource.vi.update);
+        me.$emit("showToast", MISAResource.vi.update, newData, MISAEnum.FormMode.Edit);
       }
     },
     /**
