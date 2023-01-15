@@ -19,6 +19,9 @@
     height: 30px;
     font-family:Notosans-Italic;
 }
+.search-box input::placeholder{
+    color: #b8bcc3;
+}
 @font-face {
     font-family: Notosans-Italic;
     src: url(../../../assets/fonts/notosans-italic.1c1aaac9.woff2);

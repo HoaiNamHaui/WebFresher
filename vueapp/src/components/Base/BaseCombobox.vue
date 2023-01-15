@@ -7,6 +7,7 @@
       class="combobox-input"
       v-model="textSelected"
       @input="onSearchItem"
+      @keydown="inputOnKeyDown"
     />
     <div class="combobox-button" @click="onShowHideData">
       <div class="combobox-button-icon"></div>
@@ -28,6 +29,7 @@
 
 <script>
 import axios from "axios";
+import MISAEnum from '../../js/base/enum'
 export default {
   name: "ComboxboxInput",
   data() {
@@ -39,6 +41,13 @@ export default {
       indexItemSelect: 0,
       itemSelected: null,
     };
+  },
+  watch: {
+    modelValue: function () {
+      if (this.modelValue) {
+        this.setItemSelected();
+      }
+    },
   },
   created() {
     /**
@@ -58,16 +67,16 @@ export default {
         });
     }
   },
-  updated(){
+  updated() {
     /**
      * ModelValue cập nhật bind dữ liệu input, set item
      * Author: NHNam (12/1/2023)
      */
-    if(this.modelValue){
-      this.setItemSelected();
-    }
+    // if(this.modelValue){
+    //   this.setItemSelected();
+    // }
   },
-  props: ["id", "api", "propName", "propValue", "modelValue","tabindex"],
+  props: ["id", "api", "propName", "propValue", "modelValue", "tabindex"],
   emits: ["update:modelValue"],
   components: {},
   methods: {
@@ -87,12 +96,8 @@ export default {
       //reset lại danh sách
       this.entitySearch = this.entities;
       this.itemSelected = entity;
-      // Tính toán lại Index của item đã được chọn
-      let findIndex = this.entitySearch.findIndex(
-        (item) => item[me.propValue] == entity[me.propValue]
-      );
       // Set index của item được chọn
-      this.indexItemSelect = findIndex;
+      this.indexItemSelect = me.findIndexSelected; // ----> Lấy tại computed  
       this.textSelected = entity[this.propName];
       this.isShowData = false;
       this.$emit("update:modelValue", entity[this.propValue]);
@@ -131,7 +136,44 @@ export default {
       );
       this.isShowData = true;
     },
+    inputOnKeyDown(event){
+      console.log(event.keyCode);
+      const keyCode = event.keyCode;
+      switch (keyCode) {
+        case MISAEnum.KEY_CODE.ENTER:{
+          // Xác định Item đang chọn dựa vào index
+          const item = this.entitySearch[this.indexItemSelect];
+          this.itemOnSelect(item); 
+        }
+          
+          break;
+        case MISAEnum.KEY_CODE.ROW_UP:
+          if(this.indexItemSelect > 0){
+            this.indexItemSelect--;
+          }
+          break;
+        case MISAEnum.KEY_CODE.ROW_DOWN:{
+          this.isShowData = true;
+          let maxLength = this.entitySearch.length;
+          if(this.indexItemSelect < maxLength -1){
+            this.indexItemSelect++;
+          }
+        }  
+          break;
+        default:
+          break;
+      }
+    },
   },
+  computed:{
+    findIndexSelected: function(){
+      var me = this;
+      let findIndex = this.entitySearch.findIndex(
+        (item) => item[me.propValue] == me.itemSelected[me.propValue]
+      );
+      return findIndex;
+    }
+  }
 };
 </script>
 
