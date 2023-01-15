@@ -296,9 +296,17 @@ export default {
      * Xóa thành công hiện toast message
      * Author: NHNam (9/1/2023)
      */
-    async DeleteSuccess() {
+    // async DeleteSuccess() {
+    //   this.isShowToast = true;
+    //   await this.filterEmployee();
+    //   var me = this;
+    //   setTimeout(function () {
+    //     me.isShowToast = false;
+    //   }, 4000);
+    // },
+    DeleteSuccess() {
       this.isShowToast = true;
-      await this.filterEmployee();
+      this.employees = this.employees.filter(item => item != this.employeeSelected);
       var me = this;
       setTimeout(function () {
         me.isShowToast = false;

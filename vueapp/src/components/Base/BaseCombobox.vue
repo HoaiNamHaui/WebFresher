@@ -136,6 +136,10 @@ export default {
       );
       this.isShowData = true;
     },
+    /**
+     * Bắt sự kiện keydown dùng phím để chọn value
+     * Author: NHNam (14/1/2023)
+     */
     inputOnKeyDown(event){
       console.log(event.keyCode);
       const keyCode = event.keyCode;
@@ -166,6 +170,7 @@ export default {
     },
   },
   computed:{
+    // tìm index value được chọn
     findIndexSelected: function(){
       var me = this;
       let findIndex = this.entitySearch.findIndex(
