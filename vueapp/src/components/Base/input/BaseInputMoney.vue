@@ -3,7 +3,7 @@
     <input
       class="input"
       type="text"
-      @input="changeValue"
+
       v-model="valueFormat"
       @keydown="handleBackspace"
     />
