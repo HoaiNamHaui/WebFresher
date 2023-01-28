@@ -10,8 +10,13 @@
           <input
             type="text"
             placeholder="Tìm theo mã, tên nhân viên"
-            @input="debounceSearch"
+            v-debounce:1s="debounceSearch"
           />
+          <!-- <input
+            type="text"
+            placeholder="Tìm theo mã, tên nhân viên"
+            @keyup="debounceSearch"
+          /> -->
           <div class="search-icon"></div>
         </div>
         <div class="refresh" @click="filterEmployee"></div>
@@ -144,7 +149,9 @@
   </div>
 </template>
 <script>
+import { vue3Debounce } from "vue-debounce";
 import MISAResource from "../../js/base/resource";
+import MISAapi from "@/js/api";
 import MISAEnum from "../../js/base/enum";
 import BaseMessageChange from "../Base/message/BaseMessageChange.vue";
 import BaseMessageError from "../Base/message/BaseMessageError.vue";
@@ -173,6 +180,9 @@ export default {
   },
   data() {
     return {
+      directives: {
+        debounce: vue3Debounce({ lock: true }),
+      },
       isShowChangeMessage: false,
       isShowToast: false,
       isShowMessageError: false,
@@ -210,12 +220,15 @@ export default {
      * Trì hoãn 1s trước khi gắn txtSearch = value của input search
      * Author: NHNam (14/1/2023)
      */
-    debounceSearch(event) {
-      clearTimeout(this.debounce);
-      this.txtSearch = null;
-      this.debounce = setTimeout(() => {
-        this.txtSearch = event.target.value;
-      }, 1000);
+    // debounceSearch(event) {
+    //   clearTimeout(this.debounce);
+    //   this.txtSearch = null;
+    //   this.debounce = setTimeout(() => {
+    //     this.txtSearch = event.target.value;
+    //   }, 1000);
+    // },
+    debounceSearch(event){
+      this.txtSearch = event;
     },
     /**
      * Check All , uncheck CheckBox
@@ -360,7 +373,7 @@ export default {
     filterEmployee() {
       $("#loading").show();
       var me = this;
-      var url = `https://cukcuk.manhnv.net/api/v1/Employees/filter?pageSize=${this.pageSize}&pageNumber=${this.pageNumber}&employeeFilter=${this.txtSearch}`;
+      var url = MISAapi.employee.filter + `pageSize=${this.pageSize}&pageNumber=${this.pageNumber}&employeeFilter=${this.txtSearch}`;
       axios.get(url).then(function (res) {
         me.totalPage = res.data.TotalPage;
         me.totalRecord = res.data.TotalRecord;

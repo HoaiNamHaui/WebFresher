@@ -22,29 +22,15 @@
         <div class="field-above flexbox">
           <div class="field-above-left" style="margin-right: 26px">
             <div class="flexbox">
-              <div class="m-b-12" style="margin-right: 8px">
-                <label for="">Mã <span class="red">*</span></label> <br />
-                <input
-                  ref="txtCode"
-                  v-model="employee.EmployeeCode"
-                  type="text"
-                  class="input input150"
-                  tabindex="1"
-                />
-                <br />
-              </div>
-              <div class="m-b-12">
-                <label for="">Tên <span class="red">*</span></label> <br />
-                <input
-                  ref="txtName"
-                  v-model="employee.FullName"
-                  type="text"
-                  class="input input230"
-                  tabindex="2"
-                />
-              </div>
+              <BaseInput class="input150"
+              label="Mã" 
+              :require="true" 
+              v-model="employee.EmployeeCode"
+              style="margin-right: 8px"
+              />
+              <BaseInput class="input230" label="Tên" :require="true" v-model="employee.FullName"/>
             </div>
-            <div class="m-b-12" style="width: 385px">
+            <div class="m-b-12" style="width: 388px">
               <label for="">Đơn vị <span class="red">*</span></label>
               <BaseCombobox
                 tabindex="4"
@@ -55,15 +41,7 @@
                 v-model="employee.DepartmentId"
               />
             </div>
-            <div>
-              <label for="">Chức danh</label> <br />
-              <input
-                v-model="employee.PositionName"
-                type="text"
-                class="input input385"
-                tabindex="6"
-              />
-            </div>
+            <BaseInput class="input388" label="Chức danh" :require="false" v-model="employee.PositionName"/>
           </div>
           <div class="field-above-right">
             <div class="flexbox">
@@ -109,20 +87,13 @@
               </div>
             </div>
             <div class="flexbox">
-              <div class="m-b-12 label" style="margin-right: 8px">
+              <BaseInput class="input240" style="margin-right: 8px" label="Số CMND" :require="false" v-model="employee.IdentityNumber">
                 <div class="error-info">
                   <div class="error-text">Số chứng minh nhân dân</div>
                   <div class="error-arrow"></div>
                 </div>
-                <label for="" class="">Số CMND</label> <br />
-                <input
-                  v-model="employee.IdentityNumber"
-                  type="text"
-                  class="input input240"
-                  tabindex="4"
-                />
-              </div>
-              <div class="m-b-12" style="margin-right: 8px">
+              </BaseInput>
+              <div class="m-b-12">
                 <label for="">Ngày cấp</label> <br />
                 <input
                   v-model="employee.IdentityDate"
@@ -132,62 +103,53 @@
                 />
               </div>
             </div>
-            <div>
-              <label for="">Nơi cấp</label> <br />
-              <input
-                v-model="employee.IdentityPlace"
-                type="text"
-                class="input input395"
-                tabindex="7"
-              />
-            </div>
+            <BaseInput class="input395" label="Nơi cấp" :require="false" v-model="employee.IdentityPlace"/>
           </div>
         </div>
         <!-- <div class="line"></div> -->
         <div class="field-below">
-          <div class="m-b-12">
-            <label for="">Địa chỉ</label> <br />
-            <input
-              v-model="employee.Address"
-              class="input input800"
-              tabindex="8"
-            />
-          </div>
+          <BaseInput class="input800" label="Địa chỉ" :require="false" v-model="employee.Address"/>
           <div class="flexbox">
-            <div class="m-b-12" style="margin-right: 8px">
+            <!-- <div class="m-b-12" style="margin-right: 8px">
               <label for="">ĐT di động</label> <br />
               <input
                 v-model="employee.PhoneNumber"
                 class="input input200"
                 tabindex="9"
               />
-            </div>
-            <div class="m-b-12" style="margin-right: 8px">
+            </div> -->
+            <BaseInput style="margin-right: 8px" class="input200" label="ĐT di động" :require="false" v-model="employee.PhoneNumber"/>
+            <!-- <div class="m-b-12" style="margin-right: 8px">
               <label for="">ĐT cố định</label> <br />
               <input class="input input200" tabindex="10" />
-            </div>
-            <div class="m-b-12">
+            </div> -->
+            <BaseInput style="margin-right: 8px" class="input200" label="ĐT cố định" :require="false" v-model="employee.TelephoneNumber"/>
+            <!-- <div class="m-b-12">
               <label for="">Email</label> <br />
               <input
                 v-model="employee.Email"
                 class="input input200"
                 tabindex="11"
               />
-            </div>
+            </div> -->
+            <BaseInput class="input200" label="Email" :require="false" v-model="employee.Email"/>
           </div>
           <div class="flexbox">
-            <div style="margin-right: 8px">
+            <!-- <div style="margin-right: 8px">
               <label for="">Tài khoản ngân hàng</label> <br />
               <input class="input input200" tabindex="12" />
-            </div>
-            <div style="margin-right: 8px">
+            </div> -->
+            <BaseInput style="margin-right: 8px" class="input200" label="Tài khoản ngân hàng" :require="false" v-model="employee.BankAccount"/>
+            <!-- <div style="margin-right: 8px">
               <label for="">Tên ngân hàng</label> <br />
               <input class="input input200" tabindex="13" />
-            </div>
-            <div>
+            </div> -->
+            <BaseInput style="margin-right: 8px" class="input200" label="Tên ngân hàng" :require="false" v-model="employee.BankName"/>
+            <!-- <div>
               <label for="">Chi nhánh</label> <br />
               <input class="input input200" tabindex="14" />
-            </div>
+            </div> -->
+            <BaseInput class="input200" label="Chi nhánh" :require="false" v-model="employee.BankBranchName"/>
           </div>
         </div>
       </div>
@@ -207,12 +169,14 @@
 <script>
 import axios from "axios";
 import MISAResource from "@/js/base/resource";
+import MISAapi from "@/js/api";
 import MISAEnum from "@/js/base/enum";
 import BaseCombobox from "../Base/BaseCombobox.vue";
+import BaseInput from "../Base/input/BaseInput.vue";
 export default {
   name: "EmployeeDialog",
   components: {
-    BaseCombobox,
+    BaseCombobox,BaseInput
   },
   data() {
     return {
@@ -279,31 +243,31 @@ export default {
     validate() {
       // Bỏ trống mã nhân viên
       if (!this.employee.EmployeeCode) {
-        this.errors.code = "Mã nhân viên không được bỏ trống";
-        this.$refs.txtCode.classList.add("error");
+        this.errors.code = MISAResource.vi.error.emptyCode;
+        // this.$refs.txtCode.classList.add("error");
         this.$emit("sendMessage", this.errors.code);
         return false;
       } else {
-        this.$refs.txtCode.classList.remove("error");
+        // this.$refs.txtCode.classList.remove("error");
       }
       // Bỏ trống tên nhân viên
       if (!this.employee.FullName) {
-        this.errors.name = "Tên nhân viên không được bỏ trống";
-        this.$refs.txtName.classList.add("error");
+        this.errors.name = MISAResource.vi.error.emptyName;
+        // this.$refs.txtName.classList.add("error");
         this.$emit("sendMessage", this.errors.name);
         return false;
       } // Độ dài tên quá 255 kí tự
       else if (this.employee.FullName.length > 255) {
-        this.errors.name = "Tên nhân viên dưới 255 kí tự";
-        this.$refs.txtName.classList.add("error");
+        this.errors.name = MISAResource.vi.error.lengthName;
+        // this.$refs.txtName.classList.add("error");
         this.$emit("sendMessage", this.errors.name);
         return false;
       } else {
-        this.$refs.txtName.classList.remove("error");
+        // this.$refs.txtName.classList.remove("error");
       }
       // Bỏ trống đơn vị
       if (!this.employee.DepartmentId) {
-        this.errors.dept = "Đơn vị không được bỏ trống";
+        this.errors.dept = MISAResource.vi.error.emptyDepartment;
         this.$emit("sendMessage", this.errors.dept);
         return false;
       }
@@ -313,19 +277,19 @@ export default {
         var dob = year.getFullYear();
         var current = new Date();
         if (current.getFullYear() - dob < 18) {
-          this.errors.dob = "Tuổi nhân viên phải trên 18";
-          this.$refs.dob.classList.add("error");
+          this.errors.dob = MISAResource.vi.error.age;
+          // this.$refs.dob.classList.add("error");
           this.$emit("sendMessage", this.errors.dob);
           return false;
         } else {
-          this.$refs.dob.classList.remove("error");
+          // this.$refs.dob.classList.remove("error");
         }
       }
       // Số điện thoại không đúng độ dài, định dạng, đầu số
       if (this.employee.PhoneNumber) {
         var phoneRegex = /((09|03|07|08|05)+([0-9]{8})\b)/g;
         if (phoneRegex.test(this.employee.PhoneNumber) == false) {
-          this.errors.phone = "Số điện thoại không đúng định dạng";
+          this.errors.phone = MISAResource.vi.error.phone;
           this.$emit("sendMessage", this.errors.phone);
           return false;
         }
@@ -335,7 +299,7 @@ export default {
         var emailRegex =
           /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
         if (!this.employee.Email.match(emailRegex)) {
-          this.errors.email = "Email không đúng định dạng";
+          this.errors.email = MISAResource.vi.error.email;
           this.$emit("sendMessage", this.errors.email);
           return false;
         }
@@ -352,14 +316,14 @@ export default {
       var res;
       if (!this.employee.EmployeeId) {
         res = await axios.post(
-          "https://cukcuk.manhnv.net/api/v1/Employees",
+          MISAapi.employee.employeeApi,
           newData
         );
         console.log(res.data);
         me.$emit("showToast", MISAResource.vi.add, newData, MISAEnum.FormMode.Add);
       } else {
         res = await axios.put(
-          `https://cukcuk.manhnv.net/api/v1/Employees/${this.employee.EmployeeId}`,
+          MISAapi.employee.employeeApi+this.employee.EmployeeId,
           newData
         );
         console.log(res.data);
@@ -398,10 +362,10 @@ export default {
     getNewEmployeeCode() {
       var me = this;
       axios
-        .get("https://cukcuk.manhnv.net/api/v1/Employees/NewEmployeeCode")
+        .get(MISAapi.employee.newEmployeeCode)
         .then(function (res) {
           me.employee.EmployeeCode = res.data;
-          me.$refs.txtCode.focus();
+          // me.$refs.txtCode.focus();
         });
     },
     /**
@@ -417,24 +381,24 @@ export default {
       }
     },
   },
-  created() {
+  async created() {
     // Có Id thì call api lấy thông tin nhân viên, nếu không lấy mã nhân viên mới
     this.handleTitleForm();
     if (this.employeeIdSelected != null) {
       var me = this;
-      axios
+      await axios
         .get(
-          `https://cukcuk.manhnv.net/api/v1/Employees/${this.employeeIdSelected}`
+          MISAapi.employee.employeeApi+this.employeeIdSelected
         )
         .then(function (res) {
           me.employee = res.data;
           me.employee.DateOfBirth = me.fomartDate(res.data.DateOfBirth);
           me.employee.IdentityDate = me.fomartDate(res.data.IdentityDate);
-          console.log(me.employee.DepartmentId)
-          me.$refs.txtCode.focus();
+          // console.log(me.employee.DepartmentId)
+          // me.$refs.txtCode.focus();
         });
     } else {
-      this.getNewEmployeeCode();
+      await this.getNewEmployeeCode();
       this.employee.Gender = 0;
     }
   },

@@ -12,6 +12,7 @@
     "core-js": "^3.8.3",
     "jquery": "^3.6.3",
     "vue": "^3.2.13",
+    "vue-debounce": "^4.0.0",
     "vue-router": "^4.1.6",
     "vuejs-paginate-next": "^1.0.2"
   },

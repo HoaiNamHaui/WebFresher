@@ -35,12 +35,12 @@ namespace MISA.AMIS.API.Entities
         /// <summary>
         /// Người tạo
         /// </summary>
-        public string CreatedBy { get; set; }
+        public string? CreatedBy { get; set; }
 
         /// <summary>
         /// Người thay đổi cuối cùng
         /// </summary>
-        public string ModifiedBy { get; set; }
+        public string? ModifiedBy { get; set; }
 
         /// <summary>
         /// Ngày thay đổi gần nhất

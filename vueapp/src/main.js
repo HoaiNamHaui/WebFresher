@@ -1,3 +1,4 @@
+import { vue3Debounce } from 'vue-debounce'
 import { createApp } from 'vue'
 import App from './App.vue'
 import {createRouter,createWebHistory} from "vue-router"
@@ -39,4 +40,4 @@ const router = createRouter({
     history: createWebHistory(),
     routes: routers,
 })
-createApp(App).use(router).mount('#app')
+createApp(App).use(router).directive('debounce', vue3Debounce({ lock: true })).mount('#app')
