@@ -1,13 +1,14 @@
 <template>
-    <div class="m-b-12" >
-      <label for="">{{ label }} <span class="red" :class="{hide : !require}">*</span></label> <br />
+    <div class="m-b-12">
+      <label for="">{{ label }} <span :class="{hide : !isRequire}" class="red" >*</span></label> <br />
       <input
         ref="txtCode"
         type="text"
         style="width: 100%;"
         class="input"
         v-model="value"
-        :tabindex="tabindex"
+        :class="{error: isError}"
+        @blur="blurInput"
       />
       <br />
     </div>
@@ -15,14 +16,32 @@
 <script>
 export default {
   name: "BaseInput",
-  props: ["label","require","modelValue","tabindex"],
+  props:{
+    label: String,
+    require:Boolean,
+    modelValue: String,
+    error: String
+  },
+  // props: ["label","require","modelValue","tabindex"],
   data(){
     return{
         value: null,
+        isRequire: false,
+        isError: false,
+    }
+  },
+  methods:{
+    /**
+     * Blur input bỏ border lỗi
+     * Author: NHNam (4/1/2023)
+     */
+    blurInput(){
+      this.isError = false;
     }
   },
   created(){
     this.value = this.modelValue;
+    this.isRequire = this.require;
   },
   watch:{
     modelValue: function(newValue){
@@ -30,6 +49,15 @@ export default {
     },
     value: function(newValue){
       this.$emit("update:modelValue", newValue);
+    },
+    //Lỗi hiển thị border lỗi
+    error: function(){
+      if(this.error != ""){
+        this.isError = true;
+      }
+      else{
+        this.isError = false;
+      }
     }
   }
 };

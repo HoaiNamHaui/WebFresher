@@ -6,21 +6,26 @@
     </div>
     <div class="content-data">
       <div class="functions">
-        <div class="search-box">
-          <input
-            type="text"
-            placeholder="Tìm theo mã, tên nhân viên"
-            v-debounce:1s="debounceSearch"
-          />
-          <!-- <input
+        <div class="functions-left">
+          Thực hiện hàng loạt
+        </div>
+        <div class="functions-right">
+          <div class="search-box">
+            <input
+              type="text"
+              placeholder="Tìm theo mã, tên nhân viên"
+              v-debounce:1s="debounceSearch"
+            />
+            <!-- <input
             type="text"
             placeholder="Tìm theo mã, tên nhân viên"
             @keyup="debounceSearch"
           /> -->
-          <div class="search-icon"></div>
+            <div class="search-icon"></div>
+          </div>
+          <div class="refresh" @click="filterEmployee"></div>
+          <div class="excel"></div>
         </div>
-        <div class="refresh" @click="filterEmployee"></div>
-        <div class="excel"></div>
       </div>
       <div class="list-employee">
         <table class="data" id="tblEmployee" cellspacing="0">
@@ -227,7 +232,7 @@ export default {
     //     this.txtSearch = event.target.value;
     //   }, 1000);
     // },
-    debounceSearch(event){
+    debounceSearch(event) {
       this.txtSearch = event;
     },
     /**
@@ -373,14 +378,21 @@ export default {
     filterEmployee() {
       $("#loading").show();
       var me = this;
-      var url = MISAapi.employee.filter + `pageSize=${this.pageSize}&pageNumber=${this.pageNumber}&employeeFilter=${this.txtSearch}`;
-      axios.get(url).then(function (res) {
-        me.totalPage = res.data.TotalPage;
-        me.totalRecord = res.data.TotalRecord;
-        me.isSuccess = true;
-        me.employees = res.data.Data;
-        $("#loading").hide();
-      });
+      var url =
+        MISAapi.employee.filter +
+        `pageSize=${this.pageSize}&pageNumber=${this.pageNumber}&employeeFilter=${this.txtSearch}`;
+      axios
+        .get(url)
+        .then(function (res) {
+          me.totalPage = res.data.TotalPage;
+          me.totalRecord = res.data.TotalRecord;
+          me.isSuccess = true;
+          me.employees = res.data.Data;
+          $("#loading").hide();
+        })
+        .catch(function (res) {
+          console.log(res);
+        });
     },
     /**
      * Chuyển trang

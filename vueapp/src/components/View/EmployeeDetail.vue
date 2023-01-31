@@ -24,21 +24,23 @@
             <div class="flexbox">
               <BaseInput class="input150"
               label="Mã" 
-              :require="true" 
+              :require="true"
               v-model="employee.EmployeeCode"
               style="margin-right: 8px"
+              :error="errors.code"
               />
-              <BaseInput class="input230" label="Tên" :require="true" v-model="employee.FullName"/>
+              <BaseInput class="input230" :error="errors.name" label="Tên" :require="true" v-model="employee.FullName"/>
             </div>
             <div class="m-b-12" style="width: 388px">
               <label for="">Đơn vị <span class="red">*</span></label>
               <BaseCombobox
                 tabindex="4"
                 id="cbxDepartment"
-                api="https://cukcuk.manhnv.net/api/v1/Departments"
+                api="https://localhost:7288/api/v1/Departments"
                 propName="DepartmentName"
                 propValue="DepartmentId"
                 v-model="employee.DepartmentId"
+                :error="errors.dept"
               />
             </div>
             <BaseInput class="input388" label="Chức danh" :require="false" v-model="employee.PositionName"/>
@@ -87,7 +89,7 @@
               </div>
             </div>
             <div class="flexbox">
-              <BaseInput class="input240" style="margin-right: 8px" label="Số CMND" :require="false" v-model="employee.IdentityNumber">
+              <BaseInput class="input240" style="margin-right: 8px" label="Số CMND"  v-model="employee.IdentityNumber">
                 <div class="error-info">
                   <div class="error-text">Số chứng minh nhân dân</div>
                   <div class="error-arrow"></div>
@@ -103,12 +105,12 @@
                 />
               </div>
             </div>
-            <BaseInput class="input395" label="Nơi cấp" :require="false" v-model="employee.IdentityPlace"/>
+            <BaseInput class="input395" label="Nơi cấp"  v-model="employee.IdentityPlace"/>
           </div>
         </div>
         <!-- <div class="line"></div> -->
         <div class="field-below">
-          <BaseInput class="input800" label="Địa chỉ" :require="false" v-model="employee.Address"/>
+          <BaseInput class="input800" label="Địa chỉ"  v-model="employee.Address"/>
           <div class="flexbox">
             <!-- <div class="m-b-12" style="margin-right: 8px">
               <label for="">ĐT di động</label> <br />
@@ -118,12 +120,12 @@
                 tabindex="9"
               />
             </div> -->
-            <BaseInput style="margin-right: 8px" class="input200" label="ĐT di động" :require="false" v-model="employee.PhoneNumber"/>
+            <BaseInput style="margin-right: 8px" :error="errors.phone" class="input200" label="ĐT di động"  v-model="employee.PhoneNumber"/>
             <!-- <div class="m-b-12" style="margin-right: 8px">
               <label for="">ĐT cố định</label> <br />
               <input class="input input200" tabindex="10" />
             </div> -->
-            <BaseInput style="margin-right: 8px" class="input200" label="ĐT cố định" :require="false" v-model="employee.TelephoneNumber"/>
+            <BaseInput style="margin-right: 8px" class="input200" label="ĐT cố định"  v-model="employee.TelephoneNumber"/>
             <!-- <div class="m-b-12">
               <label for="">Email</label> <br />
               <input
@@ -132,24 +134,24 @@
                 tabindex="11"
               />
             </div> -->
-            <BaseInput class="input200" label="Email" :require="false" v-model="employee.Email"/>
+            <BaseInput class="input200" label="Email" :error="errors.email"  v-model="employee.Email"/>
           </div>
           <div class="flexbox">
             <!-- <div style="margin-right: 8px">
               <label for="">Tài khoản ngân hàng</label> <br />
               <input class="input input200" tabindex="12" />
             </div> -->
-            <BaseInput style="margin-right: 8px" class="input200" label="Tài khoản ngân hàng" :require="false" v-model="employee.BankAccount"/>
+            <BaseInput style="margin-right: 8px" class="input200" label="Tài khoản ngân hàng"  v-model="employee.BankAccount"/>
             <!-- <div style="margin-right: 8px">
               <label for="">Tên ngân hàng</label> <br />
               <input class="input input200" tabindex="13" />
             </div> -->
-            <BaseInput style="margin-right: 8px" class="input200" label="Tên ngân hàng" :require="false" v-model="employee.BankName"/>
+            <BaseInput style="margin-right: 8px" class="input200" label="Tên ngân hàng"  v-model="employee.BankName"/>
             <!-- <div>
               <label for="">Chi nhánh</label> <br />
               <input class="input input200" tabindex="14" />
             </div> -->
-            <BaseInput class="input200" label="Chi nhánh" :require="false" v-model="employee.BankBranchName"/>
+            <BaseInput class="input200" label="Chi nhánh"  v-model="employee.BankBranchName"/>
           </div>
         </div>
       </div>
@@ -241,36 +243,41 @@ export default {
      * Author: NHNam (7/1/2023)
      */
     validate() {
+      // reset errors
+      this.errors = {
+        code: "",
+        name: "",
+        phone: "",
+        dob: "",
+        dept: "",
+        email: "",
+      }
       // Bỏ trống mã nhân viên
       if (!this.employee.EmployeeCode) {
         this.errors.code = MISAResource.vi.error.emptyCode;
-        // this.$refs.txtCode.classList.add("error");
-        this.$emit("sendMessage", this.errors.code);
-        return false;
-      } else {
-        // this.$refs.txtCode.classList.remove("error");
+        // this.$emit("sendMessage", this.errors.code);
+        // return false;
       }
+
       // Bỏ trống tên nhân viên
       if (!this.employee.FullName) {
         this.errors.name = MISAResource.vi.error.emptyName;
-        // this.$refs.txtName.classList.add("error");
-        this.$emit("sendMessage", this.errors.name);
-        return false;
+        // this.$emit("sendMessage", this.errors.name);
+        // return false;
       } // Độ dài tên quá 255 kí tự
       else if (this.employee.FullName.length > 255) {
         this.errors.name = MISAResource.vi.error.lengthName;
-        // this.$refs.txtName.classList.add("error");
-        this.$emit("sendMessage", this.errors.name);
-        return false;
-      } else {
-        // this.$refs.txtName.classList.remove("error");
-      }
+        // this.$emit("sendMessage", this.errors.name);
+        // return false;
+      } 
+
       // Bỏ trống đơn vị
       if (!this.employee.DepartmentId) {
         this.errors.dept = MISAResource.vi.error.emptyDepartment;
-        this.$emit("sendMessage", this.errors.dept);
-        return false;
+        // this.$emit("sendMessage", this.errors.dept);
+        // return false;
       }
+
       // Dưới 18 tuổi
       if (this.employee.DateOfBirth) {
         var year = new Date(this.employee.DateOfBirth);
@@ -278,11 +285,11 @@ export default {
         var current = new Date();
         if (current.getFullYear() - dob < 18) {
           this.errors.dob = MISAResource.vi.error.age;
-          // this.$refs.dob.classList.add("error");
-          this.$emit("sendMessage", this.errors.dob);
-          return false;
+          this.$refs.dob.classList.add("error");
+          // this.$emit("sendMessage", this.errors.dob);
+          // return false;
         } else {
-          // this.$refs.dob.classList.remove("error");
+          this.$refs.dob.classList.remove("error");
         }
       }
       // Số điện thoại không đúng độ dài, định dạng, đầu số
@@ -290,8 +297,8 @@ export default {
         var phoneRegex = /((09|03|07|08|05)+([0-9]{8})\b)/g;
         if (phoneRegex.test(this.employee.PhoneNumber) == false) {
           this.errors.phone = MISAResource.vi.error.phone;
-          this.$emit("sendMessage", this.errors.phone);
-          return false;
+          // this.$emit("sendMessage", this.errors.phone);
+          // return false;
         }
       }
       // Email không hợp lệ
@@ -300,11 +307,36 @@ export default {
           /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
         if (!this.employee.Email.match(emailRegex)) {
           this.errors.email = MISAResource.vi.error.email;
-          this.$emit("sendMessage", this.errors.email);
-          return false;
+          // this.$emit("sendMessage", this.errors.email);
+          // return false;
         }
       }
+      this.sendErrorMessage();
       return true;
+    },
+    /**
+     * Popup hiện lỗi đầu tiên
+     * Author: NHNam (7/1/2023)
+     */
+    sendErrorMessage(){
+      if(this.errors.code != ""){
+        this.$emit("sendMessage", this.errors.code);
+      }
+      else if(this.errors.name != ""){
+        this.$emit("sendMessage", this.errors.name);
+      }
+      else if(this.errors.dept != ""){
+        this.$emit("sendMessage", this.errors.dept);
+      }
+      else if(this.errors.dob != ""){
+        this.$emit("sendMessage", this.errors.dob);
+      }
+      else if(this.errors.phone != ""){
+        this.$emit("sendMessage", this.errors.phone);
+      }
+      else if(this.errors.email != ""){
+        this.$emit("sendMessage", this.errors.email);
+      }
     },
     /**
      * Lưu data

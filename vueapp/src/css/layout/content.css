@@ -36,13 +36,26 @@
 }
 .functions{
     display: flex;
-    justify-content: end;
+    justify-content: space-between;
     align-items: center;
     margin-right: 16px;
+    margin-left: 16px;
     padding-top: 12px;
     padding-bottom: 12px;
 }
-
+.functions-left{
+    font-family: Notosans-SemiBold;
+    height: 30px;
+    line-height: 30px;
+    padding: 0 16px;
+    border: 1px solid #babec5; 
+    border-radius: 2px;
+    color: #afafaf;
+}
+.functions-right{
+    display: flex;
+    align-items: center;
+}
 #loading{
     position: absolute;
     top: 50%;

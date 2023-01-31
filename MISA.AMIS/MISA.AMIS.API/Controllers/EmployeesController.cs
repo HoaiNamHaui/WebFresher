@@ -95,9 +95,9 @@ namespace MISA.AMIS.API.Controllers
 
             [FromQuery] Guid? departmentId,
 
-            [FromQuery] int limit = 10,
+            [FromQuery] int pageSize = 10,
 
-            [FromQuery] int offset = 0)
+            [FromQuery] int pageNumber = 1)
         {
             return new PagingResult
             {

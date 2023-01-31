@@ -1,5 +1,5 @@
 <template>
-  <div class="combobox-container">
+  <div class="combobox-container" :class="{error: isError}">
     <input
       :tabindex="tabindex"
       id="id"
@@ -8,8 +8,9 @@
       v-model="textSelected"
       @input="onSearchItem"
       @keydown="inputOnKeyDown"
+      :class="{'none-border': isError}"
     />
-    <div class="combobox-button" @click="onShowHideData">
+    <div class="combobox-button" @click="onShowHideData" :class="{'none-border': isError}">
       <div class="combobox-button-icon"></div>
     </div>
     <div class="combobox-data" v-show="isShowData">
@@ -40,6 +41,7 @@ export default {
       entitySearch: [],
       indexItemSelect: 0,
       itemSelected: null,
+      isError: false
     };
   },
   watch: {
@@ -48,6 +50,15 @@ export default {
         this.setItemSelected();
       }
     },
+    //Lỗi hiển thị border lỗi
+    error: function(){
+      if(this.error != ""){
+        this.isError = true;
+      }
+      else{
+        this.isError = false;
+      }
+    }
   },
   created() {
     /**
@@ -76,7 +87,7 @@ export default {
     //   this.setItemSelected();
     // }
   },
-  props: ["id", "api", "propName", "propValue", "modelValue", "tabindex"],
+  props: ["id", "api", "propName", "propValue", "modelValue", "tabindex", "error"],
   emits: ["update:modelValue"],
   components: {},
   methods: {
@@ -194,6 +205,13 @@ export default {
   border-radius: 2px;
   box-sizing: border-box;
   font-family: Notosans-Regular;
+}
+.error{
+  border: 1px solid red;
+  border-radius: 2px;
+}
+.none-border{
+  border: none !important;
 }
 .combobox-button {
   width: 36px;
