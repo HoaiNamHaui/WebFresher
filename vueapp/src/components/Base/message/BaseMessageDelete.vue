@@ -17,6 +17,7 @@
 </template>
 <script>
   import axios from "axios";
+  import MISAapi from "@/js/api";
 export default{
     name: "MessageDelete",
     data(){
@@ -39,7 +40,7 @@ export default{
         async deleteEmployee(){
             var me = this;
             await axios
-                .delete(`https://cukcuk.manhnv.net/api/v1/Employees/${me.employeeSelected.EmployeeId}`)
+                .delete(MISAapi.employee.employeeApi+ `${me.employeeSelected.EmployeeId}`)
                 .then((data) => console.log(data))
                 .catch((error) => console.log(error));
             this.$emit('cancelDelete',false)   

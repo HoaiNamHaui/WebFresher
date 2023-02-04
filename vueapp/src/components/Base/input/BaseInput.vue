@@ -2,13 +2,14 @@
     <div class="m-b-12">
       <label for="">{{ label }} <span :class="{hide : !isRequire}" class="red" >*</span></label> <br />
       <input
-        ref="txtCode"
+        ref="txtfield"
         type="text"
         style="width: 100%;"
         class="input"
         v-model="value"
         :class="{error: isError}"
         @blur="blurInput"
+        tabindex="tabindex"
       />
       <br />
     </div>
@@ -20,7 +21,9 @@ export default {
     label: String,
     require:Boolean,
     modelValue: String,
-    error: String
+    error: String,
+    tabindex: String,
+    focus: Boolean
   },
   // props: ["label","require","modelValue","tabindex"],
   data(){
@@ -37,6 +40,10 @@ export default {
      */
     blurInput(){
       this.isError = false;
+    },
+    //focus vào input
+    setFocus(){
+      this.$refs.txtfield.focus();
     }
   },
   created(){

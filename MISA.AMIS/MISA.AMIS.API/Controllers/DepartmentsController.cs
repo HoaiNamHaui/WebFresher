@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Dapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MISA.AMIS.API.Entities;
+using MySqlConnector;
 
 namespace MISA.AMIS.API.Controllers
 {
@@ -8,33 +10,6 @@ namespace MISA.AMIS.API.Controllers
     [ApiController]
     public class DepartmentsController : ControllerBase
     {
-        public List<Department> Departments = new List<Department>()
-        {
-            new Department{
-                DepartmentId = Guid.Parse("3f8e6896-4c7d-15f5-a018-75d8bd200d7c"),
-                DepartmentName = "Phòng Công Nghệ Thông Tin",
-                CreatedBy = "Norris Calderon",
-                ModifiedBy = "Elwood Ligon" 
-            },
-            new Department{
-                DepartmentId = Guid.Parse("9af69954-847f-4766-af7c-446c77e490f8"),
-                DepartmentName = "Phòng Hành Chính",
-                CreatedBy = "Norris Calderon",
-                ModifiedBy = "Elwood Ligon" 
-            },
-            new Department{
-                DepartmentId = Guid.Parse("c883e7fc-510f-493a-9f2a-5dd8b8e2b295"),
-                DepartmentName = "Phòng Nhân Sự",
-                CreatedBy = "Norris Calderon",
-                ModifiedBy = "Elwood Ligon" 
-            },
-            new Department{
-                DepartmentId = Guid.Parse("8d2350f0-06e3-4cc1-bce5-39c021e91523"),
-                DepartmentName = "Phòng Kế toán",
-                CreatedBy = "Norris Calderon",
-                ModifiedBy = "Elwood Ligon" 
-            },
-        };  
        /// <summary>
        /// Lấy danh sách phòng ban
        /// </summary>
@@ -43,7 +18,71 @@ namespace MISA.AMIS.API.Controllers
         [HttpGet]
         public IActionResult GetAllDepartment()
         {
-            return StatusCode(StatusCodes.Status200OK, Departments);
+            try
+            {
+                // Khởi tạo list 
+                var list = new List<Department>();
+                //Stored Procedure
+                string storedProcedureName = "Proc_Department_GetAll";
+                // Khởi tạo kết nối tới DB
+                string connectionString = "Server=18.179.16.166;Port=3306;Database=MISA.AMIS.MF1234.NHNAM;uid=nvmanh;pwd =12345678";
+                using (var mySqlConnection = new MySqlConnection(connectionString))
+                {
+                    // kết nối db
+                    mySqlConnection.Open();
+
+                    // Gọi proc 
+
+                    var multy = mySqlConnection.QueryMultiple(storedProcedureName, commandType: System.Data.CommandType.StoredProcedure);
+                    // lấy kết quả
+                    
+                    list = multy.Read<Department>().ToList();
+                    
+                    // đóng kết nối db
+                    mySqlConnection.Close();
+                }
+
+                return StatusCode(StatusCodes.Status200OK, list);
+            }
+            catch(Exception ex)
+            {
+                var res = new
+                {
+                    devMsg = ex.Message,
+                    userMsg = "Có lỗi xảy ra vui lòng thử lại"
+                };
+                return StatusCode(500, res);
+            }
+            
         }
+
+        /// <summary>
+        /// Tìm phòng ban theo Id
+        /// </summary>
+        /// <param name="id">id phòng ban</param>
+        /// <returns>thông tin phòng ban</returns>
+        [HttpGet("{id}")]
+        public IActionResult GetById(Guid id)
+        {
+            try
+            {
+                string connectionString = "Server=18.179.16.166;Port=3306;Database=MISA.AMIS.MF1234.NHNAM;uid=nvmanh;pwd =12345678";
+                var mySqlConnection = new MySqlConnection(connectionString);
+                var sqlCommand = $"SELECT * FROM Department WHERE DepartmentId = '{id.ToString()}'";
+                var department = mySqlConnection.QueryFirstOrDefault<Department>(sqlCommand);
+                
+                return Ok(department);
+            }
+            catch(Exception ex)
+            {
+                var res = new
+                {
+                    devMsg = ex.Message,
+                    userMsg = "Có lỗi xảy ra vui lòng thử lại"
+                };
+                return StatusCode(500, res);
+            }
+        }
+
     }
 }

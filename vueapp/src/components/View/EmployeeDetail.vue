@@ -24,26 +24,28 @@
             <div class="flexbox">
               <BaseInput class="input150"
               label="Mã" 
+              :focus="true"
               :require="true"
               v-model="employee.EmployeeCode"
               style="margin-right: 8px"
               :error="errors.code"
+              tabindex="0"
               />
-              <BaseInput class="input230" :error="errors.name" label="Tên" :require="true" v-model="employee.FullName"/>
+              <BaseInput class="input230" tabindex="0" :error="errors.name" label="Tên" :require="true" v-model="employee.FullName"/>
             </div>
             <div class="m-b-12" style="width: 388px">
               <label for="">Đơn vị <span class="red">*</span></label>
               <BaseCombobox
-                tabindex="4"
+                tabindex="0"
                 id="cbxDepartment"
-                api="https://localhost:7288/api/v1/Departments"
+                api="https://localhost:7288/api/v1/Departments/"
                 propName="DepartmentName"
                 propValue="DepartmentId"
                 v-model="employee.DepartmentId"
                 :error="errors.dept"
               />
             </div>
-            <BaseInput class="input388" label="Chức danh" :require="false" v-model="employee.PositionName"/>
+            <BaseInput tabindex="0" class="input388" label="Chức danh" :require="false" v-model="employee.PositionName"/>
           </div>
           <div class="field-above-right">
             <div class="flexbox">
@@ -54,7 +56,7 @@
                   v-model="employee.DateOfBirth"
                   type="date"
                   class="input input150"
-                  tabindex="3"
+                  tabindex="0"
                 />
               </div>
               <div class="m-b-12">
@@ -89,7 +91,7 @@
               </div>
             </div>
             <div class="flexbox">
-              <BaseInput class="input240" style="margin-right: 8px" label="Số CMND"  v-model="employee.IdentityNumber">
+              <BaseInput class="input240" style="margin-right: 8px" label="Số CMND" tabindex="0"  v-model="employee.IdentityNumber">
                 <div class="error-info">
                   <div class="error-text">Số chứng minh nhân dân</div>
                   <div class="error-arrow"></div>
@@ -101,57 +103,57 @@
                   v-model="employee.IdentityDate"
                   type="date"
                   class="input input150"
-                  tabindex="5"
+                  tabindex="0"
                 />
               </div>
             </div>
-            <BaseInput class="input395" label="Nơi cấp"  v-model="employee.IdentityPlace"/>
+            <BaseInput tabindex="0" class="input395" label="Nơi cấp"  v-model="employee.IdentityPlace"/>
           </div>
         </div>
         <!-- <div class="line"></div> -->
         <div class="field-below">
-          <BaseInput class="input800" label="Địa chỉ"  v-model="employee.Address"/>
+          <BaseInput tabindex="0" class="input800" label="Địa chỉ"  v-model="employee.Address"/>
           <div class="flexbox">
             <!-- <div class="m-b-12" style="margin-right: 8px">
               <label for="">ĐT di động</label> <br />
               <input
                 v-model="employee.PhoneNumber"
                 class="input input200"
-                tabindex="9"
+                tabindex="0"
               />
             </div> -->
-            <BaseInput style="margin-right: 8px" :error="errors.phone" class="input200" label="ĐT di động"  v-model="employee.PhoneNumber"/>
+            <BaseInput tabindex="00" style="margin-right: 8px" :error="errors.phone" class="input200" label="ĐT di động"  v-model="employee.PhoneNumber"/>
             <!-- <div class="m-b-12" style="margin-right: 8px">
               <label for="">ĐT cố định</label> <br />
-              <input class="input input200" tabindex="10" />
+              <input class="input input200" tabindex="00" />
             </div> -->
-            <BaseInput style="margin-right: 8px" class="input200" label="ĐT cố định"  v-model="employee.TelephoneNumber"/>
+            <BaseInput tabindex="01" style="margin-right: 8px" class="input200" label="ĐT cố định"  v-model="employee.TelephoneNumber"/>
             <!-- <div class="m-b-12">
               <label for="">Email</label> <br />
               <input
                 v-model="employee.Email"
                 class="input input200"
-                tabindex="11"
+                tabindex="01"
               />
             </div> -->
-            <BaseInput class="input200" label="Email" :error="errors.email"  v-model="employee.Email"/>
+            <BaseInput tabindex="02" class="input200" label="Email" :error="errors.email"  v-model="employee.Email"/>
           </div>
           <div class="flexbox">
             <!-- <div style="margin-right: 8px">
               <label for="">Tài khoản ngân hàng</label> <br />
-              <input class="input input200" tabindex="12" />
+              <input class="input input200" tabindex="02" />
             </div> -->
-            <BaseInput style="margin-right: 8px" class="input200" label="Tài khoản ngân hàng"  v-model="employee.BankAccount"/>
+            <BaseInput tabindex="03" style="margin-right: 8px" class="input200" label="Tài khoản ngân hàng"  v-model="employee.BankAccount"/>
             <!-- <div style="margin-right: 8px">
               <label for="">Tên ngân hàng</label> <br />
-              <input class="input input200" tabindex="13" />
+              <input class="input input200" tabindex="03" />
             </div> -->
-            <BaseInput style="margin-right: 8px" class="input200" label="Tên ngân hàng"  v-model="employee.BankName"/>
+            <BaseInput tabindex="04" style="margin-right: 8px" class="input200" label="Tên ngân hàng"  v-model="employee.BankName"/>
             <!-- <div>
               <label for="">Chi nhánh</label> <br />
-              <input class="input input200" tabindex="14" />
+              <input class="input input200" tabindex="04" />
             </div> -->
-            <BaseInput class="input200" label="Chi nhánh"  v-model="employee.BankBranchName"/>
+            <BaseInput tabindex="05" class="input200" label="Chi nhánh"  v-model="employee.BankBranchName"/>
           </div>
         </div>
       </div>
@@ -182,17 +184,18 @@ export default {
   },
   data() {
     return {
-      employee: {},
-      errors: {
-        code: "",
-        name: "",
-        phone: "",
-        dob: "",
-        dept: "",
-        email: "",
+      employee: {}, //nhân viên
+      errors: {    // các trường validate
+        code: "",  // mã nv
+        name: "", // tên nv
+        phone: "", // số đt
+        dob: "",  // ngày sinh
+        dept: "",  // đơn vị
+        email: "",  // email
       },
-      department: {},
-      titleForm: ""
+      isValid: false,  // dữ liệu hợp lệ
+      department: {},  // phòng ban
+      titleForm: ""   // tiêu đề form
     };
   },
   props: ["employeeIdSelected", "acceptSave"],
@@ -208,8 +211,9 @@ export default {
      */
     async saveEmployee() {
       try {
-        // this.validate();
-        if (this.validate()) {
+        this.validate();
+        console.log(this.isValid);
+        if (this.isValid) {
           await this.saveData();
           this.hideDialog();
         }
@@ -257,6 +261,7 @@ export default {
         this.errors.code = MISAResource.vi.error.emptyCode;
         // this.$emit("sendMessage", this.errors.code);
         // return false;
+        this.isValid = false;
       }
 
       // Bỏ trống tên nhân viên
@@ -264,11 +269,13 @@ export default {
         this.errors.name = MISAResource.vi.error.emptyName;
         // this.$emit("sendMessage", this.errors.name);
         // return false;
+        this.isValid = false;
       } // Độ dài tên quá 255 kí tự
       else if (this.employee.FullName.length > 255) {
         this.errors.name = MISAResource.vi.error.lengthName;
         // this.$emit("sendMessage", this.errors.name);
         // return false;
+        this.isValid = false;
       } 
 
       // Bỏ trống đơn vị
@@ -276,6 +283,7 @@ export default {
         this.errors.dept = MISAResource.vi.error.emptyDepartment;
         // this.$emit("sendMessage", this.errors.dept);
         // return false;
+        this.isValid = false;
       }
 
       // Dưới 18 tuổi
@@ -288,6 +296,7 @@ export default {
           this.$refs.dob.classList.add("error");
           // this.$emit("sendMessage", this.errors.dob);
           // return false;
+          this.isValid = false;
         } else {
           this.$refs.dob.classList.remove("error");
         }
@@ -299,6 +308,7 @@ export default {
           this.errors.phone = MISAResource.vi.error.phone;
           // this.$emit("sendMessage", this.errors.phone);
           // return false;
+          this.isValid = false;
         }
       }
       // Email không hợp lệ
@@ -309,10 +319,16 @@ export default {
           this.errors.email = MISAResource.vi.error.email;
           // this.$emit("sendMessage", this.errors.email);
           // return false;
+          this.isValid = false;
         }
       }
-      this.sendErrorMessage();
-      return true;
+      if(!this.errors.code && !this.errors.name && !this.errors.dept && !this.errors.phone && !this.errors.dob && !this.errors.email ){
+        this.isValid = true;
+      }
+      else{
+        this.sendErrorMessage();
+      }
+      
     },
     /**
      * Popup hiện lỗi đầu tiên
@@ -366,7 +382,8 @@ export default {
      * Cất và thêm (lưu data và reset form)
      */
     saveAndAdd() {
-      if (this.validate()) {
+      this.validate();
+      if (this.isValid) {
         this.saveData();
         this.employee = {};
         // Cất và thêm đổi tiêu đề form

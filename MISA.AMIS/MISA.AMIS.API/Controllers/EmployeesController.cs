@@ -1,60 +1,24 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Dapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MISA.AMIS.API.Entities;
 using MISA.AMIS.API.Entities.DTO;
 using MISA.AMIS.API.Enums;
+using MySqlConnector;
+using System.Collections.Generic;
+using System.Data.SqlTypes;
+using System.Runtime.CompilerServices;
+using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
 
 namespace MISA.AMIS.API.Controllers
 {
+    
     [Route("api/v1/[controller]")]
     [ApiController]
     public class EmployeesController : ControllerBase
     {
-        public List<Employee> Employees = new List<Employee>()
-        {
-            new Employee
-            {
-                EmployeeId = Guid.Parse("a16372ad-0865-4e8a-9f73-e848e46ae06d"),
-                EmployeeCode = "NV-0001",
-                FullName = "Nguyễn Hoài Nam",
-            },
-            new Employee
-            {
-                EmployeeId = Guid.Parse("1d37cb7b-d83f-4523-96b3-9c974549b647"),
-                EmployeeCode = "NV-0002",
-                FullName = "Nguyễn Văn Dương",
-            },
-            new Employee
-            {
-                EmployeeId = Guid.Parse("28b91461-65bd-4378-91a5-4fc3669e56a8"),
-                EmployeeCode = "NV-0003",
-                FullName = "Nguyễn Hữu Giang",
-            },
-            new Employee
-            {
-                EmployeeId = Guid.Parse("7debed63-c8d7-42b3-b221-122dbdc2f0f6"),
-                EmployeeCode = "NV-0004",
-                FullName = "Quách Công Thành",
-            },
-            new Employee
-            {
-                EmployeeId = Guid.Parse("05f187eb-fe12-4d3a-b30c-572cec9d33b6"),
-                EmployeeCode = "NV-0005",
-                FullName = "Lê Huy Hưng",
-            },
-            new Employee
-            {
-                EmployeeId = Guid.Parse("e8fdb695-8e7a-4acb-ba59-06c88dabfd58"),
-                EmployeeCode = "NV-0006",
-                FullName = "Nguyễn Văn Ngọc",
-            },
-            new Employee
-            {
-                EmployeeId = Guid.Parse("6aba8feb-c869-434d-a8ef-8842c0c97c6c"),
-                EmployeeCode = "NV-0007",
-                FullName = "Phạm Văn Biển",
-            },
-        };
+        public string connectionString = "Server=18.179.16.166;Port=3306;Database=MISA.AMIS.MF1234.NHNAM;uid=nvmanh;pwd =12345678";
+
         /// <summary>
         /// Lấy mã nhân viên mới
         /// </summary>
@@ -62,7 +26,21 @@ namespace MISA.AMIS.API.Controllers
         [HttpGet("NewEmployeeCode")]
         public IActionResult GetNewEmployeeCode()
         {
-            return StatusCode(StatusCodes.Status200OK, "NV-0010");
+            try
+            {
+                var mySqlConnection = new MySqlConnection(connectionString);
+                var sqlCommand = "SELECT EmployeeCode FROM Employee ORDER BY EmployeeCode DESC";
+                string emptCode = mySqlConnection.QueryFirstOrDefault<String>(sqlCommand).ToString();
+                string Code = emptCode.Replace("NV-", "");
+                string newEmployeeCode = "NV-" + (int.Parse(Code) + 1);
+                return StatusCode(StatusCodes.Status200OK, newEmployeeCode);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+            
         }
 
         /// <summary>
@@ -74,36 +52,108 @@ namespace MISA.AMIS.API.Controllers
         [HttpGet("{EmployeeId}")]
         public IActionResult GetEmployeeById([FromRoute] Guid EmployeeId)
         {
-            Employee employee = new Employee();
-            foreach( Employee item in Employees)
+            try
             {
-                if(item.EmployeeId == EmployeeId)
+                // Khởi tạo Employee
+                var employee = new Employee();
+
+                //Chuẩn bị tên Stored Procedure
+                string storedProcedureName = "Proc_Employee_GetById";
+
+                // Chuẩn bị tham số đầu vào cho proc
+                var parameters = new DynamicParameters();
+                parameters.Add("p_EmployeeId", EmployeeId);
+
+
+                // Khởi taho kết nối db
+
+                using (var mySqlConnection = new MySqlConnection(connectionString))
                 {
-                    employee = item;
+                    // kết nối db
+                    mySqlConnection.Open();
+
+                    // Gọi proc 
+
+                    employee = mySqlConnection.QueryFirstOrDefault<Employee>(storedProcedureName, parameters, commandType: System.Data.CommandType.StoredProcedure);
+
+                    // đóng kết nối db
+                    mySqlConnection.Close();
                 }
+
+                return StatusCode(StatusCodes.Status200OK, employee);
             }
-            return StatusCode(StatusCodes.Status200OK, employee);
+            catch (Exception ex)
+            {
+                // Bắn lỗi
+                Console.WriteLine(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
+
         /// <summary>
         /// API lấy danh sách nhân viên lọc theo trang
         /// </summary>
         /// <returns>Danh sách nhân viên</returns
         /// CreatedBy: NHNam (16/1/2023)
-        [HttpGet("EmployeeFilter")]
-        public PagingResult GetEmployeesByFilterAndPaging(
+        [HttpGet("Filter")]
+        public IActionResult GetEmployeesByFilter(
             [FromQuery] string? keyword,
-
-            [FromQuery] Guid? departmentId,
 
             [FromQuery] int pageSize = 10,
 
             [FromQuery] int pageNumber = 1)
         {
-            return new PagingResult
+            try
             {
-                Total = 0,
-                Data = Employees,
-            };
+                // Khởi tạo kêt quả trả về
+                var result = new PagingResult();
+
+                //Chuẩn bị tên Stored Procedure
+                string storedProcedureName = "Proc_Employee_GetByFilter";
+
+                // Chuẩn bị tham số đầu vào cho proc
+                var parameters = new DynamicParameters();
+                parameters.Add("p_PageNumber", pageNumber);
+                parameters.Add("p_PageSize", pageSize);
+                parameters.Add("p_TextSearch", keyword);
+
+                // Khởi taho kết nối db
+                
+                using (var mySqlConnection = new MySqlConnection(connectionString))
+                {
+                    // kết nối db
+                    mySqlConnection.Open();
+
+                    // Gọi proc 
+
+                    var multy = mySqlConnection.QueryMultiple(storedProcedureName, parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    // lấy kết quả gán cho result
+                    result.Data = multy.Read<Employee>().ToList();
+                    result.CurrentPageRecords = result.Data.Count;
+                    result.CurrentPage = pageNumber;
+                    // TÍnh toán số bản ghi, tổng số trang
+                    result.TotalRecord = mySqlConnection.Query("Proc_Employee_GetAll", commandType: System.Data.CommandType.StoredProcedure).ToList().Count();
+                    if (result.TotalRecord % pageSize == 0)
+                    {
+                        result.TotalPage = result.TotalRecord / pageSize;
+                    }
+                    else
+                    {
+                        result.TotalPage = (result.TotalRecord / pageSize) + 1;
+                    }
+                    // đóng kết nối db
+                    mySqlConnection.Close();
+                }
+
+                return StatusCode(StatusCodes.Status200OK, result);
+            }
+            catch(Exception ex)
+            {
+                // Bắn lỗi
+                Console.WriteLine(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+            
         }
 
         /// <summary>
@@ -115,8 +165,50 @@ namespace MISA.AMIS.API.Controllers
         [HttpPost]
         public IActionResult InsertEmployee([FromBody] Employee employee)
         {
-            Employees.Add(employee);
-            return StatusCode(StatusCodes.Status201Created, employee);
+            try{
+                // Validate
+                //if (ModelState.IsValid)
+                //{
+
+                //}
+                // Thêm dữ liệu cần thiệt
+                employee.CreatedDate= DateTime.Now;
+                employee.ModifiedDate= DateTime.Now;
+                employee.EmployeeId = Guid.NewGuid();
+
+                // proc
+                string procName = "Proc_Employee_Insert";
+                
+                //Chuẩn bị tham số đầu vào
+                var parameters = new DynamicParameters();
+                foreach (var prop in employee.GetType().GetProperties())
+                {
+                    parameters.Add("p_"+prop.Name, prop.GetValue(employee, null));
+                }
+                // Khởi tạo kết nối DB
+                using(var mySqlConnection = new MySqlConnection(connectionString))
+                {
+                    // Kết nối
+                    mySqlConnection.Open();
+
+                    // Gọi proc
+                    var numberOfRowsAffect = mySqlConnection.Execute(procName, parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    if(numberOfRowsAffect > 0)
+                    {
+                        return StatusCode(StatusCodes.Status201Created, employee);
+                    }
+                    else
+                    {
+                        return StatusCode(StatusCodes.Status500InternalServerError);
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+            
         }
 
         /// <summary>
@@ -130,15 +222,55 @@ namespace MISA.AMIS.API.Controllers
         [HttpPut("{EmployeeId}")]
         public IActionResult UpdateEmployee([FromRoute] Guid EmployeeId, [FromBody] Employee employee)
         {
-            foreach( Employee item in Employees)
+            try
             {
-                if(item.EmployeeId == EmployeeId)
+                // Validate
+
+                //Thêm dữ liệu
+                employee.ModifiedDate = DateTime.Now;
+                employee.EmployeeId = EmployeeId;
+                // proc
+                string procName = "Proc_Employee_Update";
+
+                //Chuẩn bị tham số đầu vào
+                var parameters = new DynamicParameters();
+                foreach (var prop in employee.GetType().GetProperties())
                 {
-                    item.EmployeeCode = employee.EmployeeCode;
-                    item.FullName= employee.FullName;
+                    parameters.Add("p_" + prop.Name, prop.GetValue(employee, null));
+                }
+                // Khởi tạo kết nối DB
+                using (var mySqlConnection = new MySqlConnection(connectionString))
+                {
+                    // Kết nối
+                    mySqlConnection.Open();
+
+                    // Tìm Employee theo id xem có tồn tại
+                    int employeeSearch = mySqlConnection.Query("Proc_Employee_GetById", parameters, commandType: System.Data.CommandType.StoredProcedure).ToList().Count();
+                    if(employeeSearch == 0)
+                    {
+                        return StatusCode(StatusCodes.Status400BadRequest);
+                    }
+                    else
+                    {
+                        // Gọi proc
+                        var numberOfRowsAffect = mySqlConnection.Execute(procName, parameters, commandType: System.Data.CommandType.StoredProcedure);
+                        if (numberOfRowsAffect > 0)
+                        {
+                            return StatusCode(StatusCodes.Status200OK, employee);
+                        }
+                        else
+                        {
+                            return StatusCode(StatusCodes.Status500InternalServerError);
+                        }
+                    }
+                    
                 }
             }
-            return StatusCode(StatusCodes.Status200OK, Employees);
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
 
         /// <summary>
@@ -150,16 +282,42 @@ namespace MISA.AMIS.API.Controllers
         [HttpDelete("{EmployeeId}")]
         public IActionResult DeleteEmployee([FromRoute] Guid EmployeeId)
         {
-            foreach (Employee item in Employees)
+
+            try
             {
-                if (item.EmployeeId == EmployeeId)
+                int result;
+
+                //Chuẩn bị tên Stored Procedure
+                string storedProcedureName = "Proc_Employee_Delete";
+
+                // Chuẩn bị tham số đầu vào cho proc
+                var parameters = new DynamicParameters();
+                parameters.Add("p_EmployeeId", EmployeeId);
+                
+
+                // Khởi taho kết nối db
+
+                using (var mySqlConnection = new MySqlConnection(connectionString))
                 {
-                    Employees.Remove(item);
-                    return StatusCode(StatusCodes.Status200OK, Employees);
+                    // kết nối db
+                    mySqlConnection.Open();
+
+                    // Gọi proc 
+
+                    var sqlDel = mySqlConnection.Execute(storedProcedureName, parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    result = sqlDel;
+                    // đóng kết nối db
+                    mySqlConnection.Close();
                 }
 
+                return StatusCode(StatusCodes.Status200OK, result);
             }
-            return StatusCode(StatusCodes.Status200OK, Employees);
+            catch (Exception ex)
+            {
+                // Bắn lỗi
+                Console.WriteLine(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
 
 

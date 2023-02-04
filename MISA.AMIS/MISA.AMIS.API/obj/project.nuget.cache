@@ -1,15 +1,18 @@
 {
   "version": 2,
-  "dgSpecHash": "CjuVhn7GHt3MoZxbDBBN71k1RWXKnPQbRvcQNhSVyeVPB25RPez7soYjKLaEeIi5WP69c74SMGbkkALEhjV2dw==",
+  "dgSpecHash": "jD76OkWJC31BgJV31abS5tOXVCPw/h/l4DYvDeI92TeQhjBzQ9RghWnZgLDIlg1dhB6CiWA/w+zZ5YjB/naT7w==",
   "success": true,
   "projectFilePath": "D:\\MF1234\\WebFresher\\MISA.AMIS\\MISA.AMIS.API\\MISA.AMIS.API.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\hii\\.nuget\\packages\\dapper\\2.0.123\\dapper.2.0.123.nupkg.sha512",
     "C:\\Users\\hii\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
     "C:\\Users\\hii\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
+    "C:\\Users\\hii\\.nuget\\packages\\mysqlconnector\\2.2.5\\mysqlconnector.2.2.5.nupkg.sha512",
     "C:\\Users\\hii\\.nuget\\packages\\swashbuckle.aspnetcore\\6.2.3\\swashbuckle.aspnetcore.6.2.3.nupkg.sha512",
     "C:\\Users\\hii\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.2.3\\swashbuckle.aspnetcore.swagger.6.2.3.nupkg.sha512",
     "C:\\Users\\hii\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.2.3\\swashbuckle.aspnetcore.swaggergen.6.2.3.nupkg.sha512",
-    "C:\\Users\\hii\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\6.2.3\\swashbuckle.aspnetcore.swaggerui.6.2.3.nupkg.sha512"
+    "C:\\Users\\hii\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\6.2.3\\swashbuckle.aspnetcore.swaggerui.6.2.3.nupkg.sha512",
+    "C:\\Users\\hii\\.nuget\\packages\\system.componentmodel.annotations\\5.0.0\\system.componentmodel.annotations.5.0.0.nupkg.sha512"
   ],
   "logs": []
 }

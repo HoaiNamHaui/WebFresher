@@ -6,9 +6,7 @@
     </div>
     <div class="content-data">
       <div class="functions">
-        <div class="functions-left">
-          Thực hiện hàng loạt
-        </div>
+        <div class="functions-left">Thực hiện hàng loạt</div>
         <div class="functions-right">
           <div class="search-box">
             <input
@@ -66,7 +64,7 @@
             </td>
             <td @dblclick="handleEditClick">{{ employee.EmployeeCode }}</td>
             <td @dblclick="handleEditClick">{{ employee.FullName }}</td>
-            <td class="align-center">
+            <td class="align-center" @dblclick="handleEditClick">
               {{ formatDate(employee.DateOfBirth) }}
             </td>
             <td @dblclick="handleEditClick">{{ employee.GenderName }}</td>
@@ -188,34 +186,35 @@ export default {
       directives: {
         debounce: vue3Debounce({ lock: true }),
       },
-      isShowChangeMessage: false,
-      isShowToast: false,
-      isShowMessageError: false,
-      errForm: "",
-      employeeSelected: {},
-      isShowDialog: false,
-      isShowFooterCbb: false,
-      employees: null,
-      pageSize: 10,
-      pageNumber: 1,
-      txtSearch: "",
-      totalPage: 0,
-      totalRecord: 0,
+      isShowChangeMessage: false, // ẩn hiện thông báo thay đổi dữ liệu
+      isShowToast: false,  // ẩn hiện toast message
+      isShowMessageError: false, // ẩn hiện thông báo lỗi
+      errForm: "",    // message validate
+      employeeSelected: {},   // employee được chọn
+      isShowDialog: false,   // ẩn hiện form thêm mới
+      isShowFooterCbb: false,  // chiện chọn số bản ghi
+      employees: null, // danh sách nhân viên
+      pageSize: 10,  // số lượng bản ghi trên 1 trang
+      pageNumber: 1,  // trang hiện tại
+      txtSearch: "",  // keyword lọc
+      totalPage: 0,  // tổng số trang
+      totalRecord: 0,  // tổng số bản ghi
       page: 1,
-      newEmployeeCode: null,
-      isSuccess: true,
-      btnMenuContext: null,
-      isActive: false,
-      confirmDelete: false,
-      message: "",
-      employeeIdSelected: null,
-      isAcceptSave: false,
-      rowSelected: [],
-      isCheckAll: false,
-      debounce: null,
+      newEmployeeCode: null,   //mã nhân viên mới
+      isSuccess: true,    // thành công
+      btnMenuContext: null, // menu context
+      isActive: false,  //checkbox
+      confirmDelete: false, // xác nhận xóa
+      message: "",   // thông báo
+      employeeIdSelected: null,  //id của employee đc chọn
+      isAcceptSave: false,  // xác nhận lưu
+      rowSelected: [],  // danh sách employee được chọn 
+      isCheckAll: false,  // check all
+      debounce: null,  // debounce
     };
   },
   watch: {
+    // theo dõi keyword lọc
     txtSearch: function () {
       this.filterEmployee();
     },
@@ -258,7 +257,6 @@ export default {
       } else {
         this.isCheckAll = false;
       }
-      console.log(this.rowSelected);
     },
     /**
      * Xác nhận đóng hoặc cất dữ liệu
@@ -380,7 +378,7 @@ export default {
       var me = this;
       var url =
         MISAapi.employee.filter +
-        `pageSize=${this.pageSize}&pageNumber=${this.pageNumber}&employeeFilter=${this.txtSearch}`;
+        `pageSize=${this.pageSize}&pageNumber=${this.pageNumber}&keyword=${this.txtSearch}`;
       axios
         .get(url)
         .then(function (res) {
@@ -402,6 +400,7 @@ export default {
       this.pageNumber = pageNum;
       this.rowSelected = [];
       this.isCheckAll = false;
+      this.txtSearch = "",
       this.filterEmployee();
     },
     /**

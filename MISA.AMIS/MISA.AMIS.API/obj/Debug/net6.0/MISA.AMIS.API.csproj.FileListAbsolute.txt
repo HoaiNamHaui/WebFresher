@@ -30,3 +30,5 @@ D:\MF1234\WebFresher\MISA.AMIS\MISA.AMIS.API\obj\Debug\net6.0\refint\MISA.AMIS.A
 D:\MF1234\WebFresher\MISA.AMIS\MISA.AMIS.API\obj\Debug\net6.0\MISA.AMIS.API.pdb
 D:\MF1234\WebFresher\MISA.AMIS\MISA.AMIS.API\obj\Debug\net6.0\MISA.AMIS.API.genruntimeconfig.cache
 D:\MF1234\WebFresher\MISA.AMIS\MISA.AMIS.API\obj\Debug\net6.0\ref\MISA.AMIS.API.dll
+D:\MF1234\WebFresher\MISA.AMIS\MISA.AMIS.API\bin\Debug\net6.0\Dapper.dll
+D:\MF1234\WebFresher\MISA.AMIS\MISA.AMIS.API\bin\Debug\net6.0\MySqlConnector.dll
