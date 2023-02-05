@@ -8,6 +8,7 @@ using MySqlConnector;
 using System.Collections.Generic;
 using System.Data.SqlTypes;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
 
 namespace MISA.AMIS.API.Controllers
@@ -29,7 +30,8 @@ namespace MISA.AMIS.API.Controllers
             try
             {
                 var mySqlConnection = new MySqlConnection(connectionString);
-                var sqlCommand = "SELECT EmployeeCode FROM Employee ORDER BY EmployeeCode DESC";
+                //var sqlCommand = "SELECT EmployeeCode FROM Employee ORDER BY EmployeeCode DESC";
+                var sqlCommand = "SELECT MAX(EmployeeCode) FROM Employee";
                 string emptCode = mySqlConnection.QueryFirstOrDefault<String>(sqlCommand).ToString();
                 string Code = emptCode.Replace("NV-", "");
                 string newEmployeeCode = "NV-" + (int.Parse(Code) + 1);
@@ -37,8 +39,7 @@ namespace MISA.AMIS.API.Controllers
             }
             catch(Exception ex)
             {
-                Console.WriteLine(ex.ToString());
-                return StatusCode(StatusCodes.Status500InternalServerError);
+                return HandleException(ex);
             }
             
         }
@@ -85,8 +86,7 @@ namespace MISA.AMIS.API.Controllers
             catch (Exception ex)
             {
                 // Bắn lỗi
-                Console.WriteLine(ex.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError);
+                return HandleException(ex);
             }
         }
 
@@ -150,8 +150,7 @@ namespace MISA.AMIS.API.Controllers
             catch(Exception ex)
             {
                 // Bắn lỗi
-                Console.WriteLine(ex.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError);
+                return HandleException(ex);
             }
             
         }
@@ -167,10 +166,87 @@ namespace MISA.AMIS.API.Controllers
         {
             try{
                 // Validate
-                //if (ModelState.IsValid)
-                //{
+                // 1. Mã nhân viên
+                // Bỏ trống
+                if (string.IsNullOrEmpty(employee.EmployeeCode))
+                {
+                    var res = new
+                    {
+                        devMsg = "Dữ liệu đầu vào không hợp lệ",
+                        userMsg = "Mã nhân viên không được bỏ trống"
+                    };
+                    return StatusCode(400, res);
+                }
 
-                //}
+                // 2. Tên nhân viên
+                if (string.IsNullOrEmpty(employee.FullName))
+                {
+                    var res = new
+                    {
+                        devMsg = "Dữ liệu đầu vào không hợp lệ",
+                        userMsg = "Tên nhân viên không được bỏ trống"
+                    };
+                    return StatusCode(400, res);
+                }
+
+                // 3. Phòng ban
+                if (string.IsNullOrEmpty(employee.DepartmentName))
+                {
+                    var res = new
+                    {
+                        devMsg = "Dữ liệu đầu vào không hợp lệ",
+                        userMsg = "Phòng ban không được bỏ trống"
+                    };
+                    return StatusCode(400, res);
+                }
+
+                // 4.Tuổi trên 18
+                if (employee.DateOfBirth != null)
+                {
+                    DateTime now = DateTime.Now;
+
+                    if (now.Year - employee.DateOfBirth.Value.Year < 18)
+                    {
+                        var res = new
+                        {
+                            devMsg = "Dữ liệu đầu vào không hợp lệ",
+                            userMsg = "Tuổi nhân viên phải trên 18"
+                        };
+                        return StatusCode(400, res);
+                    }
+
+                }
+
+                // 5. Số điện thoại không đúng định dạng
+                if (!string.IsNullOrEmpty(employee.PhoneNumber))
+                {
+                    string motif = @"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$";
+                    if (!Regex.IsMatch(employee.PhoneNumber.Trim(), motif))
+                    {
+                        var res = new
+                        {
+                            devMsg = "Dữ liệu đầu vào không hợp lệ",
+                            userMsg = "Số điện thoại không đúng định dạng"
+                        };
+                        return StatusCode(400, res);
+                    }
+                }
+
+                // 6. Email không đúng định dạng
+                if (!string.IsNullOrEmpty(employee.Email))
+                {
+                    string motif = @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$";
+                    if (!Regex.IsMatch(employee.Email.Trim(), motif))
+                    {
+                        var res = new
+                        {
+                            devMsg = "Dữ liệu đầu vào không hợp lệ",
+                            userMsg = "Email không đúng định dạng"
+                        };
+                        return StatusCode(400, res);
+                    }
+                }
+
                 // Thêm dữ liệu cần thiệt
                 employee.CreatedDate= DateTime.Now;
                 employee.ModifiedDate= DateTime.Now;
@@ -205,8 +281,7 @@ namespace MISA.AMIS.API.Controllers
             }
             catch(Exception ex)
             {
-                Console.WriteLine(ex.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError);
+                return HandleException(ex);
             }
             
         }
@@ -225,7 +300,86 @@ namespace MISA.AMIS.API.Controllers
             try
             {
                 // Validate
+                // 1. Mã nhân viên
+                // Bỏ trống
+                if (string.IsNullOrEmpty(employee.EmployeeCode.Trim()))
+                {
+                    var res = new
+                    {
+                        devMsg = "Dữ liệu đầu vào không hợp lệ",
+                        userMsg = "Mã nhân viên không được bỏ trống"
+                    };
+                    return StatusCode(400, res);
+                }
 
+                // 2. Tên nhân viên
+                if (string.IsNullOrEmpty(employee.FullName.Trim()))
+                {
+                    var res = new
+                    {
+                        devMsg = "Dữ liệu đầu vào không hợp lệ",
+                        userMsg = "Tên nhân viên không được bỏ trống"
+                    };
+                    return StatusCode(400, res);
+                }
+
+                // 3. Phòng ban
+                if (string.IsNullOrEmpty(employee.DepartmentName.Trim()))
+                {
+                    var res = new
+                    {
+                        devMsg = "Dữ liệu đầu vào không hợp lệ",
+                        userMsg = "Phòng ban không được bỏ trống"
+                    };
+                    return StatusCode(400, res);
+                }
+
+                // 4.Tuổi trên 18
+                if (employee.DateOfBirth != null)
+                {
+                    DateTime now = DateTime.Now;
+
+                    if (now.Year - employee.DateOfBirth.Value.Year < 18)
+                    {
+                        var res = new
+                        {
+                            devMsg = "Dữ liệu đầu vào không hợp lệ",
+                            userMsg = "Tuổi nhân viên phải trên 18"
+                        };
+                        return StatusCode(400, res);
+                    }
+
+                }
+
+                // 5. Số điện thoại không đúng định dạng
+                if (!string.IsNullOrEmpty(employee.PhoneNumber.Trim()))
+                {
+                    string motif = @"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$";
+                    if (!Regex.IsMatch(employee.PhoneNumber.Trim(), motif))
+                    {
+                        var res = new
+                        {
+                            devMsg = "Dữ liệu đầu vào không hợp lệ",
+                            userMsg = "Số điện thoại không đúng định dạng"
+                        };
+                        return StatusCode(400, res);
+                    }
+                }
+
+                // 6. Email không đúng định dạng
+                if (!string.IsNullOrEmpty(employee.Email.Trim()))
+                {
+                    string motif = @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$";
+                    if (!Regex.IsMatch(employee.Email.Trim(), motif))
+                    {
+                        var res = new
+                        {
+                            devMsg = "Dữ liệu đầu vào không hợp lệ",
+                            userMsg = "Email không đúng định dạng"
+                        };
+                        return StatusCode(400, res);
+                    }
+                }
                 //Thêm dữ liệu
                 employee.ModifiedDate = DateTime.Now;
                 employee.EmployeeId = EmployeeId;
@@ -268,8 +422,7 @@ namespace MISA.AMIS.API.Controllers
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError);
+                return HandleException(ex);
             }
         }
 
@@ -315,11 +468,24 @@ namespace MISA.AMIS.API.Controllers
             catch (Exception ex)
             {
                 // Bắn lỗi
-                Console.WriteLine(ex.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError);
+                return HandleException(ex);
             }
         }
 
 
+        /// <summary>
+        /// Xử lý ngoại lệ trả về lỗi
+        /// </summary>
+        /// <param name="ex">ngoại lệ</param>
+        /// <returns>devMsg và userMsg</returns>
+        private IActionResult HandleException(Exception ex)
+        {
+            var res = new
+                {
+                    devMsg = ex.Message,
+                    userMsg = "Có lỗi xảy ra vui lòng liên hệ MISA để được trợ giúp"
+                };
+                return StatusCode(StatusCodes.Status500InternalServerError, res);
+        }
     }
 }

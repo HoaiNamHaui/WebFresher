@@ -41,7 +41,7 @@ namespace MISA.AMIS.API.Entities
         /// <summary>
         /// Tên giới tính
         /// </summary>
-        public string? GenderName { get; set; }
+        public string GenderName { get; set; }
 
         /// <summary>
         /// Khóa ngoại
@@ -52,13 +52,13 @@ namespace MISA.AMIS.API.Entities
         /// <summary>
         /// Tên phòng ban
         /// </summary>
-        public string? DepartmentName { get; set; }
+        public string DepartmentName { get; set; }
 
         /// <summary>
         /// Số CMND
         /// </summary>
         /// 
-        public string? IdentityNumber { get; set; }
+        public string IdentityNumber { get; set; }
         
         /// <summary>
         /// Ngày cấp
@@ -68,47 +68,47 @@ namespace MISA.AMIS.API.Entities
         /// <summary>
         /// Nơi cấp
         /// </summary>
-        public string? IdentityPlace { get; set; }
+        public string IdentityPlace { get; set; }
         
         /// <summary>
         /// Vị trí
         /// </summary>
-        public string? PositionName { get; set; }
+        public string PositionName { get; set; }
         
         /// <summary>
         /// Địa chỉ
         /// </summary>
-        public string? Address { get; set; }
+        public string Address { get; set; }
         
         /// <summary>
         /// Điện thoại di động
         /// </summary>
-        public string? PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; }
         
         /// <summary>
         /// Điện thoại cố định
         /// </summary>
-        public string? TelephoneNumber { get; set; }
+        public string TelephoneNumber { get; set; }
         
         /// <summary>
         /// Email
         /// </summary>
-        public string? Email { get; set; }
+        public string Email { get; set; }
         
         /// <summary>
         /// Số tài khoản ngân hàng
         /// </summary>
-        public string? BankAccount { get; set; }
+        public string BankAccount { get; set; }
         
         /// <summary>
         /// Tên ngân hàng
         /// </summary>
-        public string? BankName { get; set; }
+        public string BankName { get; set; }
         
         /// <summary>
         /// Chi nhánh
         /// </summary>
-        public string? BankBranchName { get; set; }
+        public string BankBranchName { get; set; }
 
         /// <summary>
         /// Ngày tạo
@@ -118,12 +118,12 @@ namespace MISA.AMIS.API.Entities
         /// <summary>
         /// Người tạo
         /// </summary>
-        public string? CreatedBy { get; set; }
+        public string CreatedBy { get; set; }
 
         /// <summary>
         /// Người thay đổi cuối cùng
         /// </summary>
-        public string? ModifiedBy { get; set; }
+        public string ModifiedBy { get; set; }
 
         /// <summary>
         /// Ngày thay đổi gần nhất
