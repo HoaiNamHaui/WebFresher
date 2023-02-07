@@ -116,6 +116,7 @@ namespace MISA.AMIS.API.Controllers
                 parameters.Add("p_PageNumber", pageNumber);
                 parameters.Add("p_PageSize", pageSize);
                 parameters.Add("p_TextSearch", keyword);
+                parameters.Add("p_TotalRecord", direction: System.Data.ParameterDirection.Output);
 
                 // Khởi taho kết nối db
                 
@@ -132,7 +133,8 @@ namespace MISA.AMIS.API.Controllers
                     result.CurrentPageRecords = result.Data.Count;
                     result.CurrentPage = pageNumber;
                     // TÍnh toán số bản ghi, tổng số trang
-                    result.TotalRecord = mySqlConnection.Query("Proc_Employee_GetAll", commandType: System.Data.CommandType.StoredProcedure).ToList().Count();
+                    //result.TotalRecord = mySqlConnection.Query("Proc_Employee_GetAll", commandType: System.Data.CommandType.StoredProcedure).ToList().Count();
+                    result.TotalRecord = parameters.Get<int>("p_TotalRecord");
                     if (result.TotalRecord % pageSize == 0)
                     {
                         result.TotalPage = result.TotalRecord / pageSize;
@@ -190,7 +192,7 @@ namespace MISA.AMIS.API.Controllers
                 }
 
                 // 3. Phòng ban
-                if (string.IsNullOrEmpty(employee.DepartmentName))
+                if (employee.EmployeeId == null)
                 {
                     var res = new
                     {
@@ -247,7 +249,7 @@ namespace MISA.AMIS.API.Controllers
                     }
                 }
 
-                // Thêm dữ liệu cần thiệt
+                // Thêm dữ liệu cần thiết
                 employee.CreatedDate= DateTime.Now;
                 employee.ModifiedDate= DateTime.Now;
                 employee.EmployeeId = Guid.NewGuid();
@@ -324,7 +326,7 @@ namespace MISA.AMIS.API.Controllers
                 }
 
                 // 3. Phòng ban
-                if (string.IsNullOrEmpty(employee.DepartmentName.Trim()))
+                if (employee.DepartmentId == null)
                 {
                     var res = new
                     {

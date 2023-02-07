@@ -68,12 +68,12 @@
                     type="radio"
                     name="gender"
                     v-model="employee.Gender"
-                    value="0"
+                    :value="0"
                   />
                   Nam
                   <input
                     v-model="employee.Gender"
-                    value="1"
+                    :value="1"
                     class="m-l-30 m-r-10"
                     type="radio"
                     name="gender"
@@ -81,7 +81,7 @@
                   Nữ
                   <input
                     v-model="employee.Gender"
-                    value="2"
+                    :value="2"
                     class="m-l-30 m-r-10"
                     type="radio"
                     name="gender"
@@ -451,6 +451,26 @@ export default {
       this.employee.Gender = 0;
     }
   },
+  updated(){
+    switch(this.employee.Gender){
+      case 0:{
+        this.employee.GenderName = "Nam";
+        break;
+      }
+      case 1:{
+        this.employee.GenderName = "Nữ";
+        break;
+      }
+      case 2:{
+        this.employee.GenderName = "Chưa xác định";
+        break;
+      }
+      default:{
+        this.employee.GenderName = "Chưa xác định";
+        break;
+      }
+    }
+  }
 };
 </script>
 <style>

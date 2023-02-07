@@ -306,7 +306,7 @@ export default {
       var me = this;
       setTimeout(function () {
         me.isShowToast = false;
-      }, 8000);
+      }, 7000);
     },
     /**
      * Lấy thông báo validate
@@ -477,7 +477,7 @@ export default {
   created() {
     //Lấy danh sách nhân viên, tìm kiếm
     this.filterEmployee();
-  },
+  }
 };
 /**
  * Phát hiện click ngoài để ẩn menu chức năng
