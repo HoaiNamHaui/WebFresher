@@ -12,3 +12,17 @@ D:\MF1234\WebFresher\KienTrucDaTang\MISA.AMIS\MISA.AMIS.Common\obj\Debug\net6.0\
 D:\MF1234\WebFresher\KienTrucDaTang\MISA.AMIS\MISA.AMIS.Common\obj\Debug\net6.0\refint\MISA.AMIS.Common.dll
 D:\MF1234\WebFresher\KienTrucDaTang\MISA.AMIS\MISA.AMIS.Common\obj\Debug\net6.0\MISA.AMIS.Common.pdb
 D:\MF1234\WebFresher\KienTrucDaTang\MISA.AMIS\MISA.AMIS.Common\obj\Debug\net6.0\ref\MISA.AMIS.Common.dll
+D:\MF1234\WebFresher\Backend\MISA.AMIS\MISA.AMIS.Common\bin\Debug\net6.0\MISA.AMIS.Common.deps.json
+D:\MF1234\WebFresher\Backend\MISA.AMIS\MISA.AMIS.Common\bin\Debug\net6.0\MISA.AMIS.Common.dll
+D:\MF1234\WebFresher\Backend\MISA.AMIS\MISA.AMIS.Common\bin\Debug\net6.0\MISA.AMIS.Common.pdb
+D:\MF1234\WebFresher\Backend\MISA.AMIS\MISA.AMIS.Common\obj\Debug\net6.0\MISA.AMIS.Common.csproj.AssemblyReference.cache
+D:\MF1234\WebFresher\Backend\MISA.AMIS\MISA.AMIS.Common\obj\Debug\net6.0\MISA.AMIS.Common.Resource.resources
+D:\MF1234\WebFresher\Backend\MISA.AMIS\MISA.AMIS.Common\obj\Debug\net6.0\MISA.AMIS.Common.csproj.GenerateResource.cache
+D:\MF1234\WebFresher\Backend\MISA.AMIS\MISA.AMIS.Common\obj\Debug\net6.0\MISA.AMIS.Common.GeneratedMSBuildEditorConfig.editorconfig
+D:\MF1234\WebFresher\Backend\MISA.AMIS\MISA.AMIS.Common\obj\Debug\net6.0\MISA.AMIS.Common.AssemblyInfoInputs.cache
+D:\MF1234\WebFresher\Backend\MISA.AMIS\MISA.AMIS.Common\obj\Debug\net6.0\MISA.AMIS.Common.AssemblyInfo.cs
+D:\MF1234\WebFresher\Backend\MISA.AMIS\MISA.AMIS.Common\obj\Debug\net6.0\MISA.AMIS.Common.csproj.CoreCompileInputs.cache
+D:\MF1234\WebFresher\Backend\MISA.AMIS\MISA.AMIS.Common\obj\Debug\net6.0\MISA.AMIS.Common.dll
+D:\MF1234\WebFresher\Backend\MISA.AMIS\MISA.AMIS.Common\obj\Debug\net6.0\refint\MISA.AMIS.Common.dll
+D:\MF1234\WebFresher\Backend\MISA.AMIS\MISA.AMIS.Common\obj\Debug\net6.0\MISA.AMIS.Common.pdb
+D:\MF1234\WebFresher\Backend\MISA.AMIS\MISA.AMIS.Common\obj\Debug\net6.0\ref\MISA.AMIS.Common.dll

@@ -26,6 +26,9 @@ builder.Services.AddCors(p => p.AddPolicy("corspolicy", build => //1
     build.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
 }));
 
+builder.Services.AddControllers().AddJsonOptions(opt => opt.JsonSerializerOptions.PropertyNamingPolicy = null); // chuyển pascal case
+
+
 //Tắt validate mặc định
 builder.Services.Configure<ApiBehaviorOptions>(options =>
 {

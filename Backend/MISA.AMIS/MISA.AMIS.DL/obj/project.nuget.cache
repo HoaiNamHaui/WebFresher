@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "gUN4SSfKqUu5w9SRbkDVRlaKiqYjrF6o2srdGAEd1QpgT59z5ZwpwqFLbsVu2I0TXwy7jkSEoIzYrpwWvXuDHw==",
+  "dgSpecHash": "KSt2pzV3u5WZmcO1WvdB0oXQ3Jf00Usr6NC3EgUo1/AK/2Wq9uw5SqAeO+rdo7sM295Ym9nzjMK2I5AJDnZYww==",
   "success": true,
-  "projectFilePath": "D:\\MF1234\\WebFresher\\KienTrucDaTang\\MISA.AMIS\\MISA.AMIS.DL\\MISA.AMIS.DL.csproj",
+  "projectFilePath": "D:\\MF1234\\WebFresher\\Backend\\MISA.AMIS\\MISA.AMIS.DL\\MISA.AMIS.DL.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\hii\\.nuget\\packages\\dapper\\2.0.123\\dapper.2.0.123.nupkg.sha512",
     "C:\\Users\\hii\\.nuget\\packages\\mysqlconnector\\2.2.5\\mysqlconnector.2.2.5.nupkg.sha512"

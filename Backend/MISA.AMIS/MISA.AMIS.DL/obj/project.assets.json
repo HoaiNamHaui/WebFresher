@@ -105,11 +105,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\MF1234\\WebFresher\\KienTrucDaTang\\MISA.AMIS\\MISA.AMIS.DL\\MISA.AMIS.DL.csproj",
+      "projectUniqueName": "D:\\MF1234\\WebFresher\\Backend\\MISA.AMIS\\MISA.AMIS.DL\\MISA.AMIS.DL.csproj",
       "projectName": "MISA.AMIS.DL",
-      "projectPath": "D:\\MF1234\\WebFresher\\KienTrucDaTang\\MISA.AMIS\\MISA.AMIS.DL\\MISA.AMIS.DL.csproj",
+      "projectPath": "D:\\MF1234\\WebFresher\\Backend\\MISA.AMIS\\MISA.AMIS.DL\\MISA.AMIS.DL.csproj",
       "packagesPath": "C:\\Users\\hii\\.nuget\\packages\\",
-      "outputPath": "D:\\MF1234\\WebFresher\\KienTrucDaTang\\MISA.AMIS\\MISA.AMIS.DL\\obj\\",
+      "outputPath": "D:\\MF1234\\WebFresher\\Backend\\MISA.AMIS\\MISA.AMIS.DL\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\hii\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -126,8 +126,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "D:\\MF1234\\WebFresher\\KienTrucDaTang\\MISA.AMIS\\MISA.AMIS.Common\\MISA.AMIS.Common.csproj": {
-              "projectPath": "D:\\MF1234\\WebFresher\\KienTrucDaTang\\MISA.AMIS\\MISA.AMIS.Common\\MISA.AMIS.Common.csproj"
+            "D:\\MF1234\\WebFresher\\Backend\\MISA.AMIS\\MISA.AMIS.Common\\MISA.AMIS.Common.csproj": {
+              "projectPath": "D:\\MF1234\\WebFresher\\Backend\\MISA.AMIS\\MISA.AMIS.Common\\MISA.AMIS.Common.csproj"
             }
           }
         }

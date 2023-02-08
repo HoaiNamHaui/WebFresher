@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\MF1234\\WebFresher\\KienTrucDaTang\\MISA.AMIS\\MISA.AMIS.Common\\MISA.AMIS.Common.csproj",
+      "projectUniqueName": "D:\\MF1234\\WebFresher\\Backend\\MISA.AMIS\\MISA.AMIS.Common\\MISA.AMIS.Common.csproj",
       "projectName": "MISA.AMIS.Common",
-      "projectPath": "D:\\MF1234\\WebFresher\\KienTrucDaTang\\MISA.AMIS\\MISA.AMIS.Common\\MISA.AMIS.Common.csproj",
+      "projectPath": "D:\\MF1234\\WebFresher\\Backend\\MISA.AMIS\\MISA.AMIS.Common\\MISA.AMIS.Common.csproj",
       "packagesPath": "C:\\Users\\hii\\.nuget\\packages\\",
-      "outputPath": "D:\\MF1234\\WebFresher\\KienTrucDaTang\\MISA.AMIS\\MISA.AMIS.Common\\obj\\",
+      "outputPath": "D:\\MF1234\\WebFresher\\Backend\\MISA.AMIS\\MISA.AMIS.Common\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\hii\\AppData\\Roaming\\NuGet\\NuGet.Config",

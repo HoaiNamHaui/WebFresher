@@ -95,7 +95,8 @@ namespace MISA.AMIS.BL.EmployeeBL
             // Xử lí kết quả trả về
             if (validateResult.IsSuccess)
             {
-                var numberOfRowsAffect = _employeeDL.InsertEmployee(employee);
+                var numberOfAffectedRows = _employeeDL.InsertEmployee(employee);
+                return numberOfAffectedRows;
             }
             else
             {
