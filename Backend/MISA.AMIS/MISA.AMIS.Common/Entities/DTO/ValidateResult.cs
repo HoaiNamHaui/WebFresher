@@ -16,6 +16,7 @@ namespace MISA.AMIS.Common.Entities.DTO
         /// <summary>
         /// Danh sách lỗi
         /// </summary>
-        public List<string>? ListError { get; set; }
+        public List<string> ListError { get; set; } = new List<string>();
+
     }
 }

@@ -1,6 +1,8 @@
 ﻿using Dapper;
+using MISA.AMIS.Common.Constans;
 using MISA.AMIS.Common.Entities;
 using MISA.AMIS.Common.Entities.DTO;
+using MISA.AMIS.DL.BaseDL;
 using MySqlConnector;
 using System;
 using System.Collections.Generic;
@@ -17,12 +19,33 @@ namespace MISA.AMIS.DL.EmployeeDL
         /// Lấy mã nhân viên mới
         /// </summary>
         /// <returns>Mã nhân viên mới</returns>
-        public string GetNewEmployeeCode()
+        public string GetMaxEmployeeCode()
         {
             var sqlCommand = "SELECT MAX(EmployeeCode) FROM Employee";
             var mySqlConnection = new MySqlConnection(DatabaseContext.ConnectionString);
             string employeeCodeMax = mySqlConnection.QueryFirstOrDefault<String>(sqlCommand).ToString();
             return employeeCodeMax;
+        }
+
+        /// <summary>
+        /// Tìm mã nhân viên đã tồn tại
+        /// </summary>
+        /// <param name="employeeCode">mã nhân viên</param>
+        /// <returns>1 nếu đã tồn tại</returns>
+        public int GetByEmployeeCode(string employeeCode)
+        {
+            // Khởi tạo Employee
+            var result = 0;
+            string storedProcedureName = "Proc_Employee_GetByEmployeeCode";
+            var parameters = new DynamicParameters();
+            parameters.Add("p_EmployeeId", employeeCode);
+            using (var mySqlConnection = new MySqlConnection(DatabaseContext.ConnectionString))
+            {
+                mySqlConnection.Open();
+                result = mySqlConnection.Execute(storedProcedureName, parameters, commandType: System.Data.CommandType.StoredProcedure);
+                mySqlConnection.Close();
+            }
+            return result;
         }
 
         /// <summary>
@@ -84,7 +107,7 @@ namespace MISA.AMIS.DL.EmployeeDL
         public dynamic InsertEmployee(Employee employee)
         {
             // proc
-            string procName = "Proc_Employee_Insert";
+            string procName = String.Format(ProcedureName.Insert, typeof(Employee).Name);
 
             //Chuẩn bị tham số đầu vào
             var parameters = new DynamicParameters();

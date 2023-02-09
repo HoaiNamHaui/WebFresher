@@ -59,5 +59,95 @@ namespace MISA.AMIS.Common {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dữ liệu đầu vào không hợp lệ.
+        /// </summary>
+        public static string DataInvalid {
+            get {
+                return ResourceManager.GetString("DataInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tuổi nhân viên phải trên 18.
+        /// </summary>
+        public static string DateOfBirthInvalid {
+            get {
+                return ResourceManager.GetString("DateOfBirthInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Đơn vị không được bỏ trống.
+        /// </summary>
+        public static string DepartmentEmpty {
+            get {
+                return ResourceManager.GetString("DepartmentEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mã nhân viên đã tồn tại.
+        /// </summary>
+        public static string DuplicateCode {
+            get {
+                return ResourceManager.GetString("DuplicateCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Email không đúng định dạng.
+        /// </summary>
+        public static string EmailIncorrectFormat {
+            get {
+                return ResourceManager.GetString("EmailIncorrectFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mã nhân viên không được bỏ trống.
+        /// </summary>
+        public static string EmployeeCodeEmpty {
+            get {
+                return ResourceManager.GetString("EmployeeCodeEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tên nhân viên không được bỏ trống.
+        /// </summary>
+        public static string EmployeeNameEmpty {
+            get {
+                return ResourceManager.GetString("EmployeeNameEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Có lỗi xảy ra, vui lòng liên hệ MISA để được trợ giúp.
+        /// </summary>
+        public static string MISAError {
+            get {
+                return ResourceManager.GetString("MISAError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Số điện thoại không đúng định dạng.
+        /// </summary>
+        public static string PhoneNumberIncorrectFormat {
+            get {
+                return ResourceManager.GetString("PhoneNumberIncorrectFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lỗi khi gọi vào DL.
+        /// </summary>
+        public static string ServerError {
+            get {
+                return ResourceManager.GetString("ServerError", resourceCulture);
+            }
+        }
     }
 }

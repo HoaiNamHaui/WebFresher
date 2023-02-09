@@ -6,6 +6,7 @@ using MISA.AMIS.Common.Entities;
 using MySqlConnector;
 using System.Text.RegularExpressions;
 using MISA.AMIS.BL.EmployeeBL;
+using MISA.AMIS.BL.BaseBL;
 
 namespace MISA.AMIS.API.Controllers
 {

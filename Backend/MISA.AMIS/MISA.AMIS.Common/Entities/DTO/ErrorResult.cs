@@ -12,6 +12,11 @@ namespace MISA.AMIS.Common.Entities.DTO
     public class ErrorResult
     {
         /// <summary>
+        /// Mã lỗi
+        /// </summary>
+        public int ErrorCode { get; set; }
+        
+        /// <summary>
         /// Thông báo cho dev
         /// </summary>
         public string DevMsg { get; set; }
@@ -20,5 +25,15 @@ namespace MISA.AMIS.Common.Entities.DTO
         /// Thông báo cho người dùng
         /// </summary>
         public string UserMsg { get; set; }
+       
+        /// <summary>
+        /// Thông tin thêm
+        /// </summary>
+        public object MoreInfo { get; set; }
+
+        /// <summary>
+        /// Id log lỗi
+        /// </summary>
+        public string TraceId { get; set; }
     }
 }

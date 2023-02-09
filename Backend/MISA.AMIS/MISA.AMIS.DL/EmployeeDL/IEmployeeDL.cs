@@ -13,8 +13,14 @@ namespace MISA.AMIS.DL.EmployeeDL
         /// <summary>
         /// Lấy mã nhân viên mới
         /// </summary>
-        /// <returns>Mã nhân viên mới</returns>
-        string GetNewEmployeeCode();
+        /// <returns>Mã nhân viên lớn nhất</returns>
+        string GetMaxEmployeeCode();
+
+        /// <summary>
+        /// Lấy nhân viên theo mã nhân viên
+        /// </summary>
+        /// <returns>trả về 1 nếu tìm thấy</returns>
+        int GetByEmployeeCode(string employeeCode);
 
         /// <summary>
         /// Tìm nhân viên theo id

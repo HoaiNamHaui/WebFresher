@@ -1,0 +1,141 @@
+﻿using MISA.AMIS.Common;
+using MISA.AMIS.Common.Entities;
+using MISA.AMIS.Common.Entities.DTO;
+using MISA.AMIS.Common.Enums;
+using MISA.AMIS.DL.BaseDL;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using static Dapper.SqlMapper;
+
+namespace MISA.AMIS.BL.BaseBL
+{
+    public class BaseBL<T> : IBaseBL<T>
+    {
+        #region Field
+
+        private IBaseDL<T> _baseDL;
+
+        #endregion
+
+        #region Constructor
+
+        public BaseBL(IBaseDL<T> baseDL)
+        {
+            _baseDL = baseDL;
+        }
+
+        #endregion
+
+        #region Method
+
+        /// <summary>
+        /// Thêm mới 1 bản ghi
+        /// </summary>
+        /// <param name="record">bản ghi cần thêm</param>
+        /// <returns>trả về service result</returns>
+        public ServiceResult InsertRecord(T record)
+        {
+            // Validate
+            var validateResult = ValidateRequestData(record);
+            // Thất bại
+            if (!validateResult.IsSuccess)
+            {
+                return new ServiceResult
+                {
+                    IsSuccess = false,
+                    ErrorCode = ErrorCode.BAD_REQUEST,
+                    message = Resource.DataInvalid,
+                    Data = validateResult
+                };
+            }
+            // Thành công -> gọi vào DL để chạy Stored
+            record = AddProperties(record, true);
+            var numberOfAffectedRows = _baseDL.InsertRecord(record);
+
+            // Xử lý kết quả trả về
+            if(numberOfAffectedRows > 0)
+            {
+                return new ServiceResult { IsSuccess = true };
+            }
+            else
+            {
+                return new ServiceResult
+                {
+                    IsSuccess = false,
+                    ErrorCode = ErrorCode.INSERT_FAILED,
+                    message = Resource.ServerError
+                };
+            }
+        }
+
+        /// <summary>
+        /// Thêm dữ liệu chung
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="isInsert"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        protected T AddProperties(dynamic entity, bool isInsert = true, Guid? id = null)
+        {
+            entity.ModifiedDate = DateTime.Now;
+            if (isInsert)
+            {
+                entity.CreatedDate = DateTime.Now;
+                entity.GetType().GetProperty($"{typeof(T).Name}Id").SetValue(entity, Guid.NewGuid(), null);
+            }
+            else entity.GetType().GetProperty($"{typeof(T).Name}Id").SetValue(entity, id, null);
+
+            return entity;
+        }
+
+        /// <summary>
+        /// Validate chung
+        /// </summary>
+        /// <param name="record">Đối tượng thêm</param>
+        /// <returns>kết quả validate</returns>
+        protected virtual ValidateResult ValidateRequestData(T? record)
+        {
+            ValidateResult validateResult = new ValidateResult();
+            validateResult.IsSuccess = true;
+
+            // Lấy toàn bộ prop của Class Employee
+            var properties = typeof(Employee).GetProperties();
+
+            // Kiểm tra xem propertities nào có attribute là Require
+            foreach (var prop in properties)
+            {
+                var propName = prop.Name;
+                var propValue = prop.GetValue(record);
+                var requiredAttribute = (RequiredAttribute)prop.GetCustomAttributes(typeof(RequiredAttribute), false).FirstOrDefault();
+                if (requiredAttribute != null && string.IsNullOrEmpty(propValue.ToString()))
+                {
+                    validateResult.ListError.Add(requiredAttribute.ErrorMessage);
+                    validateResult.IsSuccess = false;
+                }
+            }
+            if(validateResult.ListError.Count > 0)
+            {
+                return validateResult;
+            }
+            // Validate riêng
+            var result = ValidateCustom(record);
+            if (!result.IsSuccess)
+            {
+                validateResult.IsSuccess = false;
+                validateResult.ListError = result.ListError;
+            }
+            return validateResult;
+        }
+
+        protected virtual ValidateResult ValidateCustom(T? record)
+        {
+            return new ValidateResult { IsSuccess = true };
+        }
+
+        #endregion
+    }
+}
