@@ -70,6 +70,86 @@ namespace MISA.AMIS.BL.BaseBL
                     message = Resource.ServerError
                 };
             }
+        }        
+        
+        /// <summary>
+        /// Sửa bản ghi
+        /// </summary>
+        /// <param name="record">bản ghi cần sửa</param>
+        /// <returns>trả về service result</returns>
+        public ServiceResult UpdateRecord(T record, Guid recordId)
+        {
+            // Validate
+            var validateResult = ValidateRequestData(record);
+            // Thất bại
+            if (!validateResult.IsSuccess)
+            {
+                return new ServiceResult
+                {
+                    IsSuccess = false,
+                    ErrorCode = ErrorCode.BAD_REQUEST,
+                    message = Resource.DataInvalid,
+                    Data = validateResult
+                };
+            }
+            // Thành công -> gọi vào DL để chạy Stored
+            record = AddProperties(record, false);
+            var numberOfAffectedRows = _baseDL.UpdateRecord(record, recordId);
+
+            // Xử lý kết quả trả về
+            if(numberOfAffectedRows > 0)
+            {
+                return new ServiceResult { IsSuccess = true };
+            }
+            else
+            {
+                return new ServiceResult
+                {
+                    IsSuccess = false,
+                    ErrorCode = ErrorCode.INSERT_FAILED,
+                    message = Resource.ServerError
+                };
+            }
+        }
+
+        /// <summary>
+        /// Lọc phân trang
+        /// </summary>
+        /// <returns>Danh sách</returns
+        public PagingResult<T> GetByFilter(int pageNumber, int pageSize, string keyword)
+        {
+            var result = new PagingResult<T>();
+            result = _baseDL.GetByFilter(pageNumber, pageSize, keyword);
+            // TÍnh toán số bản ghi, tổng số trang
+            if (result.TotalRecord % pageSize == 0)
+            {
+                result.TotalPage = result.TotalRecord / pageSize;
+            }
+            else
+            {
+                result.TotalPage = (result.TotalRecord / pageSize) + 1;
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Tìm bản ghi theo id
+        /// </summary>
+        /// <param name="id">Id bản ghi</param>
+        /// <returns>bản ghi tìm được</returns>
+        public T GetById(Guid id)
+        {
+            return _baseDL.GetById(id);
+        }
+
+        /// <summary>
+        /// Xóa 1 nhân viên
+        /// </summary>
+        /// <param name="EmployeeId">ID nhân viên</param>
+        /// <returns>1 nếu thành công</returns>
+        public int DeleteRecord(Guid id)
+        {
+            return _baseDL.DeleteRecord(id);
         }
 
         /// <summary>
@@ -131,6 +211,11 @@ namespace MISA.AMIS.BL.BaseBL
             return validateResult;
         }
 
+        /// <summary>
+        /// Validate riêng
+        /// </summary>
+        /// <param name="record">Bản ghi</param>
+        /// <returns>validate result</returns>
         protected virtual ValidateResult ValidateCustom(T? record)
         {
             return new ValidateResult { IsSuccess = true };

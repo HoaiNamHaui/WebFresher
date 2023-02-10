@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MISA.AMIS.Common.Entities;
 using MISA.AMIS.Common.Entities.DTO;
+using MISA.AMIS.DL.BaseDL;
 
 namespace MISA.AMIS.DL.EmployeeDL
 {
@@ -33,7 +34,7 @@ namespace MISA.AMIS.DL.EmployeeDL
         /// API lấy danh sách nhân viên lọc theo trang
         /// </summary>
         /// <returns>Danh sách nhân viên</returns
-        PagingResult GetEmployeesByFilter(int pageNumber, int pageSize, string keyword);
+        PagingResult<Employee> GetEmployeesByFilter(int pageNumber, int pageSize, string keyword);
 
         /// <summary>
         /// Thêm mới nhân viên

@@ -36,14 +36,14 @@ namespace MISA.AMIS.DL.EmployeeDL
         {
             // Khởi tạo Employee
             var result = 0;
-            string storedProcedureName = "Proc_Employee_GetByEmployeeCode";
+            string storedProcedureName = "Proc_Employee_GetByCode";
             var parameters = new DynamicParameters();
-            parameters.Add("p_EmployeeId", employeeCode);
+            parameters.Add("p_EmployeeCode", employeeCode);
             using (var mySqlConnection = new MySqlConnection(DatabaseContext.ConnectionString))
             {
-                mySqlConnection.Open();
+                //mySqlConnection.Open();
                 result = mySqlConnection.Execute(storedProcedureName, parameters, commandType: System.Data.CommandType.StoredProcedure);
-                mySqlConnection.Close();
+                //mySqlConnection.Close();
             }
             return result;
         }
@@ -73,9 +73,9 @@ namespace MISA.AMIS.DL.EmployeeDL
         /// API lấy danh sách nhân viên lọc theo trang
         /// </summary>
         /// <returns>Danh sách nhân viên</returns
-        public PagingResult GetEmployeesByFilter(int pageNumber, int pageSize, string keyword)
+        public PagingResult<Employee> GetEmployeesByFilter(int pageNumber, int pageSize, string keyword)
         {
-            var result = new PagingResult();
+            var result = new PagingResult<Employee>();
             string storedProcedureName = "Proc_Employee_GetByFilter";
             var parameters = new DynamicParameters();
             parameters.Add("p_PageNumber", pageNumber);
@@ -84,11 +84,9 @@ namespace MISA.AMIS.DL.EmployeeDL
             parameters.Add("p_TotalRecord", direction: System.Data.ParameterDirection.Output);
             using (var mySqlConnection = new MySqlConnection(DatabaseContext.ConnectionString))
             {
-                mySqlConnection.Open();
-                var multy = mySqlConnection.QueryMultiple(storedProcedureName, parameters, commandType: System.Data.CommandType.StoredProcedure);
-                result.Data = multy.Read<Employee>().ToList();
+                var multi = mySqlConnection.QueryMultiple(storedProcedureName, parameters, commandType: System.Data.CommandType.StoredProcedure);
+                result.Data = multi.Read<Employee>().ToList();
                 result.TotalRecord = parameters.Get<int>("p_TotalRecord");
-                mySqlConnection.Close();
                 result.CurrentPageRecords = result.Data.Count;
                 result.CurrentPage = pageNumber;
                 
@@ -107,7 +105,7 @@ namespace MISA.AMIS.DL.EmployeeDL
         public dynamic InsertEmployee(Employee employee)
         {
             // proc
-            string procName = String.Format(ProcedureName.Insert, typeof(Employee).Name);
+            string procName = String.Format(ProcedureName.Insert, typeof(Employee).Name, "");
 
             //Chuẩn bị tham số đầu vào
             var parameters = new DynamicParameters();

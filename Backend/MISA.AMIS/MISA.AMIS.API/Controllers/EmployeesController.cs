@@ -85,7 +85,7 @@ namespace MISA.AMIS.API.Controllers
         {
             try
             {
-                var result = new PagingResult();
+                var result = new PagingResult<Employee>();
                 result = _employeeBL.GetEmployeesByFilter(pageNumber, pageSize, keyword);
                 return StatusCode(StatusCodes.Status200OK, result);
             }

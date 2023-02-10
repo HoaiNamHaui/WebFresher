@@ -5,11 +5,11 @@ using MISA.AMIS.Common.Entities;
 
 namespace MISA.AMIS.API.Controllers
 {
-    public class TestEmployeesController : BasesController<Employee>
+    public class TestDepartmentsController : BasesController<Department>
     {
-        public TestEmployeesController(IBaseBL<Employee> baseBL) : base(baseBL) { 
-            
-        }
+        public TestDepartmentsController(IBaseBL<Department> baseBL) : base(baseBL)
+        {
 
+        }
     }
 }

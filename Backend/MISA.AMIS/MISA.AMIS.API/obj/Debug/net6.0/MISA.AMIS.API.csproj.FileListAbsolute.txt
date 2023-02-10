@@ -77,3 +77,4 @@ D:\MF1234\WebFresher\Backend\MISA.AMIS\MISA.AMIS.API\obj\Debug\net6.0\refint\MIS
 D:\MF1234\WebFresher\Backend\MISA.AMIS\MISA.AMIS.API\obj\Debug\net6.0\MISA.AMIS.API.pdb
 D:\MF1234\WebFresher\Backend\MISA.AMIS\MISA.AMIS.API\obj\Debug\net6.0\MISA.AMIS.API.genruntimeconfig.cache
 D:\MF1234\WebFresher\Backend\MISA.AMIS\MISA.AMIS.API\obj\Debug\net6.0\ref\MISA.AMIS.API.dll
+D:\MF1234\WebFresher\Backend\MISA.AMIS\MISA.AMIS.API\obj\Debug\net6.0\MISA.AMIS.API.MvcApplicationPartsAssemblyInfo.cs

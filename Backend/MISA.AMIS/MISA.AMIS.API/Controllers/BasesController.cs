@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MISA.AMIS.BL.BaseBL;
 using MISA.AMIS.Common;
+using MISA.AMIS.Common.Entities;
 using MISA.AMIS.Common.Entities.DTO;
 using MISA.AMIS.Common.Enums;
 
@@ -26,6 +27,11 @@ namespace MISA.AMIS.API.Controllers
 
         #endregion
 
+        /// <summary>
+        /// Thêm mới 1 bản ghi
+        /// </summary>
+        /// <param name="record">Bản ghi cần thêm</param>
+        /// <returns></returns>
         [HttpPost]
         public IActionResult InserRecord(T record)
         {
@@ -63,11 +69,138 @@ namespace MISA.AMIS.API.Controllers
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
-                throw;
+                return HandleException(ex);
             }
+        }        
+        
+        /// <summary>
+        /// Sửa bản ghi
+        /// </summary>
+        /// <param name="record">Bản ghi cần Sửa</param>
+        /// <returns></returns>
+        [HttpPut("{Id}")]
+        public IActionResult UpdateRecord([FromRoute] Guid EmployeeId, [FromBody] T record)
+        {
+            try
+            {
+                var result = _baseBL.InsertRecord(record);
+                if (result.IsSuccess)
+                {
+                    return StatusCode(StatusCodes.Status201Created, 1);
+                }
+                else if (!result.IsSuccess && result.ErrorCode == ErrorCode.BAD_REQUEST)
+                {
+                    return StatusCode(StatusCodes.Status400BadRequest, new ErrorResult
+                    {
+                        ErrorCode = ErrorCode.BAD_REQUEST,
+                        DevMsg = result.message,
+                        UserMsg = Resource.MISAError,
+                        MoreInfo = result.Data,
+                        TraceId = HttpContext.TraceIdentifier
 
-            
+                    });
+                }
+                else
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, new ErrorResult
+                    {
+                        ErrorCode = ErrorCode.SERVER_ERROR,
+                        DevMsg = Resource.ServerError,
+                        UserMsg = Resource.MISAError,
+                        MoreInfo = result.Data,
+                        TraceId = HttpContext.TraceIdentifier
+
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                return HandleException(ex);
+            }
+        }
+
+        /// <summary>
+        /// API lấy danh sách lọc theo trang
+        /// </summary>
+        /// <returns>Danh sách</returns
+        /// CreatedBy: NHNam (16/1/2023)
+        [HttpGet("Filter")]
+        public IActionResult GetByFilter(
+            [FromQuery] string? keyword = "",
+
+            [FromQuery] int pageSize = 10,
+
+            [FromQuery] int pageNumber = 1)
+        {
+            try
+            {
+                var result = new PagingResult<T>();
+                result = _baseBL.GetByFilter(pageNumber, pageSize, keyword);
+                return StatusCode(StatusCodes.Status200OK, result);
+            }
+            catch (Exception ex)
+            {
+                return HandleException(ex);
+            }
+        }
+
+        /// <summary>
+        /// Tìm nhân viên theo ID
+        /// </summary>
+        /// <param name="EmployeeId">ID nhân viên</param>
+        /// <returns>Employee</returns>
+        /// Created by: NHNam (16/1/2023)
+        [HttpGet("{id}")]
+        public IActionResult GetEmployeeById([FromRoute] Guid id)
+        {
+            try
+            {
+                T record;
+                record = _baseBL.GetById(id);
+
+                return StatusCode(StatusCodes.Status200OK, record);
+            }
+            catch (Exception ex)
+            {
+                return HandleException(ex);
+            }
+        }
+
+        /// <summary>
+        /// Xóa 1 nhân viên
+        /// </summary>
+        /// <param name="id">ID bản ghi</param>
+        /// <returns>Danh sách mới</returns>
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteRecord([FromRoute] Guid id)
+        {
+            try
+            {
+                int result;
+
+                result = _baseBL.DeleteRecord(id);
+
+                return StatusCode(StatusCodes.Status200OK, result);
+            }
+            catch (Exception ex)
+            {
+                return HandleException(ex);
+            }
+        }
+        /// <summary>
+        /// Xử lý ngoại lệ trả về lỗi
+        /// </summary>
+        /// <param name="ex">ngoại lệ</param>
+        /// <returns>devMsg và userMsg</returns>
+        private IActionResult HandleException(Exception ex)
+        {
+            var res = new ErrorResult
+            {
+                DevMsg = ex.Message,
+                UserMsg = "Có lỗi xảy ra, vui lòng liên hệ MISA để được trợ giúp!"
+            };
+            return StatusCode(StatusCodes.Status500InternalServerError, res);
         }
     }
 }

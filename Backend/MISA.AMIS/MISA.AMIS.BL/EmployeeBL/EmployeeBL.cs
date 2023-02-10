@@ -59,9 +59,9 @@ namespace MISA.AMIS.BL.EmployeeBL
         /// API lấy danh sách nhân viên lọc theo trang
         /// </summary>
         /// <returns>Danh sách nhân viên</returns
-        public PagingResult GetEmployeesByFilter(int pageNumber, int pageSize, string keyword)
+        public PagingResult<Employee> GetEmployeesByFilter(int pageNumber, int pageSize, string keyword)
         {
-            var result = new PagingResult();
+            var result = new PagingResult<Employee>();
             result = _employeeDL.GetEmployeesByFilter(pageNumber, pageSize, keyword);
             // TÍnh toán số bản ghi, tổng số trang
             if (result.TotalRecord % pageSize == 0)

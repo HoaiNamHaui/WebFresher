@@ -9,7 +9,7 @@ namespace MISA.AMIS.Common.Entities.DTO
     /// <summary>
     /// Phân trang dữ liệu
     /// </summary>
-    public class PagingResult
+    public class PagingResult<T>
     {
         /// <summary>
         /// Tổng số trang thỏa mãn điều kiện
@@ -36,6 +36,6 @@ namespace MISA.AMIS.Common.Entities.DTO
         /// <summary>
         /// Danh sách dữ liệu
         /// </summary>
-        public List<Employee> Data { get; set; }
+        public List<T> Data { get; set; }
     }
 }
