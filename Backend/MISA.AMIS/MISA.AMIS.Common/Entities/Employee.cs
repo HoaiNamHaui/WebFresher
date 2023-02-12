@@ -12,7 +12,7 @@ namespace MISA.AMIS.Common.Entities
     /// <summary>
     /// Thông tin nhân viên
     /// </summary>
-    public class Employee
+    public class Employee : BaseEntities
     {
         /// <summary>
         /// Khóa chính
@@ -113,25 +113,5 @@ namespace MISA.AMIS.Common.Entities
         /// Chi nhánh
         /// </summary>
         public string BankBranchName { get; set; }
-
-        /// <summary>
-        /// Ngày tạo
-        /// </summary>
-        public DateTime CreatedDate { get; set; }
-
-        /// <summary>
-        /// Người tạo
-        /// </summary>
-        public string CreatedBy { get; set; }
-
-        /// <summary>
-        /// Người thay đổi cuối cùng
-        /// </summary>
-        public string ModifiedBy { get; set; }
-
-        /// <summary>
-        /// Ngày thay đổi gần nhất
-        /// </summary>
-        public DateTime ModifiedDate { get; set; }
     }
 }

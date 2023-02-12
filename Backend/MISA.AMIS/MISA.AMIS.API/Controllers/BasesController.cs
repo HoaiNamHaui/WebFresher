@@ -33,7 +33,7 @@ namespace MISA.AMIS.API.Controllers
         /// <param name="record">Bản ghi cần thêm</param>
         /// <returns></returns>
         [HttpPost]
-        public IActionResult InserRecord(T record)
+        public virtual IActionResult InsertRecord(T record)
         {
             try
             {
@@ -79,7 +79,7 @@ namespace MISA.AMIS.API.Controllers
         /// <param name="record">Bản ghi cần Sửa</param>
         /// <returns></returns>
         [HttpPut("{Id}")]
-        public IActionResult UpdateRecord([FromRoute] Guid EmployeeId, [FromBody] T record)
+        public virtual IActionResult UpdateRecord([FromRoute] Guid EmployeeId, [FromBody] T record)
         {
             try
             {
@@ -173,7 +173,7 @@ namespace MISA.AMIS.API.Controllers
         /// <returns>Danh sách mới</returns>
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteRecord([FromRoute] Guid id)
+        public virtual IActionResult DeleteRecord([FromRoute] Guid id)
         {
             try
             {

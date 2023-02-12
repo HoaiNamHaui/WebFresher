@@ -26,3 +26,17 @@ D:\MF1234\WebFresher\Backend\MISA.AMIS\MISA.AMIS.Common\obj\Debug\net6.0\MISA.AM
 D:\MF1234\WebFresher\Backend\MISA.AMIS\MISA.AMIS.Common\obj\Debug\net6.0\refint\MISA.AMIS.Common.dll
 D:\MF1234\WebFresher\Backend\MISA.AMIS\MISA.AMIS.Common\obj\Debug\net6.0\MISA.AMIS.Common.pdb
 D:\MF1234\WebFresher\Backend\MISA.AMIS\MISA.AMIS.Common\obj\Debug\net6.0\ref\MISA.AMIS.Common.dll
+C:\Users\hii\Desktop\MISA.AMIS\MISA.AMIS.Common\bin\Debug\net6.0\MISA.AMIS.Common.deps.json
+C:\Users\hii\Desktop\MISA.AMIS\MISA.AMIS.Common\bin\Debug\net6.0\MISA.AMIS.Common.dll
+C:\Users\hii\Desktop\MISA.AMIS\MISA.AMIS.Common\bin\Debug\net6.0\MISA.AMIS.Common.pdb
+C:\Users\hii\Desktop\MISA.AMIS\MISA.AMIS.Common\obj\Debug\net6.0\MISA.AMIS.Common.csproj.AssemblyReference.cache
+C:\Users\hii\Desktop\MISA.AMIS\MISA.AMIS.Common\obj\Debug\net6.0\MISA.AMIS.Common.Resource.resources
+C:\Users\hii\Desktop\MISA.AMIS\MISA.AMIS.Common\obj\Debug\net6.0\MISA.AMIS.Common.csproj.GenerateResource.cache
+C:\Users\hii\Desktop\MISA.AMIS\MISA.AMIS.Common\obj\Debug\net6.0\MISA.AMIS.Common.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\hii\Desktop\MISA.AMIS\MISA.AMIS.Common\obj\Debug\net6.0\MISA.AMIS.Common.AssemblyInfoInputs.cache
+C:\Users\hii\Desktop\MISA.AMIS\MISA.AMIS.Common\obj\Debug\net6.0\MISA.AMIS.Common.AssemblyInfo.cs
+C:\Users\hii\Desktop\MISA.AMIS\MISA.AMIS.Common\obj\Debug\net6.0\MISA.AMIS.Common.csproj.CoreCompileInputs.cache
+C:\Users\hii\Desktop\MISA.AMIS\MISA.AMIS.Common\obj\Debug\net6.0\MISA.AMIS.Common.dll
+C:\Users\hii\Desktop\MISA.AMIS\MISA.AMIS.Common\obj\Debug\net6.0\refint\MISA.AMIS.Common.dll
+C:\Users\hii\Desktop\MISA.AMIS\MISA.AMIS.Common\obj\Debug\net6.0\MISA.AMIS.Common.pdb
+C:\Users\hii\Desktop\MISA.AMIS\MISA.AMIS.Common\obj\Debug\net6.0\ref\MISA.AMIS.Common.dll

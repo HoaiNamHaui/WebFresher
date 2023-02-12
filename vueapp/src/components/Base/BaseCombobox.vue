@@ -69,8 +69,8 @@ export default {
       axios
         .get(this.api)
         .then((data) => {
-          this.entities = data.data;
-          this.entitySearch = data.data;
+          this.entities = data.data.Data;
+          this.entitySearch = data.data.Data;
           // this.setItemSelected();
         })
         .catch((res) => {
@@ -150,7 +150,6 @@ export default {
      * Author: NHNam (14/1/2023)
      */
     inputOnKeyDown(event){
-      console.log(event.keyCode);
       const keyCode = event.keyCode;
       switch (keyCode) {
         case MISAEnum.KEY_CODE.ENTER:{

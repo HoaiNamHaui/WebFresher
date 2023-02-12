@@ -39,36 +39,44 @@ namespace MISA.AMIS.BL.BaseBL
         /// <returns>trả về service result</returns>
         public ServiceResult InsertRecord(T record)
         {
-            // Validate
-            var validateResult = ValidateRequestData(record);
-            // Thất bại
-            if (!validateResult.IsSuccess)
+            try
             {
-                return new ServiceResult
+                // Validate
+                var validateResult = ValidateRequestData(record);
+                // Thất bại
+                if (!validateResult.IsSuccess)
                 {
-                    IsSuccess = false,
-                    ErrorCode = ErrorCode.BAD_REQUEST,
-                    message = Resource.DataInvalid,
-                    Data = validateResult
-                };
-            }
-            // Thành công -> gọi vào DL để chạy Stored
-            record = AddProperties(record, true);
-            var numberOfAffectedRows = _baseDL.InsertRecord(record);
+                    return new ServiceResult
+                    {
+                        IsSuccess = false,
+                        ErrorCode = ErrorCode.BAD_REQUEST,
+                        message = Resource.DataInvalid,
+                        Data = validateResult
+                    };
+                }
+                // Thành công -> gọi vào DL để chạy Stored
+                record = AddProperties(record, true);
+                var numberOfAffectedRows = _baseDL.InsertRecord(record);
 
-            // Xử lý kết quả trả về
-            if(numberOfAffectedRows > 0)
-            {
-                return new ServiceResult { IsSuccess = true };
-            }
-            else
-            {
-                return new ServiceResult
+                // Xử lý kết quả trả về
+                if (numberOfAffectedRows > 0)
                 {
-                    IsSuccess = false,
-                    ErrorCode = ErrorCode.INSERT_FAILED,
-                    message = Resource.ServerError
-                };
+                    return new ServiceResult { IsSuccess = true };
+                }
+                else
+                {
+                    return new ServiceResult
+                    {
+                        IsSuccess = false,
+                        ErrorCode = ErrorCode.INSERT_FAILED,
+                        message = Resource.ServerError
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
             }
         }        
         

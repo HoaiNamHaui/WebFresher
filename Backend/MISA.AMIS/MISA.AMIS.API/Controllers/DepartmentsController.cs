@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MISA.AMIS.BL.BaseBL;
 using MISA.AMIS.BL.DepartmentBL;
 using MISA.AMIS.BL.EmployeeBL;
 using MISA.AMIS.Common.Entities;
@@ -9,76 +10,42 @@ using MySqlConnector;
 
 namespace MISA.AMIS.API.Controllers
 {
-
-    [Route("api/v1/[controller]")]
-    [ApiController]
-    public class DepartmentsController : ControllerBase
+    public class DepartmentsController : BasesController<Department>
     {
-        #region Field
-
-        private IDepartmentBL _departmentBL;
-
-        #endregion
-
-        #region Constructor
-
-        public DepartmentsController(IDepartmentBL departmentBL)
+        public DepartmentsController(IBaseBL<Department> baseBL) : base(baseBL)
         {
-            _departmentBL = departmentBL;
-        }
-
-        #endregion
-
-        /// <summary>
-        /// Lấy danh sách phòng ban
-        /// </summary>
-        /// <returns>Danh sách phfong ban</returns>
-        /// Created by: NHNam (16/1/2023)
-        [HttpGet]
-        public IActionResult GetAllDepartment()
-        {
-            try
-            {
-                // Khởi tạo list 
-                var list = new List<Department>();
-                list = _departmentBL.GetAllDepartment();
-
-                return StatusCode(StatusCodes.Status200OK, list);
-            }
-            catch (Exception ex)
-            {
-                var res = new
-                {
-                    devMsg = ex.Message,
-                    userMsg = "Có lỗi xảy ra vui lòng thử lại"
-                };
-                return StatusCode(500, res);
-            }
-
         }
 
         /// <summary>
-        /// Tìm phòng ban theo Id
+        /// Ghi đè lại InsertRecord
         /// </summary>
-        /// <param name="id">id phòng ban</param>
-        /// <returns>thông tin phòng ban</returns>
-        [HttpGet("{id}")]
-        public IActionResult GetById(Guid id)
+        /// <param name="record"></param>
+        /// <returns></returns>
+        public override IActionResult InsertRecord(Department record)
         {
-            try
-            {
-                var department = _departmentBL.GetById(id);
-                return Ok(department);
-            }
-            catch (Exception ex)
-            {
-                var res = new
-                {
-                    devMsg = ex.Message,
-                    userMsg = "Có lỗi xảy ra vui lòng thử lại"
-                };
-                return StatusCode(500, res);
-            }
+            return StatusCode(StatusCodes.Status405MethodNotAllowed);
+        }
+
+        /// <summary>
+        /// Ghi đè lại InsertRecord
+        /// </summary>
+        /// <param name="record"></param>
+        /// <returns></returns>
+        [HttpPut("{Id}")]
+        public override IActionResult UpdateRecord([FromRoute] Guid DepartmentId, [FromBody] Department record)
+        {
+            return StatusCode(StatusCodes.Status405MethodNotAllowed);
+        }
+
+        /// <summary>
+        /// Ghi đè lại InsertRecord
+        /// </summary>
+        /// <param name="record"></param>
+        /// <returns></returns>
+        [HttpDelete("{id}")]
+        public override IActionResult DeleteRecord([FromRoute] Guid id)
+        {
+            return StatusCode(StatusCodes.Status405MethodNotAllowed);
         }
     }
 }

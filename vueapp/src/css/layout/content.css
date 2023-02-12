@@ -51,8 +51,32 @@
     border: 1px solid #babec5; 
     border-radius: 2px;
     color: #afafaf;
+    position: relative;
+}
+.functions-left-enable{
+    color: #3b3c3f !important;
+    border: 1px solid #3b3c3f !important; 
     cursor: pointer;
 }
+
+.functions-left-option{
+    position: absolute;
+    z-index: 99;
+    background-color: #fff;
+    right: 0;
+    height: 30px;
+    top: 32px;
+    transition: all .25s ease;
+    line-height: 30px;
+    padding: 0 16px;
+    border-radius: 2px;
+    border: 1px solid #babec5;
+}
+.functions-left-option:hover{
+    color: #2ca01c;
+    background-color: #ebedf0;
+}
+
 .functions-right{
     display: flex;
     align-items: center;

@@ -6,7 +6,19 @@
     </div>
     <div class="content-data">
       <div class="functions">
-        <div class="functions-left">Thực hiện hàng loạt</div>
+        <div
+          class="functions-left"
+          :class="{ 'functions-left-enable': enableBatch }"
+          @click="showBatchOption"
+          
+        >
+          Thực hiện hàng loạt
+          <div class="functions-left-option" 
+          v-show="isShowBatchOption"
+          v-click-outside="hideOption"
+          >
+            Xóa hàng loạt</div>
+        </div>
         <div class="functions-right">
           <div class="search-box">
             <input
@@ -152,6 +164,7 @@
   </div>
 </template>
 <script>
+import ClickOutside from 'vue-click-outside'
 import { vue3Debounce } from "vue-debounce";
 import MISAResource from "../../js/base/resource";
 import MISAapi from "@/js/api";
@@ -187,30 +200,32 @@ export default {
         debounce: vue3Debounce({ lock: true }),
       },
       isShowChangeMessage: false, // ẩn hiện thông báo thay đổi dữ liệu
-      isShowToast: false,  // ẩn hiện toast message
+      isShowToast: false, // ẩn hiện toast message
       isShowMessageError: false, // ẩn hiện thông báo lỗi
-      errForm: "",    // message validate
-      employeeSelected: {},   // employee được chọn
-      isShowDialog: false,   // ẩn hiện form thêm mới
-      isShowFooterCbb: false,  // chiện chọn số bản ghi
+      errForm: "", // message validate
+      employeeSelected: {}, // employee được chọn
+      isShowDialog: false, // ẩn hiện form thêm mới
+      isShowFooterCbb: false, // chiện chọn số bản ghi
       employees: null, // danh sách nhân viên
-      pageSize: 10,  // số lượng bản ghi trên 1 trang
-      pageNumber: 1,  // trang hiện tại
-      txtSearch: "",  // keyword lọc
-      totalPage: 0,  // tổng số trang
-      totalRecord: 0,  // tổng số bản ghi
+      pageSize: 10, // số lượng bản ghi trên 1 trang
+      pageNumber: 1, // trang hiện tại
+      txtSearch: "", // keyword lọc
+      totalPage: 0, // tổng số trang
+      totalRecord: 0, // tổng số bản ghi
       page: 1,
-      newEmployeeCode: null,   //mã nhân viên mới
-      isSuccess: true,    // thành công
+      newEmployeeCode: null, //mã nhân viên mới
+      isSuccess: true, // thành công
       btnMenuContext: null, // menu context
-      isActive: false,  //checkbox
+      isActive: false, //checkbox
       confirmDelete: false, // xác nhận xóa
-      message: "",   // thông báo
-      employeeIdSelected: null,  //id của employee đc chọn
-      isAcceptSave: false,  // xác nhận lưu
-      rowSelected: [],  // danh sách employee được chọn 
-      isCheckAll: false,  // check all
-      debounce: null,  // debounce
+      message: "", // thông báo
+      employeeIdSelected: null, //id của employee đc chọn
+      isAcceptSave: false, // xác nhận lưu
+      rowSelected: [], // danh sách employee được chọn
+      isCheckAll: false, // check all
+      debounce: null, // debounce
+      enableBatch: false, // cho phép thực hiện hàng loạt
+      isShowBatchOption: false, //hiện option hàng loạt
     };
   },
   watch: {
@@ -218,8 +233,36 @@ export default {
     txtSearch: function () {
       this.filterEmployee();
     },
+    rowSelected: {
+      handler: function () {
+        // Nếu số dòng đã chọn lớn hơn  1
+        if (this.rowSelected.length > 1) {
+          this.enableBatch = true;
+        } else {
+          this.enableBatch = false;
+        }
+      },
+      deep: true
+    },
   },
   methods: {
+    /**
+     * show option hàng loạt
+     * Author: NHNam(14/1/2023)
+     */
+    showBatchOption(){
+      if(this.enableBatch){
+        this.isShowBatchOption = !this.isShowBatchOption;
+      }
+    },
+    /**
+     * ẩn option hàng loạt
+     * Author: NHNam(14/1/2023)
+     */
+    hideOption(){
+      this.isShowBatchOption = false;
+      alert("hello")
+    },
     /**
      * Trì hoãn 1s trước khi gắn txtSearch = value của input search
      * Author: NHNam (14/1/2023)
@@ -400,8 +443,7 @@ export default {
       this.pageNumber = pageNum;
       this.rowSelected = [];
       this.isCheckAll = false;
-      this.txtSearch = "",
-      this.filterEmployee();
+      (this.txtSearch = ""), this.filterEmployee();
     },
     /**
      * Đổi size page
@@ -477,6 +519,14 @@ export default {
   created() {
     //Lấy danh sách nhân viên, tìm kiếm
     this.filterEmployee();
+  },
+  mounted () {
+    // prevent click outside event with popupItem.
+    this.popupItem = this.$el
+  },
+  // do not forget this section
+  directives: {
+    ClickOutside
   }
 };
 /**

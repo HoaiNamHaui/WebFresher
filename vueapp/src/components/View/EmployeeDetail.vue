@@ -38,7 +38,7 @@
               <BaseCombobox
                 tabindex="0"
                 id="cbxDepartment"
-                api="https://localhost:7116/api/v1/Departments"
+                api="https://localhost:7116/api/v1/Departments/Filter?pageSize=10&pageNumber=1"
                 propName="DepartmentName"
                 propValue="DepartmentId"
                 v-model="employee.DepartmentId"
