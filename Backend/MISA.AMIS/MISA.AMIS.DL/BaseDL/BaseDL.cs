@@ -19,6 +19,7 @@ namespace MISA.AMIS.DL.BaseDL
         /// </summary>
         /// <param name="record">Bản ghi cần thêm</param>
         /// <returns>1 nếu thêm thành công</returns>
+        /// CreatedBy: NHNam(3/2/2023)
         public int InsertRecord(T record)
         {
             string storedProcedureName = String.Format(ProcedureName.Insert, typeof(T).Name, "");
@@ -43,22 +44,29 @@ namespace MISA.AMIS.DL.BaseDL
         /// <param name="record">bản ghi cần sửa</param>
         /// <param name="recordId">Id của bản ghi</param>
         /// <returns>1 nếu thêm thành công</returns>
+        /// CreatedBy: NHNam(3/2/2023)
         public int UpdateRecord(T record, Guid recordId)
         {
-            string storedProcedureName = String.Format(ProcedureName.Update, typeof(T).Name, "");
-            var parameters = new DynamicParameters();
-            foreach (var prop in record.GetType().GetProperties())
+            try
             {
-                parameters.Add("p_" + prop.Name, prop.GetValue(record, null));
+                string storedProcedureName = String.Format(ProcedureName.Update, typeof(T).Name);
+                var parameters = new DynamicParameters();
+                foreach (var prop in record.GetType().GetProperties())
+                {
+                    parameters.Add("p_" + prop.Name, prop.GetValue(record, null));
+                }
+                int numberOfAffectedRow = 0;
+                using (var mySqlConnection = new MySqlConnection(DatabaseContext.ConnectionString))
+                {
+                    numberOfAffectedRow = mySqlConnection.Execute(storedProcedureName, parameters, commandType: System.Data.CommandType.StoredProcedure);
+                }
+                return numberOfAffectedRow;
             }
-            int numberOfAffectedRow = 0;
-            using (var mySqlConnection = new MySqlConnection(DatabaseContext.ConnectionString))
+            catch (Exception ex)
             {
-                mySqlConnection.Open();
-                numberOfAffectedRow = mySqlConnection.Execute(storedProcedureName, parameters, commandType: System.Data.CommandType.StoredProcedure);
-                mySqlConnection.Close();
+                Console.WriteLine(ex.Message);
+                return 0;
             }
-            return numberOfAffectedRow;
         }
 
         /// <summary>
@@ -68,6 +76,7 @@ namespace MISA.AMIS.DL.BaseDL
         /// <param name=""></param>
         /// <param name=""></param>
         /// <returns></returns>
+        /// CreatedBy: NHNam(3/2/2023)
         public PagingResult<T> GetByFilter(int pageNumber, int pageSize, string keyword)
         {
             var result = new PagingResult<T>();
@@ -95,6 +104,7 @@ namespace MISA.AMIS.DL.BaseDL
         /// </summary>
         /// <param name="id">Id bản ghi</param>
         /// <returns>bản ghi tìm được</returns>
+        /// CreatedBy: NHNam(3/2/2023)
         public T GetById(Guid id)
         {
             // Khởi tạo Employee
@@ -114,6 +124,7 @@ namespace MISA.AMIS.DL.BaseDL
         /// </summary>
         /// <param name="id">Id bản ghi</param>
         /// <returns></returns>
+        /// CreatedBy: NHNam(3/2/2023)
         public int DeleteRecord(Guid id)
         {
             int result;

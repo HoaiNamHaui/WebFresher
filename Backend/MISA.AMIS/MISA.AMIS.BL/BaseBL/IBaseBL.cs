@@ -16,7 +16,7 @@ namespace MISA.AMIS.BL.BaseBL
         /// </summary>
         /// <param name="record">bản ghi cần thêm</param>
         /// <returns>Trả về 1 nếu thành công</returns>
-        /// Created by; NHNam (8/1/2023)
+        /// Created by: NHNam (8/1/2023)
         ServiceResult InsertRecord(T record);
         
         /// <summary>
@@ -31,6 +31,7 @@ namespace MISA.AMIS.BL.BaseBL
         /// API lấy danh sách lọc theo trang
         /// </summary>
         /// <returns>Danh sách</returns
+        /// Created by: NHNam (8/1/2023)
         PagingResult<T> GetByFilter(int pageNumber, int pageSize, string keyword);
 
         /// <summary>
@@ -38,6 +39,7 @@ namespace MISA.AMIS.BL.BaseBL
         /// </summary>
         /// <param name="EmployeeId">ID nhân viên</param>
         /// <returns>1 nếu thành công</returns>
+        /// Created by: NHNam (8/1/2023)
         int DeleteRecord(Guid id);
 
         /// <summary>
@@ -45,6 +47,7 @@ namespace MISA.AMIS.BL.BaseBL
         /// </summary>
         /// <param name="id">Id bản ghi</param>
         /// <returns>bản ghi tìm được</returns>
+        /// Created by: NHNam (8/1/2023)
         T GetById(Guid id);
         #endregion
     }

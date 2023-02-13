@@ -15,7 +15,7 @@ namespace MISA.AMIS.DL.BaseDL
         /// </summary>
         /// <param name="record">bản ghi cần thêm</param>
         /// <returns>Trả về 1 nếu thành công</returns>
-        /// Created by; NHNam (8/1/2023)
+        /// Created by: NHNam (8/1/2023)
         int InsertRecord(T record);
 
         /// <summary>
@@ -24,6 +24,7 @@ namespace MISA.AMIS.DL.BaseDL
         /// <param name="record">bản ghi cần sửa</param>
         /// <param name="recordId">Id của bản ghi</param>
         /// <returns></returns>
+        /// CreatedBy: NHNam(3/2/2023)
         int UpdateRecord(T record, Guid recordId);
 
         /// <summary>
@@ -33,6 +34,7 @@ namespace MISA.AMIS.DL.BaseDL
         /// <param name=""></param>
         /// <param name=""></param>
         /// <returns></returns>
+        /// CreatedBy: NHNam(3/2/2023)
         PagingResult<T> GetByFilter(int pageNumber, int pageSize, string keyword);
 
         /// <summary>
@@ -40,6 +42,7 @@ namespace MISA.AMIS.DL.BaseDL
         /// </summary>
         /// <param name="id">id của bản ghi</param>
         /// <returns>1 xóa thành công</returns>
+        /// CreatedBy: NHNam(3/2/2023)
         int DeleteRecord(Guid id);
 
         /// <summary>
@@ -47,6 +50,7 @@ namespace MISA.AMIS.DL.BaseDL
         /// </summary>
         /// <param name="id">Id bản ghi</param>
         /// <returns>bản ghi tìm được</returns>
+        /// CreatedBy: NHNam(3/2/2023)
         T GetById(Guid id);
     }
 }

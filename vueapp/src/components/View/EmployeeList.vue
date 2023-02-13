@@ -240,6 +240,7 @@ export default {
           this.enableBatch = true;
         } else {
           this.enableBatch = false;
+          this.isShowBatchOption = false;
         }
       },
       deep: true

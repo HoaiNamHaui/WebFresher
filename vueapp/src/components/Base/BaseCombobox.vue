@@ -58,6 +58,12 @@ export default {
       else{
         this.isError = false;
       }
+    },
+    // Nhập rỗng
+    textSelected: function(){
+      if(this.textSelected.trim() == ""){
+        this.itemSelected = null;
+      }
     }
   },
   created() {

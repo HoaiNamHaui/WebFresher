@@ -37,6 +37,7 @@ namespace MISA.AMIS.BL.BaseBL
         /// </summary>
         /// <param name="record">bản ghi cần thêm</param>
         /// <returns>trả về service result</returns>
+        /// Created by: NHNam (8/1/2023)
         public ServiceResult InsertRecord(T record)
         {
             try
@@ -78,13 +79,14 @@ namespace MISA.AMIS.BL.BaseBL
                 Console.WriteLine(ex);
                 throw;
             }
-        }        
-        
+        }
+
         /// <summary>
         /// Sửa bản ghi
         /// </summary>
         /// <param name="record">bản ghi cần sửa</param>
         /// <returns>trả về service result</returns>
+        /// Created by: NHNam (8/1/2023)
         public ServiceResult UpdateRecord(T record, Guid recordId)
         {
             // Validate
@@ -101,7 +103,7 @@ namespace MISA.AMIS.BL.BaseBL
                 };
             }
             // Thành công -> gọi vào DL để chạy Stored
-            record = AddProperties(record, false);
+            record = AddProperties(record, false, recordId);
             var numberOfAffectedRows = _baseDL.UpdateRecord(record, recordId);
 
             // Xử lý kết quả trả về
@@ -124,6 +126,7 @@ namespace MISA.AMIS.BL.BaseBL
         /// Lọc phân trang
         /// </summary>
         /// <returns>Danh sách</returns
+        /// Created by: NHNam (8/1/2023)
         public PagingResult<T> GetByFilter(int pageNumber, int pageSize, string keyword)
         {
             var result = new PagingResult<T>();
@@ -145,6 +148,7 @@ namespace MISA.AMIS.BL.BaseBL
         /// </summary>
         /// <param name="id">Id bản ghi</param>
         /// <returns>bản ghi tìm được</returns>
+        /// Created by: NHNam (8/1/2023)
         public T GetById(Guid id)
         {
             return _baseDL.GetById(id);
@@ -155,6 +159,7 @@ namespace MISA.AMIS.BL.BaseBL
         /// </summary>
         /// <param name="EmployeeId">ID nhân viên</param>
         /// <returns>1 nếu thành công</returns>
+        /// Created by: NHNam (8/1/2023)
         public int DeleteRecord(Guid id)
         {
             return _baseDL.DeleteRecord(id);
@@ -167,6 +172,7 @@ namespace MISA.AMIS.BL.BaseBL
         /// <param name="isInsert"></param>
         /// <param name="id"></param>
         /// <returns></returns>
+        /// Created by: NHNam (8/1/2023)
         protected T AddProperties(dynamic entity, bool isInsert = true, Guid? id = null)
         {
             entity.ModifiedDate = DateTime.Now;
@@ -185,6 +191,7 @@ namespace MISA.AMIS.BL.BaseBL
         /// </summary>
         /// <param name="record">Đối tượng thêm</param>
         /// <returns>kết quả validate</returns>
+        /// Created by: NHNam (8/1/2023)
         protected virtual ValidateResult ValidateRequestData(T? record)
         {
             ValidateResult validateResult = new ValidateResult();
@@ -224,6 +231,7 @@ namespace MISA.AMIS.BL.BaseBL
         /// </summary>
         /// <param name="record">Bản ghi</param>
         /// <returns>validate result</returns>
+        /// Created by: NHNam (8/1/2023)
         protected virtual ValidateResult ValidateCustom(T? record)
         {
             return new ValidateResult { IsSuccess = true };

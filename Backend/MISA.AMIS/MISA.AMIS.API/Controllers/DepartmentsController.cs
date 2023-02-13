@@ -21,6 +21,7 @@ namespace MISA.AMIS.API.Controllers
         /// </summary>
         /// <param name="record"></param>
         /// <returns></returns>
+        /// Created by: NHNam (8/1/2023)
         public override IActionResult InsertRecord(Department record)
         {
             return StatusCode(StatusCodes.Status405MethodNotAllowed);
@@ -31,6 +32,7 @@ namespace MISA.AMIS.API.Controllers
         /// </summary>
         /// <param name="record"></param>
         /// <returns></returns>
+        /// Created by: NHNam (8/1/2023)
         [HttpPut("{Id}")]
         public override IActionResult UpdateRecord([FromRoute] Guid DepartmentId, [FromBody] Department record)
         {
@@ -42,6 +44,7 @@ namespace MISA.AMIS.API.Controllers
         /// </summary>
         /// <param name="record"></param>
         /// <returns></returns>
+        /// Created by: NHNam (8/1/2023)
         [HttpDelete("{id}")]
         public override IActionResult DeleteRecord([FromRoute] Guid id)
         {

@@ -212,7 +212,6 @@ export default {
     async saveEmployee() {
       try {
         this.validate();
-        console.log(this.isValid);
         if (this.isValid) {
           await this.saveData();
           this.hideDialog();

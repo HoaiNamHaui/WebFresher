@@ -33,6 +33,7 @@ namespace MISA.AMIS.API.Controllers
         /// Lấy mã nhân viên mới
         /// </summary>
         /// <returns>Mã nhân viên mới</returns>
+        /// Created by: NHNam (8/1/2023)
         [HttpGet("NewEmployeeCode")]
         public IActionResult GetNewEmployeeCode()
         {

@@ -32,6 +32,7 @@ namespace MISA.AMIS.API.Controllers
         /// </summary>
         /// <param name="record">Bản ghi cần thêm</param>
         /// <returns></returns>
+        /// Created by: NHNam (8/1/2023)
         [HttpPost]
         public virtual IActionResult InsertRecord(T record)
         {
@@ -71,22 +72,23 @@ namespace MISA.AMIS.API.Controllers
             {
                 return HandleException(ex);
             }
-        }        
-        
+        }
+
         /// <summary>
         /// Sửa bản ghi
         /// </summary>
         /// <param name="record">Bản ghi cần Sửa</param>
         /// <returns></returns>
-        [HttpPut("{Id}")]
-        public virtual IActionResult UpdateRecord([FromRoute] Guid EmployeeId, [FromBody] T record)
+        /// Created by: NHNam (8/1/2023)
+        [HttpPut("{id}")]
+        public virtual IActionResult UpdateRecord([FromRoute] Guid id, [FromBody] T record)
         {
             try
             {
-                var result = _baseBL.InsertRecord(record);
+                var result = _baseBL.UpdateRecord(record, id);
                 if (result.IsSuccess)
                 {
-                    return StatusCode(StatusCodes.Status201Created, 1);
+                    return StatusCode(StatusCodes.Status200OK, 1);
                 }
                 else if (!result.IsSuccess && result.ErrorCode == ErrorCode.BAD_REQUEST)
                 {
@@ -147,7 +149,7 @@ namespace MISA.AMIS.API.Controllers
         /// <summary>
         /// Tìm nhân viên theo ID
         /// </summary>
-        /// <param name="EmployeeId">ID nhân viên</param>
+        /// <param name="id">ID record</param>
         /// <returns>Employee</returns>
         /// Created by: NHNam (16/1/2023)
         [HttpGet("{id}")]
@@ -171,7 +173,7 @@ namespace MISA.AMIS.API.Controllers
         /// </summary>
         /// <param name="id">ID bản ghi</param>
         /// <returns>Danh sách mới</returns>
-
+        /// Created by: NHNam (8/1/2023)
         [HttpDelete("{id}")]
         public virtual IActionResult DeleteRecord([FromRoute] Guid id)
         {
@@ -193,6 +195,7 @@ namespace MISA.AMIS.API.Controllers
         /// </summary>
         /// <param name="ex">ngoại lệ</param>
         /// <returns>devMsg và userMsg</returns>
+        /// Created by: NHNam (8/1/2023)
         private IActionResult HandleException(Exception ex)
         {
             var res = new ErrorResult

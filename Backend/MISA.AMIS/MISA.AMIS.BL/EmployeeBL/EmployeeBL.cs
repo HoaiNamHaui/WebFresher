@@ -36,6 +36,7 @@ namespace MISA.AMIS.BL.EmployeeBL
         /// Lấy mã nhân viên mới
         /// </summary>
         /// <returns>Mã nhân viên mới</returns>
+        /// CreatedBy: NHNam(3/2/2023)
         public string GetNewEmployeeCode()
         {
             string employeeCodeMax = _employeeDL.GetMaxEmployeeCode();
@@ -49,6 +50,7 @@ namespace MISA.AMIS.BL.EmployeeBL
         /// </summary>
         /// <param name="employee">Đối tượng nhân viên cần validate</param>
         /// <returns>kết quả validate</returns>
+        /// CreatedBy: NHNam(3/2/2023)
         protected override ValidateResult ValidateCustom(Employee? employee)
         {
             ValidateResult validateResult = new ValidateResult();
