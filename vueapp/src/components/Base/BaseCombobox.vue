@@ -63,6 +63,7 @@ export default {
     textSelected: function(){
       if(this.textSelected.trim() == ""){
         this.itemSelected = null;
+        this.$emit("update:modelValue", "");
       }
     }
   },

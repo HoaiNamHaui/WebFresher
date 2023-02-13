@@ -1,77 +1,86 @@
 <template>
-    <div class="m-b-12">
-      <label for="">{{ label }} <span :class="{hide : !isRequire}" class="red" >*</span></label> <br />
-      <input
-        ref="txtfield"
-        type="text"
-        style="width: 100%;"
-        class="input"
-        v-model="value"
-        :class="{error: isError}"
-        @blur="blurInput"
-        tabindex="tabindex"
-      />
-      <br />
-    </div>
+  <div class="m-b-12">
+    <label for="" class="label"
+      >{{ label }}
+      <span :class="{ hide: !isRequire }" class="red">*</span>
+      <div class="error-info" v-if="tooltip">
+        <div class="error-text">{{ tooltipContent }}</div>
+        <div class="error-arrow"></div>
+      </div>
+    </label>
+    <br />
+    <input
+      ref="txtfield"
+      type="text"
+      style="width: 100%"
+      class="input"
+      v-model="value"
+      :class="{ error: isError }"
+      @blur="blurInput"
+      tabindex="tabindex"
+    />
+    <br />
+  </div>
 </template>
 <script>
 export default {
   name: "BaseInput",
-  props:{
+  props: {
     label: String,
-    require:Boolean,
+    require: Boolean,
     modelValue: String,
     error: String,
     tabindex: String,
-    focus: Boolean
+    focus: Boolean,
+    tooltip: String,
+    tooltipContent: String,
   },
   // props: ["label","require","modelValue","tabindex"],
-  data(){
-    return{
-        value: null,
-        isRequire: false,
-        isError: false,
-    }
+  data() {
+    return {
+      value: null,
+      isRequire: false,
+      isError: false,
+    };
   },
-  methods:{
+  methods: {
     /**
      * Blur input bỏ border lỗi
      * Author: NHNam (4/1/2023)
      */
-    blurInput(){
+    blurInput() {
       this.isError = false;
     },
     //focus vào input
-    setFocus(){
+    setFocus() {
       this.$refs.txtfield.focus();
-    }
+    },
   },
-  created(){
+  created() {
     this.value = this.modelValue;
     this.isRequire = this.require;
   },
-  watch:{
-    modelValue: function(newValue){
+  watch: {
+    modelValue: function (newValue) {
       this.value = newValue;
     },
-    value: function(newValue){
+    value: function (newValue) {
       this.$emit("update:modelValue", newValue);
     },
     //Lỗi hiển thị border lỗi
-    error: function(){
-      if(this.error != ""){
+    error: function () {
+      if (this.error != "") {
         this.isError = true;
-      }
-      else{
+      } else {
         this.isError = false;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>
 @import url(../../../css/base/input/input.css);
-.hide{
-    display: none;
+.hide {
+  display: none;
 }
 </style>

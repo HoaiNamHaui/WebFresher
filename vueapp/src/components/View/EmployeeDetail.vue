@@ -91,11 +91,12 @@
               </div>
             </div>
             <div class="flexbox">
-              <BaseInput class="input240" style="margin-right: 8px" label="Số CMND" tabindex="0"  v-model="employee.IdentityNumber">
-                <div class="error-info">
-                  <div class="error-text">Số chứng minh nhân dân</div>
-                  <div class="error-arrow"></div>
-                </div>
+              <BaseInput class="input240" style="margin-right: 8px" 
+              label="Số CMND" 
+              tabindex="0" 
+              tooltip="true"
+              tooltipContent="Số chứng minh nhân dân"
+              v-model="employee.IdentityNumber">
               </BaseInput>
               <div class="m-b-12">
                 <label for="">Ngày cấp</label> <br />

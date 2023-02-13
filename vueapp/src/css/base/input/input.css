@@ -74,7 +74,7 @@ input[type="text"]{
     display: block;
 }
 .error-info{
-    bottom: 65px;
+    top: -30px;
     left: -110px;
     text-align: center;
     background-color: #393a3d;
