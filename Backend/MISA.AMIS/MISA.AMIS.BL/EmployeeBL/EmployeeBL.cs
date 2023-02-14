@@ -5,6 +5,7 @@ using MISA.AMIS.Common.Entities;
 using MISA.AMIS.Common.Entities.DTO;
 using MISA.AMIS.DL.EmployeeDL;
 using MySqlConnector;
+using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -43,6 +44,17 @@ namespace MISA.AMIS.BL.EmployeeBL
             string Code = employeeCodeMax.Replace("NV-", "");
             string newEmployeeCode = "NV-" + (int.Parse(Code) + 1);
             return newEmployeeCode;
+        }
+
+        /// <summary>
+        /// Xuất khẩu dữ liệu ra excel
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public List<Employee> ExportToExcel()
+        {
+            var data = _employeeDL.ExportToExcel();
+            return data;
         }
 
         /// <summary>

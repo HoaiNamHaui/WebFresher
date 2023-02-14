@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div style="padding: 20px 20px">
        <h1>Thuế</h1>
     </div>
 </template>

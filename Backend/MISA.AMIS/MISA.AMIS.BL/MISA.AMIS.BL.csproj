@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="EPPlus" Version="6.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\MISA.AMIS.Common\MISA.AMIS.Common.csproj" />
     <ProjectReference Include="..\MISA.AMIS.DL\MISA.AMIS.DL.csproj" />
   </ItemGroup>

@@ -7,6 +7,7 @@ using MySqlConnector;
 using System.Text.RegularExpressions;
 using MISA.AMIS.BL.EmployeeBL;
 using MISA.AMIS.BL.BaseBL;
+using OfficeOpenXml;
 
 namespace MISA.AMIS.API.Controllers
 {
@@ -22,9 +23,9 @@ namespace MISA.AMIS.API.Controllers
 
         #region Constructor
 
-        public EmployeesController(IEmployeeBL employeeBL):base(employeeBL)
+        public EmployeesController(IEmployeeBL employeeBL) : base(employeeBL)
         {
-            _employeeBL = employeeBL; 
+            _employeeBL = employeeBL;
         }
 
         #endregion
@@ -44,10 +45,59 @@ namespace MISA.AMIS.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex);
                 Console.WriteLine(ex.ToString());
+                return StatusCode(StatusCodes.Status500InternalServerError, ex);
+
             }
 
+        }
+
+        [HttpGet("ExportExcel")]
+        public IActionResult DownLoadExcel()
+        {
+            try
+            {
+                List<Employee> data = _employeeBL.ExportToExcel();
+                ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+                // Create Excel package
+                using (var package = new ExcelPackage())
+                {
+                    // Add a new worksheet to the workbook
+                    var worksheet = package.Workbook.Worksheets.Add("Employees");
+
+                    // Get properties of data model
+                    var properties = typeof(Employee).GetProperties();
+
+                    // Add header row
+                    for (var i = 0; i < properties.Length; i++)
+                    {
+                        worksheet.Cells[1, i + 1].Value = properties[i].Name;
+                    }
+
+                    // Add data rows
+                    for (var i = 0; i < data.Count; i++)
+                    {
+                        for (var j = 0; j < properties.Length; j++)
+                        {
+                            worksheet.Cells[i + 2, j + 1].Value = properties[j].GetValue(data[i]);
+                        }
+                    }
+
+                    // Auto-fit columns
+                    worksheet.Cells.AutoFitColumns();
+
+                    // Return the Excel file as a byte array
+                    var fileContents = package.GetAsByteArray();
+                    var fileName = "Employees.xlsx";
+
+                    return File(fileContents, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex);
+            }
         }
 
     }

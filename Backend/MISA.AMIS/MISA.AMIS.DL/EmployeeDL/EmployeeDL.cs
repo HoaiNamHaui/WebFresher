@@ -49,5 +49,14 @@ namespace MISA.AMIS.DL.EmployeeDL
             }
             return result;
         }
+
+        public dynamic ExportToExcel()
+        {
+            var data = new List<Employee>();
+            var sqlCommand = "SELECT * FROM Employee";
+            var mySqlConnection = new MySqlConnection(DatabaseContext.ConnectionString);
+            data = mySqlConnection.Query<Employee>(sqlCommand).ToList();
+            return data;
+        }
     }
 }

@@ -24,5 +24,12 @@ namespace MISA.AMIS.DL.EmployeeDL
         /// <returns>trả về 1 nếu tìm thấy</returns>
         /// CreatedBy: NHNam(3/2/2023)
         int GetByEmployeeCode(string employeeCode);
+
+        /// <summary>
+        /// Export dữ liệu ra file excel
+        /// </summary>
+        /// <returns></returns>
+        /// CreatedBy: NHNam(12/2/2023)
+        dynamic ExportToExcel();
     }
 }

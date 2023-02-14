@@ -1,6 +1,7 @@
 ﻿using MISA.AMIS.BL.BaseBL;
 using MISA.AMIS.Common.Entities;
 using MISA.AMIS.Common.Entities.DTO;
+using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,8 @@ namespace MISA.AMIS.BL.EmployeeBL
         /// <returns>Mã nhân viên mới</returns>
         /// CreatedBy: NHNam(3/2/2023)
         string GetNewEmployeeCode();
+
+        List<Employee> ExportToExcel();
 
     }
 }

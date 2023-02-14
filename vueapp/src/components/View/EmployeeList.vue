@@ -10,14 +10,15 @@
           class="functions-left"
           :class="{ 'functions-left-enable': enableBatch }"
           @click="showBatchOption"
-          
         >
           Thực hiện hàng loạt
-          <div class="functions-left-option" 
-          v-show="isShowBatchOption"
-          v-click-outside="hideOption"
+          <div
+            class="functions-left-option"
+            v-show="isShowBatchOption"
+            v-click-outside="hideOption"
           >
-            Xóa hàng loạt</div>
+            Xóa hàng loạt
+          </div>
         </div>
         <div class="functions-right">
           <div class="search-box">
@@ -34,7 +35,7 @@
             <div class="search-icon"></div>
           </div>
           <div class="refresh" @click="filterEmployee"></div>
-          <div class="excel"></div>
+          <div class="excel" @click="exportToExcel"></div>
         </div>
       </div>
       <div class="list-employee">
@@ -164,7 +165,7 @@
   </div>
 </template>
 <script>
-import ClickOutside from 'vue-click-outside'
+import ClickOutside from "vue-click-outside";
 import { vue3Debounce } from "vue-debounce";
 import MISAResource from "../../js/base/resource";
 import MISAapi from "@/js/api";
@@ -243,16 +244,33 @@ export default {
           this.isShowBatchOption = false;
         }
       },
-      deep: true
+      deep: true,
     },
   },
   methods: {
+    exportToExcel() {
+      $("#loading").show();
+      axios({
+        url: "https://localhost:7116/api/v1/Employees/ExportExcel", // endpoint của API
+        method: "GET",
+        responseType: "blob", // định dạng dữ liệu trả về
+      }).then((response) => {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", "Employee.xlsx"); // tên file được download
+        document.body.appendChild(link);
+        link.click();
+        $("#loading").hide();
+      });
+    },
+
     /**
      * show option hàng loạt
      * Author: NHNam(14/1/2023)
      */
-    showBatchOption(){
-      if(this.enableBatch){
+    showBatchOption() {
+      if (this.enableBatch) {
         this.isShowBatchOption = !this.isShowBatchOption;
       }
     },
@@ -260,9 +278,9 @@ export default {
      * ẩn option hàng loạt
      * Author: NHNam(14/1/2023)
      */
-    hideOption(){
+    hideOption() {
       this.isShowBatchOption = false;
-      alert("hello")
+      alert("hello");
     },
     /**
      * Trì hoãn 1s trước khi gắn txtSearch = value của input search
@@ -521,14 +539,14 @@ export default {
     //Lấy danh sách nhân viên, tìm kiếm
     this.filterEmployee();
   },
-  mounted () {
+  mounted() {
     // prevent click outside event with popupItem.
-    this.popupItem = this.$el
+    this.popupItem = this.$el;
   },
   // do not forget this section
   directives: {
-    ClickOutside
-  }
+    ClickOutside,
+  },
 };
 /**
  * Phát hiện click ngoài để ẩn menu chức năng
