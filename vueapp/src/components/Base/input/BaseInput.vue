@@ -53,12 +53,15 @@ export default {
     },
     //focus vào input
     setFocus() {
-      this.$refs.txtfield.focus();
+
     },
   },
   created() {
     this.value = this.modelValue;
     this.isRequire = this.require;
+    if(this.focus){
+      this.setFocus();
+    }
   },
   watch: {
     modelValue: function (newValue) {

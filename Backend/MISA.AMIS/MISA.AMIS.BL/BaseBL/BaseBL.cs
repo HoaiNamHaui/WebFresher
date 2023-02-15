@@ -43,7 +43,7 @@ namespace MISA.AMIS.BL.BaseBL
             try
             {
                 // Validate
-                var validateResult = ValidateRequestData(record);
+                var validateResult = ValidateRequestData(record, null);
                 // Thất bại
                 if (!validateResult.IsSuccess)
                 {
@@ -90,7 +90,7 @@ namespace MISA.AMIS.BL.BaseBL
         public ServiceResult UpdateRecord(T record, Guid recordId)
         {
             // Validate
-            var validateResult = ValidateRequestData(record);
+            var validateResult = ValidateRequestData(record, recordId);
             // Thất bại
             if (!validateResult.IsSuccess)
             {
@@ -192,7 +192,7 @@ namespace MISA.AMIS.BL.BaseBL
         /// <param name="record">Đối tượng thêm</param>
         /// <returns>kết quả validate</returns>
         /// Created by: NHNam (8/1/2023)
-        protected virtual ValidateResult ValidateRequestData(T? record)
+        protected virtual ValidateResult ValidateRequestData(T? record, Guid? id)
         {
             ValidateResult validateResult = new ValidateResult();
             validateResult.IsSuccess = true;
@@ -217,7 +217,7 @@ namespace MISA.AMIS.BL.BaseBL
                 return validateResult;
             }
             // Validate riêng
-            var result = ValidateCustom(record);
+            var result = ValidateCustom(record, id);
             if (!result.IsSuccess)
             {
                 validateResult.IsSuccess = false;
@@ -232,7 +232,7 @@ namespace MISA.AMIS.BL.BaseBL
         /// <param name="record">Bản ghi</param>
         /// <returns>validate result</returns>
         /// Created by: NHNam (8/1/2023)
-        protected virtual ValidateResult ValidateCustom(T? record)
+        protected virtual ValidateResult ValidateCustom(T? record, Guid? id)
         {
             return new ValidateResult { IsSuccess = true };
         }

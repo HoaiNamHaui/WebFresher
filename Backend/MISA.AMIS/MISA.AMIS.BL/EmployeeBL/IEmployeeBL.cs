@@ -20,6 +20,10 @@ namespace MISA.AMIS.BL.EmployeeBL
         /// CreatedBy: NHNam(3/2/2023)
         string GetNewEmployeeCode();
 
+        /// <summary>
+        /// Lấy data từ DL
+        /// </summary>
+        /// <returns>data</returns>
         List<Employee> ExportToExcel();
 
     }

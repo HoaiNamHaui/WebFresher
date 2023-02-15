@@ -198,6 +198,7 @@ namespace MISA.AMIS.API.Controllers
         /// Created by: NHNam (8/1/2023)
         private IActionResult HandleException(Exception ex)
         {
+            Console.WriteLine(ex.ToString());
             var res = new ErrorResult
             {
                 DevMsg = ex.Message,

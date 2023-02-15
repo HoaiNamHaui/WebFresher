@@ -366,14 +366,20 @@ export default {
         res = await axios.post(
           MISAapi.employee.employeeApi,
           newData
-        );
+        ).catch(res =>{
+          this.errors.code = res.response.data.MoreInfo.ListError[0];
+          this.$emit("sendMessage", this.errors.code);
+        });
         console.log(res.data);
         me.$emit("showToast", MISAResource.vi.add, newData, MISAEnum.FormMode.Add);
       } else {
         res = await axios.put(
           MISAapi.employee.employeeApi+this.employee.EmployeeId,
           newData
-        );
+        ).catch(res =>{
+          this.errors.code = res.response.data.MoreInfo.ListError[0];
+          this.$emit("sendMessage", this.errors.code);
+        });
         console.log(res.data);
         me.$emit("showToast", MISAResource.vi.update, newData, MISAEnum.FormMode.Edit);
       }

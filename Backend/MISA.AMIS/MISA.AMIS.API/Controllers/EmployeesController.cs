@@ -8,6 +8,8 @@ using System.Text.RegularExpressions;
 using MISA.AMIS.BL.EmployeeBL;
 using MISA.AMIS.BL.BaseBL;
 using OfficeOpenXml;
+using OfficeOpenXml.Style;
+using System.Drawing;
 
 namespace MISA.AMIS.API.Controllers
 {
@@ -52,6 +54,12 @@ namespace MISA.AMIS.API.Controllers
 
         }
 
+        /// <summary>
+        /// Hàm xuất danh sách ra file Excel
+        /// </summary>
+        /// <returns>File Excel</returns>
+        /// Created by: NHNam (15/2/2023)
+        /// 
         [HttpGet("ExportExcel")]
         public IActionResult DownLoadExcel()
         {
@@ -73,6 +81,12 @@ namespace MISA.AMIS.API.Controllers
                     {
                         worksheet.Cells[1, i + 1].Value = properties[i].Name;
                     }
+                    // Format header
+                    var headerStyle = worksheet.Cells[1, 1, 1, properties.Length].Style;
+                    headerStyle.Font.Bold = true;
+                    headerStyle.Fill.PatternType = ExcelFillStyle.Solid;
+                    headerStyle.Fill.BackgroundColor.SetColor(Color.LightGray);
+                    headerStyle.HorizontalAlignment = ExcelHorizontalAlignment.Center;
 
                     // Add data rows
                     for (var i = 0; i < data.Count; i++)

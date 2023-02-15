@@ -29,27 +29,9 @@ namespace MISA.AMIS.DL.EmployeeDL
         }
 
         /// <summary>
-        /// Tìm mã nhân viên đã tồn tại
+        /// Lấy data từ DB
         /// </summary>
-        /// <param name="employeeCode">mã nhân viên</param>
-        /// <returns>1 nếu đã tồn tại</returns>
-        /// CreatedBy: NHNam(3/2/2023)
-        public int GetByEmployeeCode(string employeeCode)
-        {
-            // Khởi tạo Employee
-            var result = 0;
-            string storedProcedureName = "Proc_Employee_GetByCode";
-            var parameters = new DynamicParameters();
-            parameters.Add("p_EmployeeCode", employeeCode);
-            using (var mySqlConnection = new MySqlConnection(DatabaseContext.ConnectionString))
-            {
-                //mySqlConnection.Open();
-                result = mySqlConnection.Execute(storedProcedureName, parameters, commandType: System.Data.CommandType.StoredProcedure);
-                //mySqlConnection.Close();
-            }
-            return result;
-        }
-
+        /// <returns>data</returns>
         public dynamic ExportToExcel()
         {
             var data = new List<Employee>();
@@ -57,6 +39,28 @@ namespace MISA.AMIS.DL.EmployeeDL
             var mySqlConnection = new MySqlConnection(DatabaseContext.ConnectionString);
             data = mySqlConnection.Query<Employee>(sqlCommand).ToList();
             return data;
+        }
+
+        /// <summary>
+        /// Lấy nhân viên theo mã nhân viên
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="employeeCode"></param>
+        /// <returns>Nhân viên</returns>
+        /// CreatedBy: NHNam(12/2/2023)
+        public Employee GetEmployeeByCode(Guid? id, string employeeCode)
+        {
+            // Khởi tạo Employee
+            var result = new Employee();
+            string storedProcedureName = "Proc_Employee_CheckDuplicate";
+            var parameters = new DynamicParameters();
+            parameters.Add("p_EmployeeCode", employeeCode);
+            parameters.Add("p_EmployeeId", id);
+            using (var mySqlConnection = new MySqlConnection(DatabaseContext.ConnectionString))
+            {
+                result = mySqlConnection.QueryFirstOrDefault<Employee>(storedProcedureName, parameters, commandType: System.Data.CommandType.StoredProcedure);
+            }
+            return result;
         }
     }
 }

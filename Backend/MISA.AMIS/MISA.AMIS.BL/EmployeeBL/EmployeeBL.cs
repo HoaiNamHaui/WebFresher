@@ -49,8 +49,8 @@ namespace MISA.AMIS.BL.EmployeeBL
         /// <summary>
         /// Xuất khẩu dữ liệu ra excel
         /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
+        /// <param name="data">dữ liệu lấy từ DL</param>
+        /// <returns>data</returns>
         public List<Employee> ExportToExcel()
         {
             var data = _employeeDL.ExportToExcel();
@@ -63,10 +63,17 @@ namespace MISA.AMIS.BL.EmployeeBL
         /// <param name="employee">Đối tượng nhân viên cần validate</param>
         /// <returns>kết quả validate</returns>
         /// CreatedBy: NHNam(3/2/2023)
-        protected override ValidateResult ValidateCustom(Employee? employee)
+        protected override ValidateResult ValidateCustom(Employee employee, Guid? id)
         {
             ValidateResult validateResult = new ValidateResult();
             validateResult.IsSuccess = true;
+            //Trùng mã nhân viên
+            var emp = _employeeDL.GetEmployeeByCode(id, employee.EmployeeCode);
+            if(emp != null)
+            {
+                validateResult.ListError.Add(Resource.DuplicateCode);
+                validateResult.IsSuccess = false;
+            }
             // Tuổi trên 18
             if (employee.DateOfBirth != null)
             {

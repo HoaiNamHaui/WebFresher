@@ -471,7 +471,10 @@ export default {
     sizeRecord(e) {
       this.pageSize = e;
       this.showPageOption();
+      this.page = 1;
+      this.pageNumber = 1;
       this.filterEmployee();
+      
     },
     /**
      * Hiện , ẩn chọn số bản ghi trên 1 trang

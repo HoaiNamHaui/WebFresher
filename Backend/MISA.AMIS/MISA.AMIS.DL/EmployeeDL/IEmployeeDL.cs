@@ -19,17 +19,19 @@ namespace MISA.AMIS.DL.EmployeeDL
         string GetMaxEmployeeCode();
 
         /// <summary>
-        /// Lấy nhân viên theo mã nhân viên
-        /// </summary>
-        /// <returns>trả về 1 nếu tìm thấy</returns>
-        /// CreatedBy: NHNam(3/2/2023)
-        int GetByEmployeeCode(string employeeCode);
-
-        /// <summary>
         /// Export dữ liệu ra file excel
         /// </summary>
         /// <returns></returns>
         /// CreatedBy: NHNam(12/2/2023)
         dynamic ExportToExcel();
+
+        /// <summary>
+        /// Lấy nhân viên theo mã nhân viên
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="employeeCode"></param>
+        /// <returns>Nhân viên</returns>
+        /// CreatedBy: NHNam(12/2/2023)
+        Employee GetEmployeeByCode(Guid? id,string employeeCode);
     }
 }
