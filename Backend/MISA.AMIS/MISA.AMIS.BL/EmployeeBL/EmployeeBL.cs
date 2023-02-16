@@ -58,6 +58,34 @@ namespace MISA.AMIS.BL.EmployeeBL
         }
 
         /// <summary>
+        /// Xóa hàng loạt
+        /// </summary>
+        /// <param name="ids">mảng id</param>
+        /// <returns>Số bản ghi xóa</returns>
+        /// CreatedBy: NHNam(3/2/2023)
+        public int DeleteMultiple(IEnumerable<Guid> ids)
+        {
+            if (ids == null || !ids.Any())
+            {
+                throw new ArgumentException("Danh sách Id không hợp lệ");
+            }
+
+            var numDeleted = 0;
+            try
+            {
+                // Gọi phương thức xóa hàng loạt trong một transaction
+                numDeleted = _employeeDL.DeleteMultiple(ids);
+            }
+            catch (Exception ex)
+            {
+                // Xử lý ngoại lệ nếu xảy ra lỗi trong quá trình xóa
+                throw new Exception("Lỗi xóa nhiều: ", ex);
+            }
+
+            return numDeleted;
+        }
+
+        /// <summary>
         /// Validate custom theo đối tượng cụ thể
         /// </summary>
         /// <param name="employee">Đối tượng nhân viên cần validate</param>

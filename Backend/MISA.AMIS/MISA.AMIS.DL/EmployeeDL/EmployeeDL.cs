@@ -62,5 +62,40 @@ namespace MISA.AMIS.DL.EmployeeDL
             }
             return result;
         }
+
+        /// <summary>
+        /// Xóa hoàng loạt
+        /// </summary>
+        /// <param name="ids">mảng các id</param>
+        /// <returns>Số bản ghi xóa</returns>
+        /// CreatedBy: NHNam(12/2/2023)
+        public int DeleteMultiple(IEnumerable<Guid> ids)
+        {
+            using( var mySqlConnection = new MySqlConnection(DatabaseContext.ConnectionString))
+            {
+                mySqlConnection.Open();
+                using(var transaction = mySqlConnection.BeginTransaction())
+                {
+                    try
+                    {
+                        var sql = "DELETE FROM Employee WHERE EmployeeId = @id";
+                        foreach (var id in ids)
+                        {
+                            var affectedRows = mySqlConnection.Execute(sql, new { id }, transaction);
+                        }
+
+                        transaction.Commit();
+
+                        return ids.Count();
+                    }
+                    catch (Exception)
+                    {
+                        transaction.Rollback();
+                        throw;
+                    }
+                }
+
+            }
+        }
     }
 }

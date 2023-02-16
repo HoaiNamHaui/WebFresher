@@ -24,7 +24,15 @@ namespace MISA.AMIS.BL.EmployeeBL
         /// Lấy data từ DL
         /// </summary>
         /// <returns>data</returns>
+        /// CreatedBy: NHNam(3/2/2023)
         List<Employee> ExportToExcel();
 
+        /// <summary>
+        /// Xóa hàng loạt
+        /// </summary>
+        /// <param name="ids">mảng id</param>
+        /// <returns>Số bản ghi xóa</returns>
+        /// CreatedBy: NHNam(3/2/2023)
+        int DeleteMultiple(IEnumerable<Guid> ids);
     }
 }

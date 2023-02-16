@@ -55,6 +55,32 @@ namespace MISA.AMIS.API.Controllers
         }
 
         /// <summary>
+        /// Xóa hàng loạt
+        /// </summary>
+        /// <param name="ids">Mảng id</param>
+        /// <returns>số bản ghi xóa</returns>
+        /// CreatedBy: NHNam (14/2/2023)
+        [HttpDelete("DeleteMultiple")]
+        public ActionResult<int> DeleteMultiple([FromBody] IEnumerable<Guid> ids)
+        {
+            var numDeleted = 0;
+            try
+            {
+                // Gọi phương thức xóa hàng loạt trong tầng Business layer
+                numDeleted = _employeeBL.DeleteMultiple(ids);
+            }
+            catch (Exception ex)
+            {
+                // Xử lý ngoại lệ nếu xảy ra lỗi trong quá trình xóa
+                Console.WriteLine(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+
+            return Ok(numDeleted);
+
+        }
+
+        /// <summary>
         /// Hàm xuất danh sách ra file Excel
         /// </summary>
         /// <returns>File Excel</returns>

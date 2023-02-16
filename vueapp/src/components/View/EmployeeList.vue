@@ -16,6 +16,7 @@
             class="functions-left-option"
             v-show="isShowBatchOption"
             v-click-outside="hideOption"
+            @click="deleteEmployeeMuliple"
           >
             Xóa hàng loạt
           </div>
@@ -144,8 +145,15 @@
     <base-message-delete
       v-if="confirmDelete"
       :employeeSelected="employeeSelected"
+      :rowSelected = "rowSelected"
       @cancelDelete="cancelDelete"
       @DeleteSuccess="DeleteSuccess"
+    />
+    <message-delete-multiple
+      v-if="confirmDeleteMultiple"
+      :rowSelected = "rowSelected"
+      @cancelDeleteMultiple="cancelDeleteMultiple"
+      @DeleteMultipleSuccess="DeleteMultipleSuccess"
     />
     <base-message-error
       :error="errForm"
@@ -173,6 +181,7 @@ import MISAEnum from "../../js/base/enum";
 import BaseMessageChange from "../Base/message/BaseMessageChange.vue";
 import BaseMessageError from "../Base/message/BaseMessageError.vue";
 import BaseMessageDelete from "../Base/message/BaseMessageDelete.vue";
+import MessageDeleteMultiple from "../Base/message/MessageDeleteMultiple.vue";
 import EmployeeDialog from "./EmployeeDetail.vue";
 import BaseToast from "../Base/BaseToast.vue";
 import BaseButton from "../Base/button/BaseButton.vue";
@@ -191,6 +200,7 @@ export default {
     PageCombobox,
     BaseCheckBox,
     BaseMessageDelete,
+    MessageDeleteMultiple,
     BaseMessageError,
     BaseToast,
     BaseMessageChange,
@@ -219,6 +229,7 @@ export default {
       btnMenuContext: null, // menu context
       isActive: false, //checkbox
       confirmDelete: false, // xác nhận xóa
+      confirmDeleteMultiple: false, // xác nhận xóa hàng loạt
       message: "", // thông báo
       employeeIdSelected: null, //id của employee đc chọn
       isAcceptSave: false, // xác nhận lưu
@@ -248,10 +259,15 @@ export default {
     },
   },
   methods: {
+
+    /**
+     * Call api xuất file excel
+     * Author: NHNam(12/2/2023)
+     */
     exportToExcel() {
       $("#loading").show();
       axios({
-        url: "https://localhost:7116/api/v1/Employees/ExportExcel", // endpoint của API
+        url: MISAapi.employee.export, // endpoint của API
         method: "GET",
         responseType: "blob", // định dạng dữ liệu trả về
       }).then((response) => {
@@ -343,19 +359,11 @@ export default {
     acceptSave() {
       this.isAcceptSave = true;
     },
+
     /**
      * Hiển thị toast message theo mode thêm hoặc sửa
      * Author: NHNam (9/1/2023)
      */
-    // async showToast(e) {
-    //   this.message = e;
-    //   this.isShowToast = true;
-    //   await this.filterEmployee();
-    //   var me = this;
-    //   setTimeout(function () {
-    //     me.isShowToast = false;
-    //   }, 8000);
-    // },
     async showToast(mess, data, formMode) {
       this.message = mess;
       this.isShowToast = true;
@@ -401,18 +409,18 @@ export default {
     cancelDelete(e) {
       this.confirmDelete = e;
     },
+
+    /**
+     * Đóng thông xác nhận xóa
+     * Author: NHNam (7/1/2023)
+     */
+    cancelDeleteMultiple(e) {
+      this.confirmDeleteMultiple = e;
+    },
     /**
      * Xóa thành công hiện toast message
      * Author: NHNam (9/1/2023)
      */
-    // async DeleteSuccess() {
-    //   this.isShowToast = true;
-    //   await this.filterEmployee();
-    //   var me = this;
-    //   setTimeout(function () {
-    //     me.isShowToast = false;
-    //   }, 4000);
-    // },
     DeleteSuccess() {
       this.isShowToast = true;
       this.employees = this.employees.filter(
@@ -423,6 +431,22 @@ export default {
         me.isShowToast = false;
       }, 4000);
     },
+
+    /**
+     * Xóa hàng loạt thành công hiện toast message
+     * Author: NHNam (9/1/2023)
+     */
+    async DeleteMultipleSuccess() {
+      this.isShowToast = true;
+      var me = this;
+      this.rowSelected = [];
+      await me.filterEmployee();
+      setTimeout(function () {
+        me.isShowToast = false;
+      }, 4000);
+      
+    },
+
     /**
      * hiện thông báo xác nhận xóa
      * Author: NHNam (7/1/2023)
@@ -430,6 +454,15 @@ export default {
     deleteEmployee() {
       this.message = MISAResource.vi.delete;
       this.confirmDelete = true;
+    },
+    /**
+     * hiện thông báo xác nhận xóa
+     * Author: NHNam (7/1/2023)
+     */
+
+    deleteEmployeeMuliple() {
+      this.message = MISAResource.vi.delete;
+      this.confirmDeleteMultiple = true;
     },
     /**
      * Tìm kiếm, phân trang
@@ -474,7 +507,6 @@ export default {
       this.page = 1;
       this.pageNumber = 1;
       this.filterEmployee();
-      
     },
     /**
      * Hiện , ẩn chọn số bản ghi trên 1 trang
@@ -542,6 +574,7 @@ export default {
     //Lấy danh sách nhân viên, tìm kiếm
     this.filterEmployee();
   },
+
   mounted() {
     // prevent click outside event with popupItem.
     this.popupItem = this.$el;

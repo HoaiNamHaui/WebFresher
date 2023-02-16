@@ -33,5 +33,13 @@ namespace MISA.AMIS.DL.EmployeeDL
         /// <returns>Nhân viên</returns>
         /// CreatedBy: NHNam(12/2/2023)
         Employee GetEmployeeByCode(Guid? id,string employeeCode);
+
+        /// <summary>
+        /// Xóa hoàng loạt
+        /// </summary>
+        /// <param name="ids">mảng các id</param>
+        /// <returns>Số bản ghi xóa</returns>
+        /// CreatedBy: NHNam(12/2/2023)
+        int DeleteMultiple(IEnumerable<Guid> ids);
     }
 }
