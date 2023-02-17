@@ -50,7 +50,8 @@ export default {
      * Author: NHNam (10/1/2023)
      */
     acceptSave(){
-        this.$emit("acceptSave")
+        this.$emit("acceptSave");
+        this.closeMessageChange();
     },
   },
 };

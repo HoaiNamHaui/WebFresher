@@ -169,6 +169,7 @@
       v-if="isShowChangeMessage"
       @closeMessageChange="isShowChangeMessage = !isShowChangeMessage"
       @hideDialogAndMessage="hideDialogAndMessage"
+      @acceptSave="acceptSave"
     />
   </div>
 </template>
@@ -182,7 +183,7 @@ import BaseMessageChange from "../Base/message/BaseMessageChange.vue";
 import BaseMessageError from "../Base/message/BaseMessageError.vue";
 import BaseMessageDelete from "../Base/message/BaseMessageDelete.vue";
 import MessageDeleteMultiple from "../Base/message/MessageDeleteMultiple.vue";
-import EmployeeDialog from "./EmployeeDetail.vue";
+import EmployeeDialog from "../Forms/EmployeeDetail.vue";
 import BaseToast from "../Base/BaseToast.vue";
 import BaseButton from "../Base/button/BaseButton.vue";
 import PageCombobox from "../Base/PageCombobox.vue";

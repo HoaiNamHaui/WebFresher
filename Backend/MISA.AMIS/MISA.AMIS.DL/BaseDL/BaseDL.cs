@@ -22,20 +22,28 @@ namespace MISA.AMIS.DL.BaseDL
         /// CreatedBy: NHNam(3/2/2023)
         public int InsertRecord(T record)
         {
-            string storedProcedureName = String.Format(ProcedureName.Insert, typeof(T).Name, "");
-            var parameters = new DynamicParameters();
-            foreach (var prop in record.GetType().GetProperties())
+            try
             {
-                parameters.Add("p_" + prop.Name, prop.GetValue(record, null));
+                string storedProcedureName = String.Format(ProcedureName.Insert, typeof(T).Name, "");
+                var parameters = new DynamicParameters();
+                foreach (var prop in record.GetType().GetProperties())
+                {
+                    parameters.Add("p_" + prop.Name, prop.GetValue(record, null));
+                }
+                int numberOfAffectedRow = 0;
+                using (var mySqlConnection = new MySqlConnection(DatabaseContext.ConnectionString))
+                {
+                    mySqlConnection.Open();
+                    numberOfAffectedRow = mySqlConnection.Execute(storedProcedureName, parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    mySqlConnection.Close();
+                }
+                return numberOfAffectedRow;
             }
-            int numberOfAffectedRow = 0;
-            using (var mySqlConnection = new MySqlConnection(DatabaseContext.ConnectionString))
+            catch (Exception ex)
             {
-                mySqlConnection.Open();
-                numberOfAffectedRow = mySqlConnection.Execute(storedProcedureName, parameters, commandType: System.Data.CommandType.StoredProcedure);
-                mySqlConnection.Close();
+                Console.WriteLine(ex.Message);
+                return 0;
             }
-            return numberOfAffectedRow;
         }
 
         /// <summary>
