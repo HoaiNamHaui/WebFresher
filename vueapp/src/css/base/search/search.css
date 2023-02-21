@@ -11,13 +11,13 @@
 }
 
 .search-box input{
-    color: #b8bcc3;
+    color: #393a3d;
     border: none;
     /* text-indent: 10px; */
     width: 240px;
     outline: none;
     height: 30px;
-    font-family:Notosans-Italic;
+    /* font-family:Notosans-Italic; */
 }
 .search-box input::placeholder{
     color: #b8bcc3;

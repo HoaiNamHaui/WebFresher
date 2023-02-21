@@ -108,8 +108,8 @@ th, td{
 /* custom scroll bar  */
 /* width */
 ::-webkit-scrollbar {
-    width: 5px;
-    height: 5px;
+    width: 3px;
+    height: 6px;
 }
   
 /* Track */

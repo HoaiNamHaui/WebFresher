@@ -33,7 +33,7 @@ namespace MISA.AMIS.API.Controllers
         /// <param name="record"></param>
         /// <returns></returns>
         /// Created by: NHNam (8/1/2023)
-        [HttpPut("{Id}")]
+        [HttpPut("{id}")]
         public override IActionResult UpdateRecord([FromRoute] Guid DepartmentId, [FromBody] Department record)
         {
             return StatusCode(StatusCodes.Status405MethodNotAllowed);

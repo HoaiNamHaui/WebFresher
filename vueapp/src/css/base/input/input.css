@@ -29,7 +29,11 @@ input[type="text"]{
     border: 1px solid #2ca01c;
 }
 
-
+.text-gray::-webkit-datetime-edit { color: #aaa; }
+.text-gray:focus::-webkit-datetime-edit { color: #000; }
+.text-gray::-webkit-calendar-picker-indicator {
+  filter: invert(0.5);
+}
 
 .error{
     border: 1px solid red;
@@ -79,7 +83,7 @@ input[type="text"]{
     text-align: center;
     background-color: #393a3d;
     padding: 5px 16px;
-    width: 200px;
+    width: max-content;
     border-radius: 4px;
     color: #ffff;
     position: absolute; 

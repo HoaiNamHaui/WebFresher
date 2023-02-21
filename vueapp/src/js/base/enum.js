@@ -6,7 +6,8 @@ var MISAEnum = {
     },
     FormMode:{
         Add: 0,
-        Edit: 1
+        Edit: 1,
+        Duplicate: 2
     },
     KEY_CODE:{
         ENTER: 13,
