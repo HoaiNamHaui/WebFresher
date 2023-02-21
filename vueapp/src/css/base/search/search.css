@@ -6,7 +6,7 @@
     border-radius: 2px;
     align-items: center;
 }
-.search-box:focus{
+.focus{
     border-color: #2ca01c;
 }
 

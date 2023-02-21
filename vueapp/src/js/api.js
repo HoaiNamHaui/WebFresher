@@ -4,7 +4,7 @@ var MISAapi = {
         employeeApi: "https://localhost:7116/api/v1/Employees/",
         filter: "https://localhost:7116/api/v1/Employees/Filter?",
         deleteMultiple: "https://localhost:7116/api/v1/Employees/DeleteMultiple",
-        export: "https://localhost:7116/api/v1/Employees/ExportExcel"
+        export: "https://localhost:7116/api/v1/Employees/ExportExcel?"
     },
     "department":{
         departmentApi: "https://localhost:7116/api/v1/Departments/",

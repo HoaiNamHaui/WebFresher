@@ -1,0 +1,12 @@
+.tooltip-container{
+    background-color: #393a3d;
+    color: #ffff;
+    position: absolute;
+    padding: 5px 16px;
+    width: max-content;
+    top: calc(100% + 3px);
+    transform: translate(-50%, 0);
+    border-radius: 2px;
+    display: none;
+    z-index: 10;
+}

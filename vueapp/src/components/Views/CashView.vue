@@ -1,22 +1,22 @@
 <template>
-  <div class="cash-container">
+  <div style="padding: 20px 20px">
     <h1>Tiền mặt</h1>
-    <h2 for="">Lương:</h2>
+    <!-- <h2 for="">Lương:</h2>
     <br>
     <base-input-money
     
     v-model="employee.salary"
     />
     <br>
-    <h2>Binding 2 chiều: {{ employee.salary|| 0 }}</h2>
+    <h2>Binding 2 chiều: {{ employee.salary|| 0 }}</h2> -->
   </div>
 </template>
 <script>
-import BaseInputMoney from '../Base/input/BaseInputMoney.vue';
+// import BaseInputMoney from '../Base/input/BaseInputMoney.vue';
 export default {
   name: "CashView",
   components:{
-    BaseInputMoney
+    // BaseInputMoney
   },
   data() {
     return {

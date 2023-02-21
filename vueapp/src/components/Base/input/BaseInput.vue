@@ -10,7 +10,7 @@
     </label>
     <br />
     <input
-      ref="txtfield"
+      ref="myInput"
       type="text"
       style="width: 100%"
       class="input"
@@ -34,6 +34,10 @@ export default {
     focus: Boolean,
     tooltip: String,
     tooltipContent: String,
+    shouldFocus: {
+      type: Boolean,
+      default: false,
+    },
   },
   // props: ["label","require","modelValue","tabindex"],
   data() {
@@ -48,19 +52,17 @@ export default {
      * Blur input bỏ border lỗi
      * Author: NHNam (4/1/2023)
      */
-    blurInput() {
-      this.isError = false;
-    },
-    //focus vào input
-    setFocus() {
-
-    },
+    // blurInput() {
+    //   this.isError = false;
+    // },
   },
   created() {
     this.value = this.modelValue;
     this.isRequire = this.require;
-    if(this.focus){
-      this.setFocus();
+    if (this.shouldFocus) {
+      this.$nextTick(() => {
+        this.$refs.myInput.focus();
+      });
     }
   },
   watch: {
@@ -79,6 +81,7 @@ export default {
       }
     },
   },
+
 };
 </script>
 <style scoped>

@@ -51,9 +51,9 @@ namespace MISA.AMIS.BL.EmployeeBL
         /// </summary>
         /// <param name="data">dữ liệu lấy từ DL</param>
         /// <returns>data</returns>
-        public List<Employee> ExportToExcel()
+        public List<Employee> ExportToExcel(int pageNumber, int pageSize, string keyword)
         {
-            var data = _employeeDL.ExportToExcel();
+            var data =_employeeDL.GetByFilter(pageNumber, pageSize, keyword).Data;
             return data;
         }
 

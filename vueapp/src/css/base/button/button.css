@@ -12,6 +12,15 @@
     cursor: pointer;
     min-width: 80px;
 }
+.button-red{
+    background-color: #DE3617 !important;
+}
+
+.button-red:hover{
+    background-color: #df492e !important;
+}
+
+
 .button-white{
     background-color: #fff;
     border-radius: 4px;

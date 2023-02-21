@@ -6,11 +6,12 @@
             <div class="messagebox-header-close" @click="closeMessage"></div>
         </div>
         <div class="messagebox-content">
-            <div class="messagebox-content-describe">Bạn có chắc chắn muốn xóa nhân viên <b>{{ employeeSelected.EmployeeCode }}</b></div>
+            <div class="messagebox-delete-icon"></div>
+            <div class="messagebox-content-describe">Bạn có chắc chắn muốn xóa <b>{{ employeeSelected.EmployeeCode }}</b> ?</div>
         </div>
         <div class="messagebox-footer">
             <button class="button-white" @click="closeMessage">Hủy</button>
-            <button class="button" @click="deleteEmployee">Đồng ý</button>
+            <button class="button button-red" @click="deleteEmployee">Đồng ý</button>
         </div>
     </div>
     </div>

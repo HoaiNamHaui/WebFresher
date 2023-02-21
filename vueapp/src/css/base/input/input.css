@@ -36,7 +36,7 @@ input[type="text"]{
 }
 
 .error{
-    border: 1px solid red;
+    border: 1px solid red !important;
 }
 /* độ dài các ô field text  */
 

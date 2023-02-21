@@ -6,13 +6,14 @@
         <div class="messagebox-header-close" @click="closeMessage"></div>
       </div>
       <div class="messagebox-content">
+        <div class="messagebox-delete-icon"></div>
         <div class="messagebox-content-describe">
           Bạn có chắc chắn xóa các bản ghi đã chọn?
         </div>
       </div>
       <div class="messagebox-footer">
         <button class="button-white" @click="closeMessage">Hủy</button>
-        <button class="button" @click="deleteEmployeeMultiple">Đồng ý</button>
+        <button class="button button-red" @click="deleteEmployeeMultiple">Đồng ý</button>
       </div>
     </div>
   </div>

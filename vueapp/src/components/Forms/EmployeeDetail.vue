@@ -12,9 +12,9 @@
       <div class="dialog-header">
         <div class="dialog-title">{{ titleForm }}</div>
         <div class="dialog-option">
-          <input type="checkbox" name="" id="" />
+          <input type="checkbox" name="" id="" disabled />
           <label for="">Là khách hàng</label>
-          <input type="checkbox" name="" id="" />
+          <input type="checkbox" name="" id="" disabled />
           <label for="">Là nhà cung cấp</label>
         </div>
       </div>
@@ -23,6 +23,7 @@
           <div class="field-above-left" style="margin-right: 26px">
             <div class="flexbox">
               <BaseInput
+                :shouldFocus="true"
                 class="input150"
                 label="Mã"
                 :focus="true"
@@ -30,31 +31,31 @@
                 v-model="employee.EmployeeCode"
                 style="margin-right: 8px"
                 :error="errors.code"
-                tabindex="0"
+                ref="empCode"
+                :title="errors.code"
               />
               <BaseInput
                 class="input230"
-                tabindex="0"
                 :error="errors.name"
                 label="Tên"
                 :require="true"
                 v-model="employee.FullName"
+                :title="errors.name"
               />
             </div>
             <div class="m-b-12" style="width: 388px">
               <label for="">Đơn vị <span class="red">*</span></label>
               <BaseCombobox
-                tabindex="0"
                 id="cbxDepartment"
                 api="https://localhost:7116/api/v1/Departments/Filter?pageSize=10&pageNumber=1"
                 propName="DepartmentName"
                 propValue="DepartmentId"
                 v-model="employee.DepartmentId"
                 :error="errors.dept"
+                :title="errors.dept"
               />
             </div>
             <BaseInput
-              tabindex="0"
               class="input388"
               label="Chức danh"
               :require="false"
@@ -70,8 +71,8 @@
                   v-model="employee.DateOfBirth"
                   type="date"
                   class="input input150"
-                  tabindex="0"
-                  :class="{'text-gray': !employee.DateOfBirth}"
+                  :class="{ 'text-gray': !employee.DateOfBirth }"
+                  :title="errors.dob"
                 />
               </div>
               <div class="m-b-12">
@@ -110,7 +111,6 @@
                 class="input240"
                 style="margin-right: 8px"
                 label="Số CMND"
-                tabindex="0"
                 tooltip="true"
                 tooltipContent="Số chứng minh nhân dân"
                 v-model="employee.IdentityNumber"
@@ -119,16 +119,15 @@
               <div class="m-b-12">
                 <label for="">Ngày cấp</label> <br />
                 <input
+                  ref="idtDate"
                   v-model="employee.IdentityDate"
                   type="date"
                   class="input input150"
-                  :class="{'text-gray': !employee.IdentityDate}"
-                  tabindex="0"
+                  :class="{ 'text-gray': !employee.IdentityDate }"
                 />
               </div>
             </div>
             <BaseInput
-              tabindex="0"
               class="input395"
               label="Nơi cấp"
               v-model="employee.IdentityPlace"
@@ -138,7 +137,6 @@
         <!-- <div class="line"></div> -->
         <div class="field-below">
           <BaseInput
-            tabindex="0"
             class="input800"
             label="Địa chỉ"
             v-model="employee.Address"
@@ -153,7 +151,6 @@
               />
             </div> -->
             <BaseInput
-              tabindex="00"
               style="margin-right: 8px"
               :error="errors.phone"
               class="input200"
@@ -161,13 +158,13 @@
               tooltip="true"
               tooltipContent="Điện thoại di động"
               v-model="employee.PhoneNumber"
+              :title="errors.phone"
             />
             <!-- <div class="m-b-12" style="margin-right: 8px">
               <label for="">ĐT cố định</label> <br />
               <input class="input input200" tabindex="00" />
             </div> -->
             <BaseInput
-              tabindex="01"
               style="margin-right: 8px"
               class="input200"
               label="ĐT cố định"
@@ -184,11 +181,11 @@
               />
             </div> -->
             <BaseInput
-              tabindex="02"
               class="input200"
               label="Email"
               :error="errors.email"
               v-model="employee.Email"
+              :title="errors.email"
             />
           </div>
           <div class="flexbox">
@@ -197,7 +194,6 @@
               <input class="input input200" tabindex="02" />
             </div> -->
             <BaseInput
-              tabindex="03"
               style="margin-right: 8px"
               class="input200"
               label="Tài khoản ngân hàng"
@@ -208,7 +204,6 @@
               <input class="input input200" tabindex="03" />
             </div> -->
             <BaseInput
-              tabindex="04"
               style="margin-right: 8px"
               class="input200"
               label="Tên ngân hàng"
@@ -219,7 +214,6 @@
               <input class="input input200" tabindex="04" />
             </div> -->
             <BaseInput
-              tabindex="05"
               class="input200"
               label="Chi nhánh"
               v-model="employee.BankBranchName"
@@ -231,9 +225,10 @@
         <button @click="hideDialog" class="button-white" id="btnCancel">
           Hủy
         </button>
-        <div>
+        <div style="display: flex; align-items: center">
           <button class="button-white" @click="saveEmployee">Cất</button>
-          <button class="button" @click="saveAndAdd">Cất và Thêm</button>
+          <!-- <button class="button" @click="saveAndAdd">Cất và Thêm</button> -->
+          <base-button @click="saveAndAdd" btnName="Cất và Thêm" />
         </div>
       </div>
     </div>
@@ -247,11 +242,13 @@ import MISAapi from "@/js/api";
 import MISAEnum from "@/js/base/enum";
 import BaseCombobox from "../Base/BaseCombobox.vue";
 import BaseInput from "../Base/input/BaseInput.vue";
+import BaseButton from "../Base/button/BaseButton.vue";
 export default {
   name: "EmployeeDialog",
   components: {
     BaseCombobox,
     BaseInput,
+    BaseButton,
   },
   data() {
     return {
@@ -469,17 +466,22 @@ export default {
         );
       }
     },
+
     /**
      * Cất và thêm (lưu data và reset form)
      */
-    saveAndAdd() {
-      this.validate();
-      if (this.isValid) {
-        this.saveData();
-        this.employee = {};
-        // Cất và thêm đổi tiêu đề form
-        this.titleForm = "Thêm nhân viên";
-        this.getNewEmployeeCode();
+    async saveAndAdd() {
+      try {
+        this.validate();
+        if (this.isValid) {
+          await this.saveData();
+          this.employee = {};
+          // Cất và thêm đổi tiêu đề form
+          this.titleForm = "Thêm nhân viên";
+          await this.getNewEmployeeCode();
+        }
+      } catch (error) {
+        console.log(error);
       }
     },
     /**
@@ -500,11 +502,15 @@ export default {
      * Author: NHNam (6/1/2023)
      */
     getNewEmployeeCode() {
-      var me = this;
-      axios.get(MISAapi.employee.newEmployeeCode).then(function (res) {
-        me.employee.EmployeeCode = res.data;
-        // me.$refs.txtCode.focus();
-      });
+      try {
+        var me = this;
+        axios.get(MISAapi.employee.newEmployeeCode).then(function (res) {
+          me.employee.EmployeeCode = res.data;
+          // me.$refs.txtCode.focus();
+        });
+      } catch (error) {
+        console.log(error);
+      }
     },
     /**
      * Đổi Tiêu đề form theo form mode

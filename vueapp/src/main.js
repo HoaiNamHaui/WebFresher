@@ -17,7 +17,7 @@ import SyntheticView from "./components/Views/SyntheticView.vue";
 import BudgetView from "./components/Views/BudgetView.vue";
 import ReportView from "./components/Views/ReportView.vue";
 import AnalysisView from "./components/Views/AnalysisView.vue";
-
+import BaseButton from '../src/components/Base/button/BaseButton.vue'
 
 const routers = [
     {path:"/" , component: EmployeeList},
@@ -41,3 +41,5 @@ const router = createRouter({
     routes: routers,
 })
 createApp(App).use(router).directive('debounce', vue3Debounce({ lock: true })).mount('#app')
+const app = createApp({})
+app.component('BaseButton', BaseButton)

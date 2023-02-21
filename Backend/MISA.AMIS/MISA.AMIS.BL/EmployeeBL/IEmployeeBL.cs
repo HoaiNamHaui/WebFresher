@@ -25,7 +25,7 @@ namespace MISA.AMIS.BL.EmployeeBL
         /// </summary>
         /// <returns>data</returns>
         /// CreatedBy: NHNam(3/2/2023)
-        List<Employee> ExportToExcel();
+        List<Employee> ExportToExcel(int pageNumber, int pageSize, string keyword);
 
         /// <summary>
         /// Xóa hàng loạt

@@ -11,7 +11,10 @@
           :class="{ 'functions-left-enable': enableBatch }"
           @click="showBatchOption"
         >
-          Thực hiện hàng loạt
+        <div style="display: flex; align-items: center;">
+          <div>Thực hiện hàng loạt</div>
+          <div class="cbx-icon" :class="{ 'unset-opacity': enableBatch }"  style="margin-left: 10px; opacity: 0.3;"></div>
+        </div>
           <div
             class="functions-left-option"
             v-show="isShowBatchOption"
@@ -22,8 +25,10 @@
           </div>
         </div>
         <div class="functions-right">
-          <div class="search-box">
+          <div class="search-box" :class="{focus: this.focusSearch}">
             <input
+              @focus="this.focusSearch = true"
+              @blur="this.focusSearch = false"
               type="text"
               placeholder="Tìm theo mã, tên nhân viên"
               v-debounce:1s="debounceSearch"
@@ -35,8 +40,12 @@
           /> -->
             <div class="search-icon"></div>
           </div>
-          <div class="refresh" @click="filterEmployee"></div>
-          <div class="excel" @click="exportToExcel"></div>
+          <div class="refresh" @click="filterEmployee" style="position: relative;">
+            <base-tooltip message="Làm mới danh sách"/>
+          </div>
+          <div class="excel" @click="exportToExcel" style="position: relative;">
+            <base-tooltip message="Xuất Excel"/>
+          </div>
         </div>
       </div>
       <div class="list-employee">
@@ -189,6 +198,7 @@ import BaseToast from "../Base/BaseToast.vue";
 import BaseButton from "../Base/button/BaseButton.vue";
 import PageCombobox from "../Base/PageCombobox.vue";
 import BaseCheckBox from "../Base/BaseCheckbox.vue";
+import BaseTooltip from "../Base/BaseTooltip.vue";
 import Paginate from "vuejs-paginate-next";
 import $ from "jquery";
 import axios from "axios";
@@ -206,6 +216,7 @@ export default {
     BaseMessageError,
     BaseToast,
     BaseMessageChange,
+    BaseTooltip
   },
   data() {
     return {
@@ -227,6 +238,7 @@ export default {
       totalRecord: 0, // tổng số bản ghi
       page: 1,
       newEmployeeCode: null, //mã nhân viên mới
+      focusSearch: false,
       isSuccess: true, // thành công
       btnMenuContext: null, // menu context
       isActive: false, //checkbox
@@ -270,7 +282,7 @@ export default {
     exportToExcel() {
       $("#loading").show();
       axios({
-        url: MISAapi.employee.export, // endpoint của API
+        url: MISAapi.employee.export + `pageSize=${this.pageSize}&pageNumber=${this.pageNumber}&keyword=${this.txtSearch}`, // endpoint của API
         method: "GET",
         responseType: "blob", // định dạng dữ liệu trả về
       }).then((response) => {

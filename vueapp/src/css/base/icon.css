@@ -124,8 +124,8 @@
     background-repeat: no-repeat;
     cursor: pointer;
 }
-.refresh:hover{
-    background-position: -1098px -90px;
+.refresh:hover .tooltip-container{
+    display: block;
 }
 /* export excel icon */
 
@@ -137,6 +137,10 @@
 }
 .excel:hover{
     background-position: -705px -258px;
+}
+
+.excel:hover .tooltip-container{
+    display: block;
 }
 
 
