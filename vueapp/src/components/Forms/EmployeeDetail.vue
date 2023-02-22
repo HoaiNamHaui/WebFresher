@@ -240,9 +240,9 @@ import axios from "axios";
 import MISAResource from "@/js/base/resource";
 import MISAapi from "@/js/api";
 import MISAEnum from "@/js/base/enum";
-import BaseCombobox from "../Base/BaseCombobox.vue";
-import BaseInput from "../Base/input/BaseInput.vue";
-import BaseButton from "../Base/button/BaseButton.vue";
+import BaseCombobox from "../base/BaseCombobox.vue";
+import BaseInput from "../base/input/BaseInput.vue";
+import BaseButton from "../base/button/BaseButton.vue";
 export default {
   name: "EmployeeDialog",
   components: {
@@ -253,6 +253,7 @@ export default {
   data() {
     return {
       employee: {}, //nhân viên
+      employeeTemp: {},
       errors: {
         // các trường validate
         code: "", // mã nv
@@ -495,16 +496,22 @@ export default {
      * dữ liệu thay đổi, xác nhận có muốn cất dữ liệu hay không
      */
     checkChangeAndHideDialog() {
-      this.$emit("confirmClose");
+      console.log(JSON.stringify(this.employee));
+      console.log(JSON.stringify(this.employeeTemp));
+      if (JSON.stringify(this.employee) == JSON.stringify(this.employeeTemp)) {
+        this.hideDialog();
+      } else {
+        this.$emit("confirmClose");
+      }
     },
     /**
      * Lấy mã nhân viên mới
      * Author: NHNam (6/1/2023)
      */
-    getNewEmployeeCode() {
+    async getNewEmployeeCode() {
       try {
         var me = this;
-        axios.get(MISAapi.employee.newEmployeeCode).then(function (res) {
+        await axios.get(MISAapi.employee.newEmployeeCode).then(function (res) {
           me.employee.EmployeeCode = res.data;
           // me.$refs.txtCode.focus();
         });
@@ -537,33 +544,19 @@ export default {
           me.employee.IdentityDate = me.fomartDate(res.data.IdentityDate);
           // console.log(me.employee.DepartmentId)
           // me.$refs.txtCode.focus();
+        })
+        .then(async function () {
+          if (me.isDuplicate === MISAEnum.FormMode.Duplicate) {
+            await me.getNewEmployeeCode();
+          }
+        })
+        .then(() => {
+          this.employeeTemp = Object.assign({}, this.employee);
         });
-        if (this.isDuplicate === MISAEnum.FormMode.Duplicate) {
-          await this.getNewEmployeeCode();
-        }
     } else {
       await this.getNewEmployeeCode();
       this.employee.Gender = 0;
-    }
-  },
-  updated() {
-    switch (this.employee.Gender) {
-      case 0: {
-        this.employee.GenderName = "Nam";
-        break;
-      }
-      case 1: {
-        this.employee.GenderName = "Nữ";
-        break;
-      }
-      case 2: {
-        this.employee.GenderName = "Chưa xác định";
-        break;
-      }
-      default: {
-        this.employee.GenderName = "Chưa xác định";
-        break;
-      }
+      this.employeeTemp = Object.assign({}, this.employee);
     }
   },
 };

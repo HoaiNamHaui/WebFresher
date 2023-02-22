@@ -13,9 +13,10 @@
       </div>
       <div class="msg-change-footer">
         <div class="msg-footer-left">
-          <button class="button-white" @click="closeMessageChange">Hủy</button>
+          <!-- <button class="button-white" @click="closeMessageChange">Hủy</button> -->
         </div>
         <div class="msg-footer-right">
+          <button class="button-white" @click="closeMessageChange">Hủy</button>
           <button class="button-white" @click="hideDialogAndMessage">
             Không
           </button>

@@ -90,7 +90,7 @@
             <td class="align-center" @dblclick="handleEditClick">
               {{ formatDate(employee.DateOfBirth) }}
             </td>
-            <td @dblclick="handleEditClick">{{ employee.GenderName }}</td>
+            <td @dblclick="handleEditClick">{{ employee.GenderName || getGenderName(employee.Gender) }}</td>
             <td @dblclick="handleEditClick">{{ employee.PhoneNumber }}</td>
             <td @dblclick="handleEditClick">{{ employee.PositionName }}</td>
             <td @dblclick="handleEditClick">{{ employee.IdentityNumber }}</td>
@@ -188,17 +188,18 @@ import ClickOutside from "vue-click-outside";
 import { vue3Debounce } from "vue-debounce";
 import MISAResource from "../../js/base/resource";
 import MISAapi from "@/js/api";
+import MISAcommon from "../../js/base/common";
 import MISAEnum from "../../js/base/enum";
-import BaseMessageChange from "../Base/message/BaseMessageChange.vue";
-import BaseMessageError from "../Base/message/BaseMessageError.vue";
-import BaseMessageDelete from "../Base/message/BaseMessageDelete.vue";
-import MessageDeleteMultiple from "../Base/message/MessageDeleteMultiple.vue";
-import EmployeeDialog from "../Forms/EmployeeDetail.vue";
-import BaseToast from "../Base/BaseToast.vue";
-import BaseButton from "../Base/button/BaseButton.vue";
-import PageCombobox from "../Base/PageCombobox.vue";
-import BaseCheckBox from "../Base/BaseCheckbox.vue";
-import BaseTooltip from "../Base/BaseTooltip.vue";
+import BaseMessageChange from "../base/message/BaseMessageChange.vue";
+import BaseMessageError from "../base/message/BaseMessageError.vue";
+import BaseMessageDelete from "../base/message/BaseMessageDelete.vue";
+import MessageDeleteMultiple from "../base/message/MessageDeleteMultiple.vue";
+import EmployeeDialog from "../forms/EmployeeDetail.vue";
+import BaseToast from "../base/BaseToast.vue";
+import BaseButton from "../base/button/BaseButton.vue";
+import PageCombobox from "../base/PageCombobox.vue";
+import BaseCheckBox from "../base/BaseCheckbox.vue";
+import BaseTooltip from "../base/BaseTooltip.vue";
 import Paginate from "vuejs-paginate-next";
 import $ from "jquery";
 import axios from "axios";
@@ -274,7 +275,9 @@ export default {
     },
   },
   methods: {
-
+    getGenderName(gender){
+      return MISAcommon.getTitleGender(gender);
+    },
     /**
      * Call api xuất file excel
      * Author: NHNam(12/2/2023)

@@ -20,7 +20,7 @@
   </div>
 </template>
 <script>
-import BaseTooltip from '../Base/BaseTooltip.vue';
+import BaseTooltip from '../base/BaseTooltip.vue';
 export default {
   name: "TheHeader",
   components:{

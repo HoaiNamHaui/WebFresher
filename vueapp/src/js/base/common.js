@@ -1,3 +1,4 @@
+import MISAEnum from "./enum";
 const commonJS = {
   /**
    * Địnhndạng ngày tháng : dd/mm/yyyy
@@ -20,6 +21,32 @@ const commonJS = {
       console.log(error);
       return "";
     }
+  },
+  /**
+   * chuyển từ enum ra text
+   * @param {} gender 
+   * @returns 
+   */
+  getTitleGender: (gender) => {
+    var title = "Khác";
+    switch (gender) {
+      // Nam
+      case MISAEnum.Gender.Male:
+        title = "Nam";
+        break;
+      // Nữ
+      case MISAEnum.Gender.Female:
+        title = "Nữ";
+        break;
+      // Khác
+      case MISAEnum.Gender.Other:
+        title = "Khác";
+        break;
+      default:
+        title = "";
+        break;
+    }
+    return title;
   },
 };
 export default commonJS;
