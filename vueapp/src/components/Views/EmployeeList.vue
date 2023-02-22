@@ -426,7 +426,7 @@ export default {
       this.isDuplicate = MISAEnum.FormMode.Duplicate;
       this.handleEditClick();
     },
-    /**
+    /**confirmDelete
      * Đóng thông xác nhận xóa
      * Author: NHNam (7/1/2023)
      */

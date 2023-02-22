@@ -205,10 +205,10 @@ namespace MISA.AMIS.BL.BaseBL
             {
                 var propName = prop.Name;
                 var propValue = prop.GetValue(record);
-                var requiredAttribute = (RequiredAttribute)prop.GetCustomAttributes(typeof(RequiredAttribute), false).FirstOrDefault();
+                var requiredAttribute = (RequiredAttribute)prop?.GetCustomAttributes(typeof(RequiredAttribute), false)?.FirstOrDefault();
                 if (requiredAttribute != null && string.IsNullOrEmpty(propValue.ToString()))
                 {
-                    validateResult.ListError.Add(requiredAttribute.ErrorMessage);
+                    validateResult.ListError.Add(requiredAttribute?.ErrorMessage);
                     validateResult.IsSuccess = false;
                 }
             }

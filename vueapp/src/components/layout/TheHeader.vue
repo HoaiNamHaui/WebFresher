@@ -6,7 +6,9 @@
       <!-- <div class="chevron-down"></div> -->
     </div>
     <div class="header-right">
-      <div class="bell"></div>
+      <div class="bell" style="position: relative;">
+        <BaseTooltip message="Tính năng này đang phát triển"/>
+      </div>
       <img
         src="../../assets/img/default-avatar.jpg"
         alt="default avt"
@@ -18,8 +20,12 @@
   </div>
 </template>
 <script>
+import BaseTooltip from '../Base/BaseTooltip.vue';
 export default {
   name: "TheHeader",
+  components:{
+    BaseTooltip
+  },
   data(){
     return{
       isShowBar: true,

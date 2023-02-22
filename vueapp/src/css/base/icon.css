@@ -89,6 +89,9 @@
     margin-right: 15px;
     cursor: pointer;
 }
+.bell:hover .tooltip-container{
+    display: block;
+}
 .chevron-down-mini{
     background-position: -464px -408px;
     margin-left: 10px;

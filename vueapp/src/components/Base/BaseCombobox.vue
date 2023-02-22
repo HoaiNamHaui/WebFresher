@@ -9,6 +9,7 @@
       @input="onSearchItem"
       @keydown="inputOnKeyDown"
       :class="{'none-border': isError}"
+      autocomplete="off"
     />
     <div class="combobox-button" @click="onShowHideData" :class="{'none-border': isError}">
       <div class="combobox-button-icon"></div>
@@ -45,9 +46,9 @@ export default {
     };
   },
   watch: {
-    modelValue: function () {
+    modelValue: async function () {
       if (this.modelValue) {
-        this.setItemSelected();
+        await this.setItemSelected();
       }
     },
     //Lỗi hiển thị border lỗi
@@ -67,6 +68,7 @@ export default {
       }
     }
   },
+
   created() {
     /**
      * Gọi API lấy danh sách phòng ban
@@ -78,7 +80,9 @@ export default {
         .then((data) => {
           this.entities = data.data.Data;
           this.entitySearch = data.data.Data;
-          // this.setItemSelected();
+        })
+        .then(()=>{
+          this.setItemSelected();
         })
         .catch((res) => {
           console.log(res);

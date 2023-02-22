@@ -151,7 +151,7 @@ namespace MISA.AMIS.API.Controllers
                     worksheet.Cells[3, 8].Value = "Số tài khoản";
                     worksheet.Cells[3, 9].Value = "Tên ngân hàng";
 
-                    double rowHeight = 14;
+                    //double rowHeight = 14;
                     // Thêm dữ liệu vào các hàng tiếp theo
                     for (var i = 0; i < data.Count; i++)
                     {

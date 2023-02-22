@@ -428,9 +428,9 @@ export default {
      */
     async saveData() {
       var me = this;
-      if (this.isDuplicate === MISAEnum.FormMode.Duplicate) {
-        await this.getNewEmployeeCode();
-      }
+      // if (this.isDuplicate === MISAEnum.FormMode.Duplicate) {
+      //   await this.getNewEmployeeCode();
+      // }
       var newData = this.employee;
       var res;
       if (
@@ -538,6 +538,9 @@ export default {
           // console.log(me.employee.DepartmentId)
           // me.$refs.txtCode.focus();
         });
+        if (this.isDuplicate === MISAEnum.FormMode.Duplicate) {
+          await this.getNewEmployeeCode();
+        }
     } else {
       await this.getNewEmployeeCode();
       this.employee.Gender = 0;
