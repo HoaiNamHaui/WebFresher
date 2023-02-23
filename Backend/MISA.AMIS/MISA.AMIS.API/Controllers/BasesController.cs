@@ -202,7 +202,7 @@ namespace MISA.AMIS.API.Controllers
             var res = new ErrorResult
             {
                 DevMsg = ex.Message,
-                UserMsg = "Có lỗi xảy ra, vui lòng liên hệ MISA để được trợ giúp!"
+                UserMsg = Resource.MISAError
             };
             return StatusCode(StatusCodes.Status500InternalServerError, res);
         }

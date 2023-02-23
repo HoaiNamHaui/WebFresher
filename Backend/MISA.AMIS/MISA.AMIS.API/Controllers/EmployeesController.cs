@@ -139,6 +139,10 @@ namespace MISA.AMIS.API.Controllers
                         worksheet.Cells[c].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
 
                     });
+                    //for(int i =1; i <= lstHeader.Count(); i++)
+                    //{
+                    //    worksheet.Column(i).Width = 20;
+                    //}
 
                     // Thêm hàng Header
                     worksheet.Cells[3, 1].Value = "STT";
@@ -151,10 +155,11 @@ namespace MISA.AMIS.API.Controllers
                     worksheet.Cells[3, 8].Value = "Số tài khoản";
                     worksheet.Cells[3, 9].Value = "Tên ngân hàng";
 
-                    //double rowHeight = 14;
+                    
                     // Thêm dữ liệu vào các hàng tiếp theo
                     for (var i = 0; i < data.Count; i++)
                     {
+                        worksheet.Row(i+4).Height = 25;
                         worksheet.Cells[i + 4, 1].Value = i + 1;
                         worksheet.Cells[i + 4, 2].Value = data[i].EmployeeCode;
                         worksheet.Cells[i + 4, 3].Value = data[i].FullName;
@@ -166,6 +171,14 @@ namespace MISA.AMIS.API.Controllers
                         worksheet.Cells[i + 4, 9].Value = data[i].BankName;
                         worksheet.Cells[i + 4, 5].Style.Numberformat.Format = "dd/mm/yyyy";
                         worksheet.Cells[i + 4, 5].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                        for (var col = 1; col <= 9; col++)
+                        {
+                            var cell = worksheet.Cells[i+4, col];
+                            cell.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                            cell.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                            cell.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                            cell.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                        }
                     }
 
                     // Auto-fit columns

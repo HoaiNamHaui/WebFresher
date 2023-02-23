@@ -49,12 +49,12 @@ export default {
   },
   methods: {
     /**
-     * Blur input bỏ border lỗi
+     * gửi trạng thái focus
      * Author: NHNam (4/1/2023)
      */
-    // blurInput() {
-    //   this.isError = false;
-    // },
+    blurInput() {
+      this.$emit("unfocus", false);
+    },
   },
   created() {
     this.value = this.modelValue;
@@ -80,6 +80,11 @@ export default {
         this.isError = false;
       }
     },
+    shouldFocus: function(){
+      this.$nextTick(() => {
+        this.$refs.myInput.focus();
+      });
+    }
   },
 
 };

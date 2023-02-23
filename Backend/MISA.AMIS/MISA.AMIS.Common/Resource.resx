@@ -123,6 +123,9 @@
   <data name="DateOfBirthInvalid" xml:space="preserve">
     <value>Tuổi nhân viên phải trên 18</value>
   </data>
+  <data name="DeleteMultipleError" xml:space="preserve">
+    <value>Có lỗi xảy ra trong quá trình xóa hàng loạt</value>
+  </data>
   <data name="DepartmentEmpty" xml:space="preserve">
     <value>Đơn vị không được bỏ trống</value>
   </data>
@@ -137,6 +140,9 @@
   </data>
   <data name="EmployeeNameEmpty" xml:space="preserve">
     <value>Tên nhân viên không được bỏ trống</value>
+  </data>
+  <data name="ListIdInvalid" xml:space="preserve">
+    <value>Danh sách ID không hợp lệ</value>
   </data>
   <data name="MISAError" xml:space="preserve">
     <value>Có lỗi xảy ra, vui lòng liên hệ MISA để được trợ giúp</value>

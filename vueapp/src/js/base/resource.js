@@ -12,6 +12,12 @@ var MISAResource = {
             age: "Tuổi nhân viên phải trên 18",
             phone: "Số điện thoại không đúng định dạng",
             email: "Email không đúng định dạng"
+        },
+        errorServerResponse:{
+            500: "Có lỗi xảy ra, vui lòng liên hệ MISA để được trợ giúp!",
+            400: "Dữ liệu nhập không hợp lệ!",
+            404: "Không tìm thấy trang",
+            otherCode: "Có lỗi xảy ra vui lòng thử lại!"
         }
     },
     "en":{

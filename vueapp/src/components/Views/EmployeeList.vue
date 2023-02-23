@@ -275,6 +275,20 @@ export default {
     },
   },
   methods: {
+    /**
+     * xử lý lỗi server trả về
+     * @param statuscode} errorCode 
+     * Author: NHNam (22/2/2023)
+     */
+    handleErrorCode(errorCode){
+      return MISAcommon.handleErrorCode(errorCode)
+    },
+    
+    /**
+     * lấy tên giới tính theo mã giới tính
+     * @param {mã giới tính} gender 
+     * Author: NHNam(12/2/2023)
+     */
     getGenderName(gender){
       return MISAcommon.getTitleGender(gender);
     },
@@ -336,10 +350,16 @@ export default {
      */
     changeCheckbox(active, id) {
       // Check all
-      if (id === "checkall" && active) {
-        this.rowSelected = this.employees.map((item) => item.EmployeeId);
+      if (id === "checkall" && active) {        
+        this.rowSelected = this.rowSelected.concat(this.employees.map((x) => x.EmployeeId).filter((x) => !this.rowSelected.includes(x)));
+        this.isCheckAll = true;
+        // this.rowSelected = this.employees.map((item) => item.EmployeeId);
       } else if (id === "checkall" && !active) {
-        this.rowSelected = [];
+        // this.rowSelected = [];
+        this.employees.map((x) => x.EmployeeId).forEach((e) => {
+          this.rowSelected = this.rowSelected.filter(x => x!=e);
+        });
+        this.isCheckAll = false;
       } else {
         if (active) {
           this.rowSelected.push(id);
@@ -348,9 +368,28 @@ export default {
         }
       }
       // So sánh độ dài số dòng được chọn bằng số lượng bản ghi 1 trang thì check all
-      if (this.rowSelected.length === this.employees.length) {
+      // if (this.rowSelected.length === this.employees.length) {
+      //   this.isCheckAll = true;
+      // } else {
+      //   this.isCheckAll = false;
+      // }
+      this.testCheckAll();
+    },
+
+    testCheckAll(){
+      // Kiểm tra coi có check all hay không
+      var count = 0;
+      // Đếm số phần tử check của page
+      this.employees
+        .map((x) => x.EmployeeId)
+        .forEach((e) => {
+          if (this.rowSelected.filter((x) => x == e).length > 0) count++;
+        });
+
+      // Kiểm tra để check
+      if (this.employees.length > 0 && count == this.employees.length) {
         this.isCheckAll = true;
-      } else {
+      } else if (count < this.employees.length) {
         this.isCheckAll = false;
       }
     },
@@ -453,6 +492,10 @@ export default {
       this.employees = this.employees.filter(
         (item) => item != this.employeeSelected
       );
+      if(this.rowSelected.length > 0){
+        this.rowSelected = this.rowSelected.filter(item => item != this.employeeSelected);
+      }
+      
       var me = this;
       setTimeout(function () {
         me.isShowToast = false;
@@ -495,15 +538,15 @@ export default {
      * Tìm kiếm, phân trang
      * Author: NHNam (1/1/2023)
      */
-    filterEmployee() {
+    async filterEmployee() {
       $("#loading").show();
       var me = this;
       var url =
         MISAapi.employee.filter +
         `pageSize=${this.pageSize}&pageNumber=${this.pageNumber}&keyword=${this.txtSearch}`;
-      axios
+      await axios
         .get(url)
-        .then(function (res) {
+        .then( async function (res) {
           me.totalPage = res.data.TotalPage;
           me.totalRecord = res.data.TotalRecord;
           me.isSuccess = true;
@@ -511,18 +554,22 @@ export default {
           $("#loading").hide();
         })
         .catch(function (res) {
-          console.log(res);
+          // this.handleErrorCode(res.statuscode)
+          console.log(res.data.ListError);
         });
     },
     /**
      * Chuyển trang
      * Author: NHNam (1/1/2023)
      */
-    clickCallback(pageNum) {
+    async clickCallback(pageNum) {
       this.pageNumber = pageNum;
-      this.rowSelected = [];
-      this.isCheckAll = false;
-      (this.txtSearch = ""), this.filterEmployee();
+      // this.rowSelected = [];
+      
+      // this.isCheckAll = false;
+      this.txtSearch = ""; 
+      await this.filterEmployee();
+      this.testCheckAll();
     },
     /**
      * Đổi size page

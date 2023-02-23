@@ -67,7 +67,7 @@ namespace MISA.AMIS.BL.EmployeeBL
         {
             if (ids == null || !ids.Any())
             {
-                throw new ArgumentException("Danh sách Id không hợp lệ");
+                throw new ArgumentException(Resource.ListIdInvalid);
             }
 
             var numDeleted = 0;
@@ -79,7 +79,7 @@ namespace MISA.AMIS.BL.EmployeeBL
             catch (Exception ex)
             {
                 // Xử lý ngoại lệ nếu xảy ra lỗi trong quá trình xóa
-                throw new Exception("Lỗi xóa nhiều: ", ex);
+                throw new Exception(Resource.DeleteMultipleError+ ": ", ex);
             }
 
             return numDeleted;

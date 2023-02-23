@@ -79,6 +79,15 @@ namespace MISA.AMIS.Common {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Có lỗi xảy ra trong quá trình xóa hàng loạt.
+        /// </summary>
+        public static string DeleteMultipleError {
+            get {
+                return ResourceManager.GetString("DeleteMultipleError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Đơn vị không được bỏ trống.
         /// </summary>
         public static string DepartmentEmpty {
@@ -120,6 +129,15 @@ namespace MISA.AMIS.Common {
         public static string EmployeeNameEmpty {
             get {
                 return ResourceManager.GetString("EmployeeNameEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Danh sách ID không hợp lệ.
+        /// </summary>
+        public static string ListIdInvalid {
+            get {
+                return ResourceManager.GetString("ListIdInvalid", resourceCulture);
             }
         }
         

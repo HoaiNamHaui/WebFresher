@@ -1,7 +1,29 @@
 import MISAEnum from "./enum";
+import MISAResource from "./resource";
 const commonJS = {
   /**
-   * Địnhndạng ngày tháng : dd/mm/yyyy
+   * 
+   * @param {*} errorCode 
+   */
+  handleErrorCode(errorCode){
+    switch(errorCode){
+      case 404:
+        console.log(MISAResource.vi.errorServerResponse[404]);
+        break;
+      case 400:
+        console.log(MISAResource.vi.errorServerResponse[400]);
+        break;
+      case 500:
+        console.log(MISAResource.vi.errorServerResponse[500]);
+        break;
+      default:
+        console.log(MISAResource.vi.errorServerResponse.otherCode);
+        break;
+    }
+  },
+
+  /**
+   * Định dạng ngày tháng : dd/mm/yyyy
    * CreatedBy: NHNam (28/12/2022)
    * @param {} date
    * @returns

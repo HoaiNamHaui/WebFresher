@@ -23,7 +23,7 @@
           <div class="field-above-left" style="margin-right: 26px">
             <div class="flexbox">
               <BaseInput
-                :shouldFocus="true"
+                :shouldFocus="shouldFocus"
                 class="input150"
                 label="Mã"
                 :focus="true"
@@ -33,6 +33,7 @@
                 :error="errors.code"
                 ref="empCode"
                 :title="errors.code"
+                @unfocus="unfocus"
               />
               <BaseInput
                 class="input230"
@@ -217,6 +218,7 @@
               class="input200"
               label="Chi nhánh"
               v-model="employee.BankBranchName"
+              @keydown="handleKeyDown"
             />
           </div>
         </div>
@@ -240,6 +242,7 @@ import axios from "axios";
 import MISAResource from "@/js/base/resource";
 import MISAapi from "@/js/api";
 import MISAEnum from "@/js/base/enum";
+import MISAcommon from"@/js/base/enum";
 import BaseCombobox from "../base/BaseCombobox.vue";
 import BaseInput from "../base/input/BaseInput.vue";
 import BaseButton from "../base/button/BaseButton.vue";
@@ -263,6 +266,7 @@ export default {
         dept: "", // đơn vị
         email: "", // email
       },
+      shouldFocus: true,
       isValid: false, // dữ liệu hợp lệ
       department: {}, // phòng ban
       titleForm: "", // tiêu đề form
@@ -275,6 +279,32 @@ export default {
     },
   },
   methods: {
+    /**
+     * Tab vòng về mã nhân viên
+     * Author: NHNam (22/2/2023)
+     */
+     handleKeyDown(event){
+      if (event.keyCode === 9) {
+        this.shouldFocus = true;
+      }
+     },
+    /**
+     * Cập nhật trạng thái focus
+     * Author: NHNam (21/2/2023)
+     */
+    unfocus(){
+      this.shouldFocus = false;
+    },
+
+    /**
+     * xử lý lỗi server trả về
+     * @param statuscode} errorCode 
+     * Author: NHNam (22/2/2023)
+     */
+     handleErrorCode(errorCode){
+      return MISAcommon.handleErrorCode(errorCode)
+    },
+
     /**
      * Lưu và đóng form
      * Author: NHNam (9/1/2023)
@@ -312,7 +342,7 @@ export default {
       }
     },
     /**
-     * Validate form
+     * Validate formnhân viên
      * Author: NHNam (7/1/2023)
      */
     validate() {
@@ -443,8 +473,9 @@ export default {
           .catch((res) => {
             this.errors.code = res.response.data.MoreInfo.ListError[0];
             this.$emit("sendMessage", this.errors.code);
+            console.log(res.response.data.MoreInfo.ListError);
+            // this.handleErrorCode(res.response.status);
           });
-        console.log(res.data);
         me.$emit(
           "showToast",
           MISAResource.vi.add,
@@ -457,6 +488,8 @@ export default {
           .catch((res) => {
             this.errors.code = res.response.data.MoreInfo.ListError[0];
             this.$emit("sendMessage", this.errors.code);
+            // this.handleErrorCode(res.statuscode);
+            console.log(res.response.data.MoreInfo.ListError);
           });
         console.log(res.data);
         me.$emit(
@@ -496,8 +529,8 @@ export default {
      * dữ liệu thay đổi, xác nhận có muốn cất dữ liệu hay không
      */
     checkChangeAndHideDialog() {
-      console.log(JSON.stringify(this.employee));
-      console.log(JSON.stringify(this.employeeTemp));
+      // console.log(JSON.stringify(this.employee));
+      // console.log(JSON.stringify(this.employeeTemp));
       if (JSON.stringify(this.employee) == JSON.stringify(this.employeeTemp)) {
         this.hideDialog();
       } else {
@@ -511,10 +544,16 @@ export default {
     async getNewEmployeeCode() {
       try {
         var me = this;
-        await axios.get(MISAapi.employee.newEmployeeCode).then(function (res) {
-          me.employee.EmployeeCode = res.data;
-          // me.$refs.txtCode.focus();
-        });
+        await axios
+          .get(MISAapi.employee.newEmployeeCode)
+          .then(function (res) {
+            me.employee.EmployeeCode = res.data;
+            // me.$refs.txtCode.focus();
+          })
+          .catch(function (res) {
+            this.handleErrorCode(res.statuscode);
+            console.log(res.response.data.MoreInfo.ListError);
+          });
       } catch (error) {
         console.log(error);
       }
