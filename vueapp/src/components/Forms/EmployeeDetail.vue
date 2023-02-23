@@ -48,7 +48,7 @@
               <label for="">Đơn vị <span class="red">*</span></label>
               <BaseCombobox
                 id="cbxDepartment"
-                api="https://localhost:7116/api/v1/Departments/Filter?pageSize=10&pageNumber=1"
+                :api="departmentApi"
                 propName="DepartmentName"
                 propValue="DepartmentId"
                 v-model="employee.DepartmentId"
@@ -269,6 +269,7 @@ export default {
       shouldFocus: true,
       isValid: false, // dữ liệu hợp lệ
       department: {}, // phòng ban
+      departmentApi: MISAapi.department.filter,
       titleForm: "", // tiêu đề form
     };
   },
