@@ -107,7 +107,7 @@ namespace MISA.AMIS.BL.BaseBL
             var numberOfAffectedRows = _baseDL.UpdateRecord(record, recordId);
 
             // Xử lý kết quả trả về
-            if(numberOfAffectedRows > 0)
+            if (numberOfAffectedRows > 0)
             {
                 return new ServiceResult { IsSuccess = true };
             }
@@ -205,14 +205,18 @@ namespace MISA.AMIS.BL.BaseBL
             {
                 var propName = prop.Name;
                 var propValue = prop.GetValue(record);
-                var requiredAttribute = (RequiredAttribute)prop?.GetCustomAttributes(typeof(RequiredAttribute), false)?.FirstOrDefault();
-                if (requiredAttribute != null && string.IsNullOrEmpty(propValue.ToString()))
+                var requiredAttribute = (RequiredAttribute)prop.GetCustomAttributes(typeof(RequiredAttribute), false).FirstOrDefault();
+                if (propValue != null)
                 {
-                    validateResult.ListError.Add(requiredAttribute?.ErrorMessage);
-                    validateResult.IsSuccess = false;
+                    if (requiredAttribute != null && string.IsNullOrEmpty(propValue.ToString()))
+                    {
+                        validateResult.ListError.Add(requiredAttribute?.ErrorMessage);
+                        validateResult.IsSuccess = false;
+                    }
                 }
+
             }
-            if(validateResult.ListError.Count > 0)
+            if (validateResult.ListError.Count > 0)
             {
                 return validateResult;
             }

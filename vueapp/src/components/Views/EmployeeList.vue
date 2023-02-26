@@ -6,15 +6,27 @@
     </div>
     <div class="content-data">
       <div class="functions">
-        <div
-          class="functions-left"
-          :class="{ 'functions-left-enable': enableBatch }"
-          @click="showBatchOption"
-        >
-        <div style="display: flex; align-items: center;">
-          <div>Thực hiện hàng loạt</div>
-          <div class="cbx-icon" :class="{ 'unset-opacity': enableBatch }"  style="margin-left: 10px; opacity: 0.3;"></div>
-        </div>
+        <div class="functions-left">
+          <div v-show="enableBatch">
+            <span>Đã chọn: </span> <span>{{ rowSelected.length }}</span>
+            <span style="color: red; cursor: pointer"
+            @click="resetRowSelected"
+            >Bỏ chọn</span>
+            <base-button 
+            :btnClass="'button-red'" 
+            btnName="Xóa"
+            @click="deleteEmployeeMuliple"
+            />
+          </div>
+
+          <!-- <div style="display: flex; align-items: center">
+            <div>Thực hiện hàng loạt</div>
+            <div
+              class="cbx-icon"
+              :class="{ 'unset-opacity': enableBatch }"
+              style="margin-left: 10px; opacity: 0.3"
+            ></div>
+          </div>
           <div
             class="functions-left-option"
             v-show="isShowBatchOption"
@@ -22,10 +34,10 @@
             @click="deleteEmployeeMuliple"
           >
             Xóa hàng loạt
-          </div>
+          </div> -->
         </div>
         <div class="functions-right">
-          <div class="search-box" :class="{focus: this.focusSearch}">
+          <div class="search-box" :class="{ focus: this.focusSearch }">
             <input
               @focus="this.focusSearch = true"
               @blur="this.focusSearch = false"
@@ -40,11 +52,15 @@
           /> -->
             <div class="search-icon"></div>
           </div>
-          <div class="refresh" @click="filterEmployee" style="position: relative;">
-            <base-tooltip message="Làm mới danh sách"/>
+          <div
+            class="refresh"
+            @click="filterEmployee"
+            style="position: relative"
+          >
+            <base-tooltip message="Làm mới danh sách" />
           </div>
-          <div class="excel" @click="exportToExcel" style="position: relative;">
-            <base-tooltip message="Xuất Excel"/>
+          <div class="excel" @click="exportToExcel" style="position: relative">
+            <base-tooltip message="Xuất Excel" />
           </div>
         </div>
       </div>
@@ -75,8 +91,9 @@
           <tr
             v-for="employee in employees"
             v-bind:key="employee.EmployeeId"
-            @click="employeeSelected = employee"
+            @dblclick="handleEditClick(employee)"
             :class="{ active: rowSelected.includes(employee.EmployeeId) }"
+            @click="employeeSelected = employee"
           >
             <td class="col60">
               <base-check-box
@@ -85,27 +102,31 @@
                 @changeCheckbox="changeCheckbox"
               />
             </td>
-            <td @dblclick="handleEditClick">{{ employee.EmployeeCode }}</td>
-            <td @dblclick="handleEditClick">{{ employee.FullName }}</td>
-            <td class="align-center" @dblclick="handleEditClick">
+            <td>{{ employee.EmployeeCode }}</td>
+            <td>{{ employee.FullName }}</td>
+            <td class="align-center">
               {{ formatDate(employee.DateOfBirth) }}
             </td>
-            <td @dblclick="handleEditClick">{{ employee.GenderName || getGenderName(employee.Gender) }}</td>
-            <td @dblclick="handleEditClick">{{ employee.PhoneNumber }}</td>
-            <td @dblclick="handleEditClick">{{ employee.PositionName }}</td>
-            <td @dblclick="handleEditClick">{{ employee.IdentityNumber }}</td>
-            <td @dblclick="handleEditClick">{{ employee.DepartmentName }}</td>
-            <td @dblclick="handleEditClick">{{ employee.BankAccount }}</td>
-            <td @dblclick="handleEditClick">{{ employee.BankName }}</td>
-            <td @dblclick="handleEditClick">{{ employee.BankBranchName }}</td>
             <td>
-              <span style="cursor: pointer" @click="handleEditClick">Sửa</span>
+              {{ employee.GenderName || getGenderName(employee.Gender) }}
+            </td>
+            <td>{{ employee.PhoneNumber }}</td>
+            <td>{{ employee.PositionName }}</td>
+            <td>{{ employee.IdentityNumber }}</td>
+            <td>{{ employee.DepartmentName }}</td>
+            <td>{{ employee.BankAccount }}</td>
+            <td>{{ employee.BankName }}</td>
+            <td>{{ employee.BankBranchName }}</td>
+            <td>
+              <span style="cursor: pointer" @click="handleEditClick(employee)"
+                >Sửa</span
+              >
               <div class="down-icon" @click="toogleMenu"></div>
             </td>
           </tr>
         </table>
         <div class="context-menu">
-          <div class="context-menu-item" @click="handleDuplicate">Nhân bản</div>
+          <div class="context-menu-item" @click="handleDuplicate(employeeSelected)">Nhân bản</div>
           <div class="context-menu-item" @click="deleteEmployee">Xóa</div>
           <div class="context-menu-item">Ngừng sử dụng</div>
         </div>
@@ -152,20 +173,20 @@
       @showToast="showToast"
       :isDuplicate="isDuplicate"
     />
-    <base-message-delete
+    <message-delete
       v-if="confirmDelete"
       :employeeSelected="employeeSelected"
-      :rowSelected = "rowSelected"
+      :rowSelected="rowSelected"
       @cancelDelete="cancelDelete"
       @DeleteSuccess="DeleteSuccess"
     />
     <message-delete-multiple
       v-if="confirmDeleteMultiple"
-      :rowSelected = "rowSelected"
+      :rowSelected="rowSelected"
       @cancelDeleteMultiple="cancelDeleteMultiple"
       @DeleteMultipleSuccess="DeleteMultipleSuccess"
     />
-    <base-message-error
+    <message-error
       :error="errForm"
       v-if="isShowMessageError"
       @close="isShowMessageError = false"
@@ -175,7 +196,7 @@
       @hideToast="isShowToast = false"
       :message="message"
     />
-    <base-message-change
+    <message-change
       v-if="isShowChangeMessage"
       @closeMessageChange="isShowChangeMessage = !isShowChangeMessage"
       @hideDialogAndMessage="hideDialogAndMessage"
@@ -190,10 +211,10 @@ import MISAResource from "../../js/base/resource";
 import MISAapi from "@/js/api";
 import MISAcommon from "../../js/base/common";
 import MISAEnum from "../../js/base/enum";
-import BaseMessageChange from "../base/message/BaseMessageChange.vue";
-import BaseMessageError from "../base/message/BaseMessageError.vue";
-import BaseMessageDelete from "../base/message/BaseMessageDelete.vue";
-import MessageDeleteMultiple from "../base/message/MessageDeleteMultiple.vue";
+import MessageChange from "../../components/message/MessageChange.vue";
+import MessageError from "../../components/message/MessageError.vue";
+import MessageDelete from "../../components/message/MessageDelete.vue";
+import MessageDeleteMultiple from "../../components/message/MessageDeleteMultiple.vue";
 import EmployeeDialog from "../forms/EmployeeDetail.vue";
 import BaseToast from "../base/BaseToast.vue";
 import BaseButton from "../base/button/BaseButton.vue";
@@ -212,12 +233,12 @@ export default {
     Paginate,
     PageCombobox,
     BaseCheckBox,
-    BaseMessageDelete,
+    MessageDelete,
     MessageDeleteMultiple,
-    BaseMessageError,
+    MessageError,
     BaseToast,
-    BaseMessageChange,
-    BaseTooltip
+    MessageChange,
+    BaseTooltip,
   },
   data() {
     return {
@@ -247,13 +268,14 @@ export default {
       confirmDeleteMultiple: false, // xác nhận xóa hàng loạt
       message: "", // thông báo
       employeeIdSelected: null, //id của employee đc chọn
+      countEmployeeSelected: 0, //Đếm số nhân viên đã chọn
       isAcceptSave: false, // xác nhận lưu
       rowSelected: [], // danh sách employee được chọn
       isCheckAll: false, // check all
       debounce: null, // debounce
       enableBatch: false, // cho phép thực hiện hàng loạt
-      isShowBatchOption: false, //hiện option hàng loạt
-      isDuplicate: 0
+      //isShowBatchOption: false, //hiện option hàng loạt
+      isDuplicate: 0,
     };
   },
   watch: {
@@ -264,11 +286,11 @@ export default {
     rowSelected: {
       handler: function () {
         // Nếu số dòng đã chọn lớn hơn  1
-        if (this.rowSelected.length > 1) {
+        if (this.rowSelected.length > 0) {
           this.enableBatch = true;
         } else {
           this.enableBatch = false;
-          this.isShowBatchOption = false;
+          // this.isShowBatchOption = false;
         }
       },
       deep: true,
@@ -276,20 +298,40 @@ export default {
   },
   methods: {
     /**
+     * click bỏ chọn, reset list nhân viên đã chọn
+     * Author: NHNam (24/2/2023)
+     */
+    resetRowSelected(){
+      this.rowSelected = [],
+      //tính toán lại
+      this.testCheckAll();
+    },
+
+    /**
      * xử lý lỗi server trả về
-     * @param statuscode} errorCode 
+     * @param statuscode} errorCode
      * Author: NHNam (22/2/2023)
      */
-    handleErrorCode(errorCode){
-      return MISAcommon.handleErrorCode(errorCode)
+    handleErrorCode(errorCode) {
+      // return MISAcommon.handleErrorCode(errorCode)
+      if (errorCode === 400) {
+        this.errForm = MISAResource.vi.errorServerResponse[400];
+        this.isShowMessageError = true;
+      } else if (errorCode === 500) {
+        this.errForm = MISAResource.vi.errorServerResponse[500];
+        this.isShowMessageError = true;
+      } else {
+        this.errForm = MISAResource.vi.errorServerResponse.otherCode;
+        this.isShowMessageError = true;
+      }
     },
-    
+
     /**
      * lấy tên giới tính theo mã giới tính
-     * @param {mã giới tính} gender 
+     * @param {mã giới tính} gender
      * Author: NHNam(12/2/2023)
      */
-    getGenderName(gender){
+    getGenderName(gender) {
       return MISAcommon.getTitleGender(gender);
     },
     /**
@@ -299,7 +341,9 @@ export default {
     exportToExcel() {
       $("#loading").show();
       axios({
-        url: MISAapi.employee.export + `pageSize=${this.pageSize}&pageNumber=${this.pageNumber}&keyword=${this.txtSearch}`, // endpoint của API
+        url:
+          MISAapi.employee.export +
+          `pageSize=${this.pageSize}&pageNumber=${this.pageNumber}&keyword=${this.txtSearch}`, // endpoint của API
         method: "GET",
         responseType: "blob", // định dạng dữ liệu trả về
       }).then((response) => {
@@ -328,7 +372,6 @@ export default {
      */
     hideOption() {
       this.isShowBatchOption = false;
-      alert("hello");
     },
     /**
      * Trì hoãn 1s trước khi gắn txtSearch = value của input search
@@ -350,15 +393,21 @@ export default {
      */
     changeCheckbox(active, id) {
       // Check all
-      if (id === "checkall" && active) {        
-        this.rowSelected = this.rowSelected.concat(this.employees.map((x) => x.EmployeeId).filter((x) => !this.rowSelected.includes(x)));
+      if (id === "checkall" && active) {
+        this.rowSelected = this.rowSelected.concat(
+          this.employees
+            .map((x) => x.EmployeeId)
+            .filter((x) => !this.rowSelected.includes(x))
+        );
         this.isCheckAll = true;
         // this.rowSelected = this.employees.map((item) => item.EmployeeId);
       } else if (id === "checkall" && !active) {
         // this.rowSelected = [];
-        this.employees.map((x) => x.EmployeeId).forEach((e) => {
-          this.rowSelected = this.rowSelected.filter(x => x!=e);
-        });
+        this.employees
+          .map((x) => x.EmployeeId)
+          .forEach((e) => {
+            this.rowSelected = this.rowSelected.filter((x) => x != e);
+          });
         this.isCheckAll = false;
       } else {
         if (active) {
@@ -376,7 +425,7 @@ export default {
       this.testCheckAll();
     },
 
-    testCheckAll(){
+    testCheckAll() {
       // Kiểm tra coi có check all hay không
       var count = 0;
       // Đếm số phần tử check của page
@@ -433,7 +482,7 @@ export default {
       var me = this;
       setTimeout(function () {
         me.isShowToast = false;
-      }, 7000);
+      }, 3000);
     },
     /**
      * Lấy thông báo validate
@@ -455,8 +504,8 @@ export default {
      * Click sửa , gửi id cho form chi tiết
      * Author: NHNam (7/1/2023)
      */
-    handleEditClick() {
-      this.employeeIdSelected = this.employeeSelected.EmployeeId;
+    handleEditClick(item) {
+      this.employeeIdSelected = item.EmployeeId;
       this.isShowDialog = true;
     },
 
@@ -464,9 +513,9 @@ export default {
      * Click nhân bản
      * Author: NHNam (20/2/2023)
      */
-    handleDuplicate(){
+    handleDuplicate(item) {
       this.isDuplicate = MISAEnum.FormMode.Duplicate;
-      this.handleEditClick();
+      this.handleEditClick(item);
     },
     /**confirmDelete
      * Đóng thông xác nhận xóa
@@ -492,14 +541,16 @@ export default {
       this.employees = this.employees.filter(
         (item) => item != this.employeeSelected
       );
-      if(this.rowSelected.length > 0){
-        this.rowSelected = this.rowSelected.filter(item => item != this.employeeSelected);
+      if (this.rowSelected.length > 0) {
+        this.rowSelected = this.rowSelected.filter(
+          (item) => item != this.employeeSelected
+        );
       }
-      
+
       var me = this;
       setTimeout(function () {
         me.isShowToast = false;
-      }, 4000);
+      }, 3000);
     },
 
     /**
@@ -514,7 +565,6 @@ export default {
       setTimeout(function () {
         me.isShowToast = false;
       }, 4000);
-      
     },
 
     /**
@@ -546,7 +596,7 @@ export default {
         `pageSize=${this.pageSize}&pageNumber=${this.pageNumber}&keyword=${this.txtSearch}`;
       await axios
         .get(url)
-        .then( async function (res) {
+        .then(async function (res) {
           me.totalPage = res.data.TotalPage;
           me.totalRecord = res.data.TotalRecord;
           me.isSuccess = true;
@@ -554,8 +604,8 @@ export default {
           $("#loading").hide();
         })
         .catch(function (res) {
-          // this.handleErrorCode(res.statuscode)
-          console.log(res.data.ListError);
+          console.log(res.code);
+          me.handleErrorCode(res.code);
         });
     },
     /**
@@ -565,9 +615,9 @@ export default {
     async clickCallback(pageNum) {
       this.pageNumber = pageNum;
       // this.rowSelected = [];
-      
+
       // this.isCheckAll = false;
-      this.txtSearch = ""; 
+      this.txtSearch = "";
       await this.filterEmployee();
       this.testCheckAll();
     },
@@ -643,6 +693,15 @@ export default {
         return "";
       }
     },
+
+    handleKeydown(event) {
+      var me = this;
+      if (event.ctrlKey && event.key == "1") {
+        event.preventDefault();
+        // event.stopPropagation();
+        me.isShowDialog = true;
+      }
+    },
   },
   created() {
     //Lấy danh sách nhân viên, tìm kiếm
@@ -652,6 +711,7 @@ export default {
   mounted() {
     // prevent click outside event with popupItem.
     this.popupItem = this.$el;
+    document.addEventListener("keydown", this.handleKeydown);
   },
   // do not forget this section
   directives: {

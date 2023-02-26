@@ -17,7 +17,6 @@
       v-model="value"
       :class="{ error: isError }"
       @blur="blurInput"
-      tabindex="tabindex"
     />
     <br />
   </div>

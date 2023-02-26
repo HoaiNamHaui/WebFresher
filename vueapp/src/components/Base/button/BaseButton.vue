@@ -1,10 +1,10 @@
 <template>
-    <button id="addEmployee" class="button">{{ btnName }}</button>
+    <button id="addEmployee" class="button" :class="btnClass">{{ btnName }}</button>
 </template>
 <script>
     export default{
         name: "AddButton",
-        props:["btnName"]
+        props:["btnName","btnClass"]
     }
 </script>
 <style>

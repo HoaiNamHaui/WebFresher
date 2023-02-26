@@ -242,7 +242,6 @@ import axios from "axios";
 import MISAResource from "@/js/base/resource";
 import MISAapi from "@/js/api";
 import MISAEnum from "@/js/base/enum";
-import MISAcommon from"@/js/base/enum";
 import BaseCombobox from "../base/BaseCombobox.vue";
 import BaseInput from "../base/input/BaseInput.vue";
 import BaseButton from "../base/button/BaseButton.vue";
@@ -265,6 +264,8 @@ export default {
         dob: "", // ngày sinh
         dept: "", // đơn vị
         email: "", // email
+        identityDate: "", // ngày cấp cmnd
+        other: "" // lỗi khác
       },
       shouldFocus: true,
       isValid: false, // dữ liệu hợp lệ
@@ -284,27 +285,27 @@ export default {
      * Tab vòng về mã nhân viên
      * Author: NHNam (22/2/2023)
      */
-     handleKeyDown(event){
+    handleKeyDown(event) {
       if (event.keyCode === 9) {
         this.shouldFocus = true;
       }
-     },
+    },
     /**
      * Cập nhật trạng thái focus
      * Author: NHNam (21/2/2023)
      */
-    unfocus(){
+    unfocus() {
       this.shouldFocus = false;
     },
 
     /**
      * xử lý lỗi server trả về
-     * @param statuscode} errorCode 
+     * @param statuscode} errorCode
      * Author: NHNam (22/2/2023)
      */
-     handleErrorCode(errorCode){
-      return MISAcommon.handleErrorCode(errorCode)
-    },
+    // handleErrorCode(errorCode) {
+    //   return MISAcommon.handleErrorCode(errorCode);
+    // },
 
     /**
      * Lưu và đóng form
@@ -355,6 +356,7 @@ export default {
         dob: "",
         dept: "",
         email: "",
+        identityDate: "",
       };
       // Bỏ trống mã nhân viên
       if (!this.employee.EmployeeCode) {
@@ -401,6 +403,19 @@ export default {
           this.$refs.dob.classList.remove("error");
         }
       }
+      // Ngày cấp lớn hơn ngày hiện tại
+      if (this.employee.IdentityDate) {
+        var dateInput = new Date(this.employee.IdentityDate);
+        const today = new Date();
+        if (dateInput.getTime() >= today.getTime()) {
+          this.errors.identityDate = MISAResource.vi.error.identityDate;
+          this.$refs.idtDate.classList.add("error");
+          this.isValid = false;
+        } else {
+          this.$refs.dob.classList.remove("error");
+        }
+      }
+
       // Số điện thoại không đúng độ dài, định dạng, đầu số
       if (this.employee.PhoneNumber) {
         var phoneRegex = /((09|03|07|08|05)+([0-9]{8})\b)/g;
@@ -428,13 +443,35 @@ export default {
         !this.errors.dept &&
         !this.errors.phone &&
         !this.errors.dob &&
-        !this.errors.email
+        !this.errors.email&&
+        !this.errors.identityDate
       ) {
         this.isValid = true;
       } else {
         this.sendErrorMessage();
       }
     },
+
+    /**
+     * xử lý lỗi server trả về
+     * Author: NHNam (22/2/2023)
+     */
+    handleErrorCode(res) {
+      var me = this;
+      // return MISAcommon.handleErrorCode(errorCode)
+      if (res.response.status === 400) {
+        me.$emit("sendMessage", this.errors.other);
+        // this.$emit("sendMessage", MISAResource.vi.errorServerResponse[400]);
+      } else if (res.response.status === 500) {
+        me.$emit("sendMessage", MISAResource.vi.errorServerResponse[500]);
+      } else {
+        me.$emit(
+          "sendMessage",
+          MISAResource.vi.errorServerResponse.otherCode
+        );
+      }
+    },
+
     /**
      * Popup hiện lỗi đầu tiên
      * Author: NHNam (7/1/2023)
@@ -448,7 +485,9 @@ export default {
         this.$emit("sendMessage", this.errors.dept);
       } else if (this.errors.dob != "") {
         this.$emit("sendMessage", this.errors.dob);
-      } else if (this.errors.phone != "") {
+      }else if(this.errors.identityDate != ""){
+        this.$emit("sendMessage", this.errors.identityDate);
+      }else if (this.errors.phone != "") {
         this.$emit("sendMessage", this.errors.phone);
       } else if (this.errors.email != "") {
         this.$emit("sendMessage", this.errors.email);
@@ -473,10 +512,13 @@ export default {
           .post(MISAapi.employee.employeeApi, newData)
           .catch((res) => {
             this.errors.code = res.response.data.MoreInfo.ListError[0];
-            this.$emit("sendMessage", this.errors.code);
-            console.log(res.response.data.MoreInfo.ListError);
-            // this.handleErrorCode(res.response.status);
+            if (this.errors.code) {
+              this.$emit("sendMessage", this.errors.code);
+            } else {
+              me.handleErrorCode(res);
+            }
           });
+        console.log(res.data);
         me.$emit(
           "showToast",
           MISAResource.vi.add,
@@ -488,9 +530,11 @@ export default {
           .put(MISAapi.employee.employeeApi + this.employee.EmployeeId, newData)
           .catch((res) => {
             this.errors.code = res.response.data.MoreInfo.ListError[0];
-            this.$emit("sendMessage", this.errors.code);
-            // this.handleErrorCode(res.statuscode);
-            console.log(res.response.data.MoreInfo.ListError);
+            if (this.errors.code) {
+              this.$emit("sendMessage", this.errors.code);
+            } else {
+              me.handleErrorCode(res);
+            }
           });
         console.log(res.data);
         me.$emit(
@@ -553,7 +597,6 @@ export default {
           })
           .catch(function (res) {
             this.handleErrorCode(res.statuscode);
-            console.log(res.response.data.MoreInfo.ListError);
           });
       } catch (error) {
         console.log(error);

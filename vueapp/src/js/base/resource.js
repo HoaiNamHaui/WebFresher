@@ -11,7 +11,8 @@ var MISAResource = {
             emptyDepartment: "Đơn vị không được bỏ trống",
             age: "Tuổi nhân viên phải trên 18",
             phone: "Số điện thoại không đúng định dạng",
-            email: "Email không đúng định dạng"
+            email: "Email không đúng định dạng",
+            identityDate: "Ngày cấp phải nhỏ hơn ngày hiện tại"
         },
         errorServerResponse:{
             500: "Có lỗi xảy ra, vui lòng liên hệ MISA để được trợ giúp!",
