@@ -596,10 +596,28 @@ export default {
             // me.$refs.txtCode.focus();
           })
           .catch(function (res) {
-            this.handleErrorCode(res.statuscode);
+            this.handleErrorCode(res);
           });
       } catch (error) {
         console.log(error);
+      }
+    },
+    /**
+     * phím tắt mở form thêm mới
+     * Author: NHNam (22/2/2023)
+     */
+    handleKeydown(event){
+      var me = this;
+      // Đóng form
+      if (event.keyCode === 27) {
+        event.preventDefault();
+        // event.stopPropagation();
+        me.checkChangeAndHideDialog();
+      }
+      // Lưu data
+      if (event.ctrlKey && event.key == "s") {
+        event.preventDefault();
+        me.saveEmployee();
       }
     },
     /**
@@ -613,6 +631,9 @@ export default {
         this.titleForm = "Thông tin nhân viên";
       }
     },
+  },
+  mounted(){
+    document.addEventListener("keydown", this.handleKeydown);
   },
   async created() {
     // Có Id thì call api lấy thông tin nhân viên, nếu không lấy mã nhân viên mới

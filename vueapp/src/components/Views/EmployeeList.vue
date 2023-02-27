@@ -9,7 +9,7 @@
         <div class="functions-left">
           <div v-show="enableBatch">
             <span>Đã chọn: </span> <span>{{ rowSelected.length }}</span>
-            <span style="color: red; cursor: pointer"
+            <span style="color: #f39c12; cursor: pointer"
             @click="resetRowSelected"
             >Bỏ chọn</span>
             <base-button 
@@ -281,6 +281,8 @@ export default {
   watch: {
     // theo dõi keyword lọc
     txtSearch: function () {
+      this.page = 1;
+      this.pageNumber = 1;
       this.filterEmployee();
     },
     rowSelected: {
@@ -625,12 +627,13 @@ export default {
      * Đổi size page
      * Author: NHNam (1/1/2023)
      */
-    sizeRecord(e) {
+    async sizeRecord(e) {
       this.pageSize = e;
       this.showPageOption();
       this.page = 1;
       this.pageNumber = 1;
-      this.filterEmployee();
+      await this.filterEmployee();
+      this.testCheckAll();
     },
     /**
      * Hiện , ẩn chọn số bản ghi trên 1 trang
@@ -693,7 +696,10 @@ export default {
         return "";
       }
     },
-
+    /**
+     * phím tắt mở form thêm mới
+     * Author: NHNam (22/2/2023)
+     */
     handleKeydown(event) {
       var me = this;
       if (event.ctrlKey && event.key == "1") {
