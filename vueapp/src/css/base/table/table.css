@@ -25,7 +25,7 @@
 .data tr th{
     padding: 0 16px;
 }
-th, td{
+.data tr th, .data tr td{
     height: 48px;
     border-right: 1px solid #c7c7c7;
     border-bottom: 1px solid #c7c7c7;
@@ -125,4 +125,68 @@ th, td{
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
     background: #555; 
+}
+
+/* ____________________________________________Table account__________________________________________ */
+.list-account{
+    height: 484px;
+    /* width: 1310px; */
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: auto;
+    margin: 0 auto;
+    position: relative;
+}
+.data-account{
+    margin: 0 auto;
+    font-size: 13px;
+    /* width: 200%; */
+    /* min-width: 2620px; */
+    width: 100%;
+}
+.data-account tr:first-child{
+    background-color: #e5e8ec;
+    position: sticky;
+    top: 0;
+    z-index: 5;
+}
+.data-account th, td{
+    text-indent: 8px;
+}
+.data-account th{
+    height: 28px !important;
+}
+.data-account td{
+    height: 31px !important;
+}
+.w10{
+    width: 10%;
+}
+.w15{
+    width: 15%;
+}
+.w30{
+    width: 30%;
+}
+.w20{
+    width: 20%;
+}
+.data-account tr td:last-child{
+    color: #0075c0;
+    font-family: Notosans-SemiBold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: sticky;
+    right: 0;
+    z-index: 3;
+    background-color: #fff;
+    border-left: 1px solid #c7c7c7;
+}
+.data-account tr th:last-child{
+    position: sticky;
+    right: 0;
+    z-index: 3;
+    background-color: #e5e8ec;
+    border-left: 1px solid #c7c7c7;
 }

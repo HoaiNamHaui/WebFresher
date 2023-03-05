@@ -18,7 +18,7 @@ import BudgetView from "./components/views/BudgetView.vue";
 import ReportView from "./components/views/ReportView.vue";
 import AnalysisView from "./components/views/AnalysisView.vue";
 import BaseButton from '../src/components/base/button/BaseButton.vue'
-
+import CategoryView from './components/views/CategoryView.vue'
 const routers = [
     {path:"/" , component: EmployeeList},
     {path:"/CashView" , component: CashView},
@@ -35,6 +35,7 @@ const routers = [
     {path:"/BudgetView" , component: BudgetView},
     {path:"/ReportView" , component: ReportView},
     {path:"/AnalysisView" , component: AnalysisView},
+    {path:"/CategoryView" , component: CategoryView},
 ]
 const router = createRouter({
     history: createWebHistory(),

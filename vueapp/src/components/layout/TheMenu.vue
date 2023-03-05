@@ -66,6 +66,10 @@
                     <div class="icon24 icon-finance"></div>
                     <div v-show="!isCollapse" class="menu-option">Phân tích tài chính</div>
                 </router-link>
+                <router-link to="/CategoryView" class="menu-item">
+                    <div class="icon24 icon-finance"></div>
+                    <div v-show="!isCollapse" class="menu-option">Danh mục</div>
+                </router-link>
             </div>
         </div>
 </template>

@@ -45,6 +45,10 @@
     top: 30px;
     right: 32px;
 }
+.m-b-8{
+    margin-bottom: 8px;
+    position: relative;
+}
 .m-b-12{
     margin-bottom: 24px;
     position: relative;

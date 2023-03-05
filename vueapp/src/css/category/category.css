@@ -1,0 +1,22 @@
+.title-list{
+    font-weight: bold;
+    font-size: 14px;
+}
+.content-data-item{
+    padding-top: 30px;
+    margin-left: 30px;
+}
+.content-data-item ul{
+    list-style: none;
+}
+.content-data-item ul li{
+    padding-bottom: 8px;
+    color: #0075c0;
+}
+.content-data-item ul li a{
+    text-decoration: none;
+    color: #0075c0;
+}
+.content-data-item span{
+    padding-bottom: 8px;
+}

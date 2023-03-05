@@ -1,40 +1,38 @@
 <template>
-  <div style="padding: 20px 20px">
-    <h1>Tiền mặt</h1>
-    <!-- <h2 for="">Lương:</h2>
-    <br>
-    <base-input-money
-    
-    v-model="employee.salary"
-    />
-    <br>
-    <h2>Binding 2 chiều: {{ employee.salary|| 0 }}</h2> -->
+  <div class="cash-container">
+    <ul class="menu-cash">
+      <li :class="{'active-item': isProcessTab}" @click="isProcessTab = true">Quy trình</li>
+      <li :class="{'active-item': isPayTab}" @click="isPayTab = true">Chi tiền</li>
+    </ul>
+    <process-view v-if="isProcessTab"/>
+    <pay-view v-if="isPayTab"/>
   </div>
 </template>
 <script>
-// import BaseInputMoney from '../Base/input/BaseInputMoney.vue';
+import ProcessView from './ProcessView.vue';
+import PayView from './PayView.vue'
 export default {
   name: "CashView",
   components:{
-    // BaseInputMoney
+    ProcessView, PayView
   },
   data() {
     return {
-      employee: {
-        salary: 0,
-      },
+      isProcessTab: true,
+      isPayTab: false
     };
   },
   watch:{
-    employee: function(newValue){
-        this.employee.salary = newValue;
+    isPayTab: function(){
+      this.isProcessTab = !this.isPayTab;
+    },
+    isProcessTab: function(){
+      this.isPayTab = !this.isProcessTab;
     }
   }
 };
 </script>
 
 <style scoped>
-.cash-container{
-    margin-left: 20px;
-}
+@import url(../../css/cash/cash.css);
 </style>

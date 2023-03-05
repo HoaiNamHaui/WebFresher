@@ -18,23 +18,6 @@
             @click="deleteEmployeeMuliple"
             />
           </div>
-
-          <!-- <div style="display: flex; align-items: center">
-            <div>Thực hiện hàng loạt</div>
-            <div
-              class="cbx-icon"
-              :class="{ 'unset-opacity': enableBatch }"
-              style="margin-left: 10px; opacity: 0.3"
-            ></div>
-          </div>
-          <div
-            class="functions-left-option"
-            v-show="isShowBatchOption"
-            v-click-outside="hideOption"
-            @click="deleteEmployeeMuliple"
-          >
-            Xóa hàng loạt
-          </div> -->
         </div>
         <div class="functions-right">
           <div class="search-box" :class="{ focus: this.focusSearch }">
@@ -45,11 +28,6 @@
               placeholder="Tìm theo mã, tên nhân viên"
               v-debounce:1s="debounceSearch"
             />
-            <!-- <input
-            type="text"
-            placeholder="Tìm theo mã, tên nhân viên"
-            @keyup="debounceSearch"
-          /> -->
             <div class="search-icon"></div>
           </div>
           <div
@@ -733,10 +711,11 @@ document.addEventListener("click", function (event) {
   $(".context-menu").hide();
 });
 </script>
-<style>
+<style scoped>
 @import url(../../css/layout/content.css);
 @import url(../../css/layout/footer.css);
 @import url(../../css/base/combobox/combobox.css);
+@import url(../../css/base/table/table.css);
 .pagination {
   margin-left: 20px;
   margin-right: 4px;
