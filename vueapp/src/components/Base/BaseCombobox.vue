@@ -10,6 +10,7 @@
       @keydown="inputOnKeyDown"
       :class="{'none-border': isError}"
       autocomplete="off"
+      :readonly="readOnly"
     />
     <div class="combobox-button" @click="onShowHideData" :class="{'none-border': isError}">
       <div class="combobox-button-icon"></div>
@@ -23,7 +24,7 @@
         :key="index"
         :value="item[propValue]"
         @click="itemOnSelect(item)"
-        >{{ item[propName] }}</a
+        >{{ item[propName] || item }}</a
       >
     </div>
   </div>
@@ -88,6 +89,10 @@ export default {
           console.log(res);
         });
     }
+    if(this.data.length > 0){
+      this.entities = this.data;
+      this.entitySearch = this.data;
+    }
   },
   updated() {
     /**
@@ -98,7 +103,7 @@ export default {
     //   this.setItemSelected();
     // }
   },
-  props: ["id", "api", "propName", "propValue", "modelValue", "tabindex", "error"],
+  props: ["id", "api", "propName", "propValue", "modelValue", "tabindex", "error","readOnly", "data"],
   emits: ["update:modelValue"],
   components: {},
   methods: {
@@ -120,9 +125,9 @@ export default {
       this.itemSelected = entity;
       // Set index của item được chọn
       this.indexItemSelect = me.findIndexSelected; // ----> Lấy tại computed  
-      this.textSelected = entity[this.propName];
+      this.textSelected = entity[this.propName] || entity;
       this.isShowData = false;
-      this.$emit("update:modelValue", entity[this.propValue]);
+      this.$emit("update:modelValue", entity[this.propValue] || entity);
     },
     /**
      * Bind giá trị được select, hightlight item đc chọn

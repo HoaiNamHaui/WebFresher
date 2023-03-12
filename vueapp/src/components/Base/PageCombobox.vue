@@ -1,9 +1,9 @@
 <template>
     <div class="box-option" v-show="isShowCbb">
-      <div class="box-option-item selected-option" pageSize="10" @click="chosePageSize">
+      <div class="box-option-item" pageSize="10" @click="chosePageSize">
         10 bản ghi trên 1 trang
       </div>
-      <div class="box-option-item" pageSize="20" @click="chosePageSize">
+      <div class="box-option-item selected-option" pageSize="20" @click="chosePageSize">
         20 bản ghi trên 1 trang
       </div>
       <div class="box-option-item" pageSize="30" @click="chosePageSize">

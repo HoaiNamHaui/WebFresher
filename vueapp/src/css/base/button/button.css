@@ -12,6 +12,20 @@
     cursor: pointer;
     min-width: 80px;
 }
+.small-button{
+    background-color: #2ca01c;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #ffff;
+    font-family: Notosans-semibold;
+    outline: none;
+    height: 28px;
+    line-height: 28px;
+    padding: 0 16px;
+    border: none;
+    cursor: pointer;
+    min-width: 80px;
+}
 .button-red{
     background-color: #DE3617 !important;
 }
@@ -40,6 +54,27 @@
     background-color: #d2d3d6;
 }
 .button-white:active{
+    background-color: #bbbcbc;
+}
+.small-button-white{
+    background-color: #fff;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #212121;
+    font-family: Notosans-semibold;
+    outline: none;
+    height: 28px;
+    line-height: 28px;
+    padding: 0 16px;
+    border: 1px solid #E0E0E0;
+    cursor: pointer;
+    margin-right: 12px;
+    min-width: 80px;
+}
+.small-button-white:hover{
+    background-color: #d2d3d6;
+}
+.small-button-white:active{
     background-color: #bbbcbc;
 }
 .button:hover{

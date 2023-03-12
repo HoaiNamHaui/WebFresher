@@ -21,6 +21,11 @@
 }
 .search-box input::placeholder{
     color: #b8bcc3;
+    font-family: Notosans-Italic;
+    font-size: 13px;
+}
+.search-box input{
+    font-size: 13px;
 }
 @font-face {
     font-family: Notosans-Italic;

@@ -8,6 +8,7 @@
 }
 .content-data-item ul{
     list-style: none;
+    
 }
 .content-data-item ul li{
     padding-bottom: 8px;
@@ -19,4 +20,5 @@
 }
 .content-data-item span{
     padding-bottom: 8px;
+    display: block;
 }

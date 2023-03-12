@@ -130,21 +130,18 @@
 /* ____________________________________________Table account__________________________________________ */
 .list-account{
     height: 484px;
-    /* width: 1310px; */
     width: 100%;
     overflow-x: auto;
     overflow-y: auto;
     margin: 0 auto;
     position: relative;
 }
-.data-account{
+/* .data-account{
     margin: 0 auto;
     font-size: 13px;
-    /* width: 200%; */
-    /* min-width: 2620px; */
     width: 100%;
-}
-.data-account tr:first-child{
+} */
+/* .data-account tr:first-child{
     background-color: #e5e8ec;
     position: sticky;
     top: 0;
@@ -189,4 +186,4 @@
     z-index: 3;
     background-color: #e5e8ec;
     border-left: 1px solid #c7c7c7;
-}
+} */

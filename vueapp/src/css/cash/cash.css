@@ -10,12 +10,14 @@
     margin: 0 20px;
     padding-top: 10px;
 }
-.menu-cash li{
+.menu-cash a{
     height: 31px;
     line-height: 31px;
     padding: 0 20px;
     cursor: pointer;
     font-weight: bold;
+    text-decoration: none;
+    color: #000;
 }
 
 .active-item{
@@ -23,6 +25,7 @@
     border-bottom: 4px solid #2ca01c;
     background-color: #f5eecb;
     border-radius: 10px 10px 0 0;
+    border-left: unset;
 }
 
 .process-area{
@@ -49,18 +52,49 @@
     border-bottom: 1px solid #e5e5e5;
 }
 .process-content-image{
-    background-image: url(../../assets/img/process.JPG);
-    width: 520px;
-    height: 250px;
+    background-image: url(https://actappg2.misacdn.net/img/qt_TienGui.09015143.svg);
+    width: 688px;
+    height: 340px;
     background-size: contain;
     background-repeat: no-repeat;
-    margin: 40px auto;
-    
+    margin: 0 auto;    
+    position: relative;
 }
+.process-collect-money, .process-pay, .process-inventory{
+    position: absolute;
+    text-decoration: none;
+    color: #000;
+}
+.process-collect-money:hover, .process-pay:hover, .process-inventory:hover{
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    cursor: pointer;
+}
+.process-collect-money{
+    padding: 70px 20px 10px 20px;
+    top: 30px;
+    left: 75px;
+}
+.process-inventory{
+    padding: 70px 20px 10px 20px;
+    top: 120px;
+    left: 315px;
+}
+.process-pay{
+    padding: 70px 20px 10px 20px;
+    top: 210px;
+    left: 75px;
+}
+
+
+
 .employee-icon {
 	background: url('../../assets/img/Sprites.64af8f61.svg') no-repeat -1378px -257px;
 	width: 21px;
 	height: 25px;
+}
+.employee-icon a{
+	text-decoration: none;
+    color: #000;
 }
 .process-content-footer{
     position: absolute;
@@ -81,4 +115,8 @@
 }
 .dictionary-item:hover{
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+.system-account{
+    color: #000;
+    text-decoration: none;
 }

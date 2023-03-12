@@ -103,6 +103,15 @@
     align-items: center;
 }
 
+.transition{
+  transition: all .3s;
+}
+
+.hide-content{
+  height: 0px !important;
+  overflow: hidden;
+  
+}
 
 .collapse-content{
   width: 100%;
@@ -115,7 +124,7 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
-  height: 100px;
+  height: 42px;
   align-items: center;
   position: absolute;
   bottom: 0;

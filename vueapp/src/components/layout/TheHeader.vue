@@ -2,7 +2,7 @@
   <div class="header">
     <div class="header-left">
       <div class="bars" v-show="isShowBar" @click="toggleMenu"></div>
-      <div :class="{'header-margin-left': !isShowBar}">CÔNG TY TNHH SẢN XUẤT - THƯƠNG MẠI - DỊCH VỤ QUI PHÚC</div>
+      <div :class="{'header-margin-left': !isShowBar}">CÔNG TY TNHH SONG VIỆT - Misatest</div>
       <!-- <div class="chevron-down"></div> -->
     </div>
     <div class="header-right">

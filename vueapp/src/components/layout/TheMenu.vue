@@ -10,7 +10,7 @@
                     <div class="icon24 icon-dashboard"></div>
                     <div v-show="!isCollapse" class="menu-option">Tổng quan</div>
                 </router-link>
-                <router-link to="/CashView" class="menu-item">
+                <router-link to="/CashView/ProcessView" class="menu-item">
                     <div class="icon24 icon-buy"></div>
                     <div v-show="!isCollapse" class="menu-option">Tiền mặt</div>
                 </router-link>
@@ -54,7 +54,7 @@
                     <div class="icon24 icon-general"></div>
                     <div v-show="!isCollapse" class="menu-option">Tổng hợp</div>
                 </router-link>
-                <router-link to="/BudgetView" class="menu-item">
+                <!-- <router-link to="/BudgetView" class="menu-item">
                     <div class="icon24 icon-budget"></div>
                     <div v-show="!isCollapse" class="menu-option">Ngân sách</div>
                 </router-link>
@@ -65,9 +65,10 @@
                 <router-link to="/AnalysisView" class="menu-item">
                     <div class="icon24 icon-finance"></div>
                     <div v-show="!isCollapse" class="menu-option">Phân tích tài chính</div>
-                </router-link>
+                </router-link> -->
+                <div class="" style="width: 80%; height: 0.5px; background-color: #fff; margin: 0 auto; margin-bottom: 10px;"></div>
                 <router-link to="/CategoryView" class="menu-item">
-                    <div class="icon24 icon-finance"></div>
+                    <div class="icon24 icon-category"></div>
                     <div v-show="!isCollapse" class="menu-option">Danh mục</div>
                 </router-link>
             </div>
@@ -108,6 +109,6 @@ export default {
   
 }
 </script>
-<style>
+<style scoped>
  @import url(../../css/layout/menu.css);
 </style>

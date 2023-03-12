@@ -7,8 +7,8 @@
         <div class="content-data-item">
             <span class="title-list">Tài khoản</span>
             <ul>
-                <li><a href="/DepositView">Hệ thống tài khoản</a></li>
-                <li>Tài khoản kết chuyển</li>
+                <li><router-link to="/SystemAccount">Hệ thống tài khoản</router-link></li>
+                <li style="cursor: pointer;">Tài khoản kết chuyển</li>
                 <li>Tài khoản ngầm định</li>
             </ul>
         </div>
