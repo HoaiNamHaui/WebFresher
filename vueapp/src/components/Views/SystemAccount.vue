@@ -75,284 +75,24 @@
           />
           <template #functionTemplate="">
             <div class="flex">
-              <span style="cursor: pointer; font-weight: bold; color: #0075c0 !important;" @click="handleEditClick(employee)"
+              <span
+                style="
+                  cursor: pointer;
+                  font-weight: bold;
+                  color: #0075c0 !important;
+                "
+                @click="handleEditClick(employee)"
                 >Sửa</span
               >
               <div class="down-icon" @click="toogleMenu"></div>
             </div>
           </template>
         </DxTreeList>
-        <!-- <table class="data-account" id="tblAccount" cellspacing="0">
-            <tr>
-              <th class="w10 align-left">Số tài khoản</th>
-              <th class="w15 align-left">Tên tài khoản</th>
-              <th class="w10 align-left">Tính chất</th>
-              <th class="w15 align-left">Tên tiếng anh</th>
-              <th class="w30 align-left">Diễn giải</th>
-              <th class="w10 align-left">Trạng thái</th>
-              <th class="w10 align-center">Chức năng</th>
-            </tr>
-            <tr>
-              <td>111</td>
-              <td>Tiền mặt</td>
-              <td>Dư nợ</td>
-              <td>Cash in hand</td>
-              <td></td>
-              <td>Đang sử dụng</td>
-              <td>
-                  <span style="cursor: pointer" @click="handleEditClick(employee)"
-                  >Sửa</span>
-                  <div class="down-icon" @click="toogleMenu"></div>
-              </td>
-            </tr>
-            <tr>
-              <td>111</td>
-              <td>Tiền mặt</td>
-              <td>Dư nợ</td>
-              <td>Cash in hand</td>
-              <td></td>
-              <td>Đang sử dụng</td>
-              <td>
-                  <span style="cursor: pointer" @click="handleEditClick(employee)"
-                  >Sửa</span>
-                  <div class="down-icon" @click="toogleMenu"></div>
-              </td>
-            </tr>
-            <tr>
-              <td>111</td>
-              <td>Tiền mặt</td>
-              <td>Dư nợ</td>
-              <td>Cash in hand</td>
-              <td></td>
-              <td>Đang sử dụng</td>
-              <td>
-                  <span style="cursor: pointer" @click="handleEditClick(employee)"
-                  >Sửa</span>
-                  <div class="down-icon" @click="toogleMenu"></div>
-              </td>
-            </tr>
-            <tr>
-              <td>111</td>
-              <td>Tiền mặt</td>
-              <td>Dư nợ</td>
-              <td>Cash in hand</td>
-              <td></td>
-              <td>Đang sử dụng</td>
-              <td>
-                  <span style="cursor: pointer" @click="handleEditClick(employee)"
-                  >Sửa</span>
-                  <div class="down-icon" @click="toogleMenu"></div>
-              </td>
-            </tr>
-            <tr>
-              <td>111</td>
-              <td>Tiền mặt</td>
-              <td>Dư nợ</td>
-              <td>Cash in hand</td>
-              <td></td>
-              <td>Đang sử dụng</td>
-              <td>
-                  <span style="cursor: pointer" @click="handleEditClick(employee)"
-                  >Sửa</span>
-                  <div class="down-icon" @click="toogleMenu"></div>
-              </td>
-            </tr>
-            <tr>
-              <td>111</td>
-              <td>Tiền mặt</td>
-              <td>Dư nợ</td>
-              <td>Cash in hand</td>
-              <td></td>
-              <td>Đang sử dụng</td>
-              <td>
-                  <span style="cursor: pointer" @click="handleEditClick(employee)"
-                  >Sửa</span>
-                  <div class="down-icon" @click="toogleMenu"></div>
-              </td>
-            </tr>
-            <tr>
-              <td>111</td>
-              <td>Tiền mặt</td>
-              <td>Dư nợ</td>
-              <td>Cash in hand</td>
-              <td></td>
-              <td>Đang sử dụng</td>
-              <td>
-                  <span style="cursor: pointer" @click="handleEditClick(employee)"
-                  >Sửa</span>
-                  <div class="down-icon" @click="toogleMenu"></div>
-              </td>
-            </tr>
-            <tr>
-              <td>111</td>
-              <td>Tiền mặt</td>
-              <td>Dư nợ</td>
-              <td>Cash in hand</td>
-              <td></td>
-              <td>Đang sử dụng</td>
-              <td>
-                  <span style="cursor: pointer" @click="handleEditClick(employee)"
-                  >Sửa</span>
-                  <div class="down-icon" @click="toogleMenu"></div>
-              </td>
-            </tr>
-            <tr>
-              <td>111</td>
-              <td>Tiền mặt</td>
-              <td>Dư nợ</td>
-              <td>Cash in hand</td>
-              <td></td>
-              <td>Đang sử dụng</td>
-              <td>
-                  <span style="cursor: pointer" @click="handleEditClick(employee)"
-                  >Sửa</span>
-                  <div class="down-icon" @click="toogleMenu"></div>
-              </td>
-            </tr>
-            <tr>
-              <td>111</td>
-              <td>Tiền mặt</td>
-              <td>Dư nợ</td>
-              <td>Cash in hand</td>
-              <td></td>
-              <td>Đang sử dụng</td>
-              <td>
-                  <span style="cursor: pointer" @click="handleEditClick(employee)"
-                  >Sửa</span>
-                  <div class="down-icon" @click="toogleMenu"></div>
-              </td>
-            </tr>
-            <tr>
-              <td>111</td>
-              <td>Tiền mặt</td>
-              <td>Dư nợ</td>
-              <td>Cash in hand</td>
-              <td></td>
-              <td>Đang sử dụng</td>
-              <td>
-                  <span style="cursor: pointer" @click="handleEditClick(employee)"
-                  >Sửa</span>
-                  <div class="down-icon" @click="toogleMenu"></div>
-              </td>
-            </tr>
-            <tr>
-              <td>111</td>
-              <td>Tiền mặt</td>
-              <td>Dư nợ</td>
-              <td>Cash in hand</td>
-              <td></td>
-              <td>Đang sử dụng</td>
-              <td>
-                  <span style="cursor: pointer" @click="handleEditClick(employee)"
-                  >Sửa</span>
-                  <div class="down-icon" @click="toogleMenu"></div>
-              </td>
-            </tr>
-            <tr>
-              <td>111</td>
-              <td>Tiền mặt</td>
-              <td>Dư nợ</td>
-              <td>Cash in hand</td>
-              <td></td>
-              <td>Đang sử dụng</td>
-              <td>
-                  <span style="cursor: pointer" @click="handleEditClick(employee)"
-                  >Sửa</span>
-                  <div class="down-icon" @click="toogleMenu"></div>
-              </td>
-            </tr>
-            <tr>
-              <td>111</td>
-              <td>Tiền mặt</td>
-              <td>Dư nợ</td>
-              <td>Cash in hand</td>
-              <td></td>
-              <td>Đang sử dụng</td>
-              <td>
-                  <span style="cursor: pointer" @click="handleEditClick(employee)"
-                  >Sửa</span>
-                  <div class="down-icon" @click="toogleMenu"></div>
-              </td>
-            </tr>
-            <tr>
-              <td>111</td>
-              <td>Tiền mặt</td>
-              <td>Dư nợ</td>
-              <td>Cash in hand</td>
-              <td></td>
-              <td>Đang sử dụng</td>
-              <td>
-                  <span style="cursor: pointer" @click="handleEditClick(employee)"
-                  >Sửa</span>
-                  <div class="down-icon" @click="toogleMenu"></div>
-              </td>
-            </tr>
-            <tr>
-              <td>111</td>
-              <td>Tiền mặt</td>
-              <td>Dư nợ</td>
-              <td>Cash in hand</td>
-              <td></td>
-              <td>Đang sử dụng</td>
-              <td>
-                  <span style="cursor: pointer" @click="handleEditClick(employee)"
-                  >Sửa</span>
-                  <div class="down-icon" @click="toogleMenu"></div>
-              </td>
-            </tr>
-            <tr>
-              <td>111</td>
-              <td>Tiền mặt</td>
-              <td>Dư nợ</td>
-              <td>Cash in hand</td>
-              <td></td>
-              <td>Đang sử dụng</td>
-              <td>
-                  <span style="cursor: pointer" @click="handleEditClick(employee)"
-                  >Sửa</span>
-                  <div class="down-icon" @click="toogleMenu"></div>
-              </td>
-            </tr>
-            <tr>
-              <td>111</td>
-              <td>Tiền mặt</td>
-              <td>Dư nợ</td>
-              <td>Cash in hand</td>
-              <td></td>
-              <td>Đang sử dụng</td>
-              <td>
-                  <span style="cursor: pointer" @click="handleEditClick(employee)"
-                  >Sửa</span>
-                  <div class="down-icon" @click="toogleMenu"></div>
-              </td>
-            </tr>
-            <tr>
-              <td>111</td>
-              <td>Tiền mặt</td>
-              <td>Dư nợ</td>
-              <td>Cash in hand</td>
-              <td></td>
-              <td>Đang sử dụng</td>
-              <td>
-                  <span style="cursor: pointer" @click="handleEditClick(employee)"
-                  >Sửa</span>
-                  <div class="down-icon" @click="toogleMenu"></div>
-              </td>
-            </tr>
-            <tr>
-              <td>111</td>
-              <td>Tiền mặt</td>
-              <td>Dư nợ</td>
-              <td>Cash in hand</td>
-              <td></td>
-              <td>Đang sử dụng</td>
-              <td>
-                  <span style="cursor: pointer" @click="handleEditClick(employee)"
-                  >Sửa</span>
-                  <div class="down-icon" @click="toogleMenu"></div>
-              </td>
-            </tr>
-          </table> -->
+        <div class="context-menu" ref="menuContext">
+          <div class="context-menu-item">Nhân bản</div>
+          <div class="context-menu-item">Xóa</div>
+          <div class="context-menu-item">Ngừng sử dụng</div>
+        </div>
       </div>
       <footer>
         <div class="total-record">
@@ -363,8 +103,16 @@
         <div class="pagination">
           <div class="pages-option">
             {{ pageSize }} bản ghi trên 1 trang
-            <div class="box-icon" @click="showPageOption" v-click-outside-element="close">
-              <button id="cbx-icon" :class="{'toogle-rotate': isShowFooterCbb}" class="cbx-icon" ></button>
+            <div
+              class="box-icon"
+              @click="showPageOption"
+              v-click-outside-element="close"
+            >
+              <button
+                id="cbx-icon"
+                :class="{ 'toogle-rotate': isShowFooterCbb }"
+                class="cbx-icon"
+              ></button>
             </div>
             <page-combobox
               :isShowCbb="isShowFooterCbb"
@@ -394,6 +142,7 @@ import BaseTooltip from "../base/BaseTooltip.vue";
 import PageCombobox from "../base/PageCombobox.vue";
 import Paginate from "vuejs-paginate-next";
 import AccountDetail from "../forms/AccountDetail.vue";
+import $ from "jquery";
 import { DxTreeList, DxColumn } from "devextreme-vue/tree-list";
 // import $ from "jquery";
 export default {
@@ -599,12 +348,33 @@ export default {
   },
 
   methods: {
+    toogleMenu(e) {
+      if (this.$refs.menuContext.style.display === "block") {
+        $(".context-menu").hide(100);
+      } else {
+        this.$refs.menuContext.style.display;
+        this.btnMenuContext = e.target;
+        var x = e.clientX;
+        var y = e.clientY;
+        var clientHeight = document.getElementById("content").clientHeight;
+        if (clientHeight - y < 80) {
+          y = y - 110;
+        }
+        $(".context-menu").css("top", y + 10 + "px");
+        $(".context-menu").css("left", x - 110 + "px");
+        $(".context-menu").show(100);
+      }
+    },
+
+    //hiện dialog
     showDialog() {
       this.isShowDialog = true;
     },
+    // đóng form
     closeForm() {
       this.isShowDialog = false;
     },
+    //click chuyển trang
     async clickCallback(pageNum) {
       this.pageNumber = pageNum;
       // this.rowSelected = [];
@@ -612,6 +382,7 @@ export default {
       // this.isCheckAll = false;
       this.txtSearch = "";
     },
+    // mở option chọn số lượng bản ghi
     showPageOption() {
       // $("#cbx-icon").toggleClass("toogle-rotate");
       if (!this.isShowFooterCbb) {
@@ -621,7 +392,7 @@ export default {
       }
     },
     //đóng chọn số bản ghi
-    close(){
+    close() {
       this.isShowFooterCbb = false;
     },
     /**
@@ -654,7 +425,7 @@ export default {
 @import url(../../css/layout/content.css);
 @import url(../../css/layout/footer.css);
 @import url(../../css/base/combobox/combobox.css);
-
+@import url(../../css/base/contextmenu.css);
 .data-account td {
   border-right: 1px solid #c7c7c7;
   border-bottom: 1px solid #c7c7c7;
@@ -771,7 +542,7 @@ tr.active td:last-child {
 }
 
 @font-face {
-    font-family: Notosans-Regular;
-    src: url(../../assets/fonts/notosans-regular.2cb88a13.woff2);
+  font-family: Notosans-Regular;
+  src: url(../../assets/fonts/notosans-regular.2cb88a13.woff2);
 }
 </style>
