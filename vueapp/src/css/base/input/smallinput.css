@@ -25,7 +25,7 @@ input[type="text"]{
     text-indent: 0px;
     font-size: 14px;
 }
-.input:focus{
+.input-small:focus{
     border: 1px solid #2ca01c;
 }
 

@@ -1,10 +1,15 @@
 <template>
-    <button id="addEmployee" class="small-button" :class="btnClass">{{ btnName }}</button>
+    <div :tabindex="tabindex">
+        <button class="small-button" :class="btnClass">{{ btnName }}</button>
+    </div>
+    
 </template>
 <script>
     export default{
         name: "BaseButton",
-        props:["btnName","btnClass"]
+        props:["btnName","btnClass","tabindex"],
+        methods:{
+        }
     }
 </script>
 <style>

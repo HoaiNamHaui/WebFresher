@@ -9,7 +9,7 @@
             <ul>
                 <li><router-link to="/SystemAccount">Hệ thống tài khoản</router-link></li>
                 <li style="cursor: pointer;">Tài khoản kết chuyển</li>
-                <li>Tài khoản ngầm định</li>
+                <li style="cursor: pointer;">Tài khoản ngầm định</li>
             </ul>
         </div>
     </div>

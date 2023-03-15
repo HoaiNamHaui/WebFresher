@@ -12,6 +12,7 @@
         :class="{'none-border': isError}"
         autocomplete="off"
         :readonly="readOnly"
+        :disabled="isDisable"
       />
       <div class="combobox-button" v-click-outside-element="close" @click="onShowHideData" :class="{'none-border': isError}">
         <div class="combobox-button-icon"></div>
@@ -283,7 +284,8 @@
     line-height: 26px;
     padding: 0 8px;
     box-sizing: border-box;
-    border-top: 1px solid #c2c2c2;
+    /* border-top: 1px solid #c2c2c2; */
+    border-top: none;
   }
   .combobox-item:hover {
     background-color: #ebedf0;

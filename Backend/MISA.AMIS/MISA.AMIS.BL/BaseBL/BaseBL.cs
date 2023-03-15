@@ -198,7 +198,7 @@ namespace MISA.AMIS.BL.BaseBL
             validateResult.IsSuccess = true;
 
             // Lấy toàn bộ prop của Class Employee
-            var properties = typeof(Employee).GetProperties();
+            var properties = typeof(T).GetProperties();
 
             // Kiểm tra xem propertities nào có attribute là Require
             foreach (var prop in properties)

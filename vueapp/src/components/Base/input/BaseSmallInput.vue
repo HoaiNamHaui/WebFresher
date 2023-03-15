@@ -15,13 +15,15 @@
         style="width: 100%"
         class="input-small"
         v-model="value"
-        :class="{ error: isError }"
+        :class="{ error: isError, focus: isFocus }"
         @blur="blurInput"
+        :tabindex="tabindex"
       />
       <br />
     </div>
   </template>
   <script>
+
   export default {
     name: "BaseInput",
     props: {
@@ -29,10 +31,11 @@
       require: Boolean,
       modelValue: String,
       error: String,
-      tabindex: String,
+      tabindex: Number,
       focus: Boolean,
       tooltip: String,
       tooltipContent: String,
+      isFocus: Boolean,
       shouldFocus: {
         type: Boolean,
         default: false,

@@ -1,6 +1,6 @@
 <template>
     <div class="checkbox-container">
-        <label :for="id"><div  @click="check" class="checkbox" :class="{ 'check-icon': checked }"></div></label><input :checked="checked" ref="checkbox" class="input-checkbox" type="checkbox" :id="id">
+        <label :for="id"><div v-on:keydown.enter="checkByEnter" :tabindex="tabindex"  @click="check" class="checkbox" :class="{ 'check-icon': checked }"></div></label><input :checked="checked" ref="checkbox" class="input-checkbox" type="checkbox" :id="id">
     </div>
 </template>
 
@@ -12,11 +12,15 @@
 
             }
         },
-        props: ["id","isCheckAll",'checked'],
+        props: ["id","isCheckAll",'checked','tabindex'],
         methods:{
+            //Check
             check(){
                 this.$emit("changeCheckbox",!this.checked, this.id);
                 
+            },
+            checkByEnter(){
+                this.check();
             }
         }
     }

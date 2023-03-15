@@ -71,7 +71,7 @@
               <span
                 style="cursor: pointer; color: #0075c0; font-weight: bold"
                 @click="handleEditClick(employee)"
-                >Sửa</span
+                >Xem</span
               >
               <div class="down-icon" @click="toogleMenu"></div>
             </td>
@@ -92,7 +92,7 @@
               <span
                 style="cursor: pointer; color: #0075c0; font-weight: bold"
                 @click="handleEditClick(employee)"
-                >Sửa</span
+                >Xem</span
               >
               <div class="down-icon" @click="toogleMenu"></div>
             </td>
@@ -113,7 +113,7 @@
               <span
                 style="cursor: pointer; color: #0075c0; font-weight: bold"
                 @click="handleEditClick(employee)"
-                >Sửa</span
+                >Xem</span
               >
               <div class="down-icon" @click="toogleMenu"></div>
             </td>
@@ -134,7 +134,7 @@
               <span
                 style="cursor: pointer; color: #0075c0; font-weight: bold"
                 @click="handleEditClick(employee)"
-                >Sửa</span
+                >Xem</span
               >
               <div class="down-icon" @click="toogleMenu"></div>
             </td>
@@ -155,7 +155,7 @@
               <span
                 style="cursor: pointer; color: #0075c0; font-weight: bold"
                 @click="handleEditClick(employee)"
-                >Sửa</span
+                >Xem</span
               >
               <div class="down-icon" @click="toogleMenu"></div>
             </td>
@@ -317,7 +317,7 @@
 <script>
 import BaseTooltip from "../base/BaseTooltip.vue";
 import BaseSmallButton from "../base/button/BaseSmallButton.vue";
-import PayMoney from "../forms/PayMoney.vue";
+import PayMoney from "../forms/pay/PayMoney.vue";
 import BaseCheckbox from "../base/BaseCheckbox.vue";
 import PageCombobox from "../base/PageCombobox.vue";
 // import $ from "jquery";

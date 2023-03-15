@@ -46,3 +46,6 @@
 .router-link-active .icon24{
     margin-left: 10px;
 }
+.router-link-active .icon-category{
+    margin-left: 13px !important;
+}

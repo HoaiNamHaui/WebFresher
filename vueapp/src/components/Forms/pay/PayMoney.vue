@@ -4,7 +4,7 @@
       <div class="header-pay-form-left">
         <div class="icon-recent-log"></div>
         <div class="pay-form-title">Phiếu chi PC2205002</div>
-        <div>
+        <div class="w40">
           <BaseComboboxV2 :data="dataPayType" v-model="dataPayTypeDefault"/>
         </div>
         <!-- <BaseComboboxV2 :data="dataPayType" v-model="dataPayTypeDefault"/> -->
@@ -40,7 +40,7 @@
           />
         </div>
         <div class="pay-form-left-fourth-line flex w100">
-          <div class="w45">
+          <div class="w40">
             <label for="">Nhân viên</label>
             <base-combobox-read-only style="margin-bottom: 8px" />
           </div>
@@ -141,10 +141,10 @@
   </div>
 </template>
 <script>
-import BaseComboboxReadOnly from "../base/BaseComboboxReadOnly.vue";
-import BaseComboboxV2 from "../base/BaseComboboxV2.vue";
-import BaseSmallInput from "../base/input/BaseSmallInput.vue";
-import BaseSmallButton from "../base/button/BaseSmallButton.vue";
+import BaseComboboxReadOnly from "../../base/BaseComboboxReadOnly.vue";
+import BaseComboboxV2 from "../../base/BaseComboboxV2.vue";
+import BaseSmallInput from "../../base/input/BaseSmallInput.vue";
+import BaseSmallButton from "../../base/button/BaseSmallButton.vue";
 export default {
   name: "PayForm",
   components: {
@@ -172,6 +172,6 @@ export default {
 };
 </script>
 <style>
-@import url(../../css/pay/payform.css);
-@import url(../../css/base/button/button.css);
+@import url(../../../css/pay/payform.css);
+@import url(../../../css/base/button/button.css);
 </style>

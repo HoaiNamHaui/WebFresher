@@ -4,7 +4,7 @@
     font-size: 14px;
     color: #ffff;
     font-family: Notosans-semibold;
-    outline: none;
+    /* outline: none; */
     height: 36px;
     line-height: 36px;
     padding: 0 16px;
@@ -18,7 +18,7 @@
     font-size: 14px;
     color: #ffff;
     font-family: Notosans-semibold;
-    outline: none;
+    /* outline: none; */
     height: 28px;
     line-height: 28px;
     padding: 0 16px;
@@ -41,7 +41,7 @@
     font-size: 14px;
     color: #212121;
     font-family: Notosans-semibold;
-    outline: none;
+    /* outline: none; */
     height: 36px;
     line-height: 36px;
     padding: 0 16px;
@@ -62,7 +62,7 @@
     font-size: 14px;
     color: #212121;
     font-family: Notosans-semibold;
-    outline: none;
+    /* outline: none; */
     height: 28px;
     line-height: 28px;
     padding: 0 16px;

@@ -22,7 +22,7 @@
           </div>
         </div>
         <div class="functions-right">
-          <div style="color: #0075c0">Mở rộng</div>
+          <div style="color: #0075c0; cursor: pointer;">Mở rộng</div>
           <div
             class="refresh"
             @click="filterEmployee"
@@ -141,7 +141,7 @@ import BaseSmallButton from "../base/button/BaseSmallButton.vue";
 import BaseTooltip from "../base/BaseTooltip.vue";
 import PageCombobox from "../base/PageCombobox.vue";
 import Paginate from "vuejs-paginate-next";
-import AccountDetail from "../forms/AccountDetail.vue";
+import AccountDetail from "../forms/account/AccountDetail.vue";
 import $ from "jquery";
 import { DxTreeList, DxColumn } from "devextreme-vue/tree-list";
 // import $ from "jquery";
@@ -182,7 +182,7 @@ export default {
           AccountId: 2,
           ParentAccountId: "1",
           IsParent: true,
-          BankNumber: "112",
+          BankNumber: "1112",
           BankName: "Tiền mặt Việt Nam",
           Nature: "Dư có",
           EnglishName: "Cash in hand",
@@ -193,7 +193,7 @@ export default {
           AccountId: 3,
           ParentAccountId: 2,
           IsParent: true,
-          BankNumber: "113",
+          BankNumber: "11123",
           BankName: "Tiền mặt Việt Nam",
           Nature: "Dư có",
           EnglishName: "Cash in hand",
@@ -215,7 +215,7 @@ export default {
           AccountId: 5,
           ParentAccountId: 4,
           IsParent: false,
-          BankNumber: "115",
+          BankNumber: "1145",
           BankName: "Tiền mặt Việt Nam",
           Nature: "Dư có",
           EnglishName: "Cash in hand",
@@ -226,7 +226,7 @@ export default {
           AccountId: 6,
           ParentAccountId: 2,
           IsParent: false,
-          BankNumber: "116",
+          BankNumber: "11126",
           BankName: "Tiền mặt Việt Nam",
           Nature: "Dư có",
           EnglishName: "Cash in hand",
@@ -248,7 +248,7 @@ export default {
           AccountId: 8,
           ParentAccountId: 3,
           IsParent: false,
-          BankNumber: "118",
+          BankNumber: "111238",
           BankName: "Tiền mặt Việt Nam",
           Nature: "Dư có",
           EnglishName: "Cash in hand",
@@ -270,7 +270,7 @@ export default {
           AccountId: 10,
           ParentAccountId: 9,
           IsParent: false,
-          BankNumber: "111",
+          BankNumber: "1191",
           BankName: "Tiền mặt Việt Nam",
           Nature: "Dư có",
           EnglishName: "Cash in hand",
@@ -292,7 +292,7 @@ export default {
           AccountId: 12,
           ParentAccountId: 0,
           IsParent: false,
-          BankNumber: "111",
+          BankNumber: "101",
           BankName: "Tiền mặt Việt Nam",
           Nature: "Dư có",
           EnglishName: "Cash in hand",
@@ -303,7 +303,7 @@ export default {
           AccountId: 13,
           ParentAccountId: 0,
           IsParent: false,
-          BankNumber: "111",
+          BankNumber: "102",
           BankName: "Tiền mặt Việt Nam",
           Nature: "Dư có",
           EnglishName: "Cash in hand",
@@ -314,7 +314,7 @@ export default {
           AccountId: 14,
           ParentAccountId: 0,
           IsParent: false,
-          BankNumber: "111",
+          BankNumber: "103",
           BankName: "Tiền mặt Việt Nam",
           Nature: "Dư có",
           EnglishName: "Cash in hand",
@@ -325,7 +325,7 @@ export default {
           AccountId: 15,
           ParentAccountId: 0,
           IsParent: false,
-          BankNumber: "111",
+          BankNumber: "104",
           BankName: "Tiền mặt Việt Nam",
           Nature: "Dư có",
           EnglishName: "Cash in hand",
@@ -336,7 +336,7 @@ export default {
           AccountId: 16,
           ParentAccountId: 0,
           IsParent: false,
-          BankNumber: "111",
+          BankNumber: "105",
           BankName: "Tiền mặt Việt Nam",
           Nature: "Dư có",
           EnglishName: "Cash in hand",

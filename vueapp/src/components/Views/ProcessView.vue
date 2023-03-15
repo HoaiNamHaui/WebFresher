@@ -4,7 +4,7 @@
       <div class="process-content-header">NGHIỆP VỤ TIỀN MẶT</div>
       <div class="process-content-image">
         <span class="process-collect-money">Thu tiền</span>
-        <span class="process-inventory">Kiểm kể quỹ</span>
+        <span class="process-inventory">Kiểm kê quỹ</span>
         <a href="/CashView/PayView" class="process-pay" @click="handleClickPayMoney">Chi tiền</a>
       </div>
       <div class="process-content-footer">

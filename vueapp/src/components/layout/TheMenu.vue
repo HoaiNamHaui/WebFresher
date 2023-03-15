@@ -2,7 +2,8 @@
     <div class="menu" :class="{collapse: isCollapse}">
             <div class="logo-container">
                 <div v-show="!isCollapse" class="menu-icon" ></div>
-                <img v-show="!isCollapse" src="../../assets/img/Logo_Module_TiengViet_White.66947422.svg" alt="" class="logo">
+                <a style="display: flex; align-items: center;" href="/" blank><img v-show="!isCollapse" src="../../assets/img/Logo_Module_TiengViet_White.66947422.svg" alt="" class="logo"></a>
+                
                 <div v-show="isCollapse" class="bars-white" @click="expandMenu"></div>
             </div>
             <div class="menu-wrapper">
@@ -66,9 +67,9 @@
                     <div class="icon24 icon-finance"></div>
                     <div v-show="!isCollapse" class="menu-option">Phân tích tài chính</div>
                 </router-link> -->
-                <div class="" style="width: 80%; height: 0.5px; background-color: #fff; margin: 0 auto; margin-bottom: 10px;"></div>
+                <div class="" style="width: 80%; height: 0.5px; background-color: #fff; margin: 10px auto; margin-bottom: 10px;"></div>
                 <router-link to="/CategoryView" class="menu-item">
-                    <div class="icon24 icon-category"></div>
+                    <div class="icon24 icon-category" style="margin-left: 17px;"></div>
                     <div v-show="!isCollapse" class="menu-option">Danh mục</div>
                 </router-link>
             </div>

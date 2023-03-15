@@ -20,6 +20,9 @@
   display: flex;
   align-items: center;
 }
+.header-pay-form-left{
+  width: 70%;
+}
 .icon-recent-log {
   background: url("../../assets/img/Sprites.64af8f61.svg") no-repeat -648px -145px;
   width: 24px;
@@ -31,6 +34,9 @@
   font-size: 24px;
   font-weight: bold;
   margin-right: 24px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 .flex {
   display: flex;
@@ -44,6 +50,10 @@
 }
 .w45 {
   width: 45%;
+  margin-right: 12px;
+}
+.w40 {
+  width: 44%;
   margin-right: 12px;
 }
 .w55 {
