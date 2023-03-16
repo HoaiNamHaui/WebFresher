@@ -10,5 +10,10 @@ namespace MISA.AMIS.DL.AccountDL
 {
     public interface IAccountDL:IBaseDL<Account>
     {
+        /// <summary>
+        /// lấy tài khoản con
+        /// </summary>
+        /// <returns></returns>
+        List<Account> GetChildAccount();
     }
 }

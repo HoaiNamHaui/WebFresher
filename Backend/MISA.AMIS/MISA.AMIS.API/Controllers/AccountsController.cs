@@ -24,5 +24,20 @@ namespace MISA.AMIS.API.Controllers
 
         #endregion
 
+        [HttpGet("GetChildrenAccount")]
+        public IActionResult GetChildAccount()
+        {
+            try
+            {
+                var data = _accountBL.GetChildAccount();
+                return StatusCode(StatusCodes.Status200OK, data);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                return StatusCode(StatusCodes.Status500InternalServerError, ex);
+
+            }
+        }
     }
 }

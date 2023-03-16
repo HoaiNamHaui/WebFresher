@@ -9,6 +9,10 @@ var MISAapi = {
     "department":{
         departmentApi: "https://localhost:7116/api/v1/Departments/",
         filter: "https://localhost:7116/api/v1/Departments/Filter?pageSize=10&pageNumber=1"
+    },
+    "account":{
+        base: "https://localhost:7116/api/v1/Accounts/",
+        filter: "https://localhost:7116/api/v1/Accounts/Filter?",
     }
 }
 export default MISAapi;

@@ -27,5 +27,14 @@ namespace MISA.AMIS.BL.AccountBL
         }
 
         #endregion
+
+        /// <summary>
+        /// Lấy tài khoản con
+        /// </summary>
+        /// <returns></returns>
+        public List<Account> GetChildAccount()
+        {
+            return _accountDL.GetChildAccount();
+        }
     }
 }

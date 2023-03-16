@@ -16,9 +16,9 @@ import AssetsView from "./components/views/AssetsView.vue";
 import TaxView from "./components/views/TaxView.vue";
 import PriceView from "./components/views/PriceView.vue";
 import SyntheticView from "./components/views/SyntheticView.vue";
-import BudgetView from "./components/views/BudgetView.vue";
-import ReportView from "./components/views/ReportView.vue";
-import AnalysisView from "./components/views/AnalysisView.vue";
+// import BudgetView from "./components/views/BudgetView.vue";
+// import ReportView from "./components/views/ReportView.vue";
+// import AnalysisView from "./components/views/AnalysisView.vue";
 import BaseButton from "../src/components/base/button/BaseButton.vue";
 import CategoryView from "./components/views/CategoryView.vue";
 import PayView from "./components/views/PayView.vue";
@@ -50,9 +50,9 @@ const routers = [
   { path: "/TaxView", component: TaxView },
   { path: "/PriceView", component: PriceView },
   { path: "/SyntheticView", component: SyntheticView },
-  { path: "/BudgetView", component: BudgetView },
-  { path: "/ReportView", component: ReportView },
-  { path: "/AnalysisView", component: AnalysisView },
+  // { path: "/BudgetView", component: BudgetView },
+  // { path: "/ReportView", component: ReportView },
+  // { path: "/AnalysisView", component: AnalysisView },
   { path: "/SystemAccount", component: SystemAccount },
   {
     path: "/CategoryView",

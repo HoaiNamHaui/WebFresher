@@ -10,5 +10,10 @@ namespace MISA.AMIS.BL.AccountBL
 {
     public interface IAccountBL : IBaseBL<Account>
     {
+        /// <summary>
+        /// Lấy tài khoản con
+        /// </summary>
+        /// <returns></returns>
+        List<Account> GetChildAccount();
     }
 }

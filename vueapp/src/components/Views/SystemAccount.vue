@@ -22,7 +22,7 @@
           </div>
         </div>
         <div class="functions-right">
-          <div style="color: #0075c0; cursor: pointer;">Mở rộng</div>
+          <div style="color: #0075c0; cursor: pointer">Mở rộng</div>
           <div
             class="refresh"
             @click="filterEmployee"
@@ -36,32 +36,32 @@
       <div class="list-account">
         <DxTreeList
           id="tasks"
-          :data-source="fakeData"
+          :data-source="accounts"
           :column-auto-width="true"
           :word-wrap-enabled="true"
           :sorting="false"
           key-expr="AccountId"
-          parent-id-expr="ParentAccountId"
+          parent-id-expr="ParentId"
         >
           <DxColumn
             :width="130"
-            data-field="BankNumber"
+            data-field="AccountNumber"
             caption="Số tài khoản"
           />
-          <DxColumn :width="0" data-field="AccountId" caption="ID" />
+          <!-- <DxColumn :width="0" data-field="AccountId" caption="ID" /> -->
           <DxColumn
             :width="250"
-            data-field="BankName"
+            data-field="AccountName"
             caption="Tên tài khoản"
           />
-          <DxColumn :width="100" data-field="Nature" caption="Tính chất" />
+          <DxColumn :width="100" data-field="TypeName" caption="Tính chất" />
           <DxColumn
             :width="250"
             data-field="EnglishName"
             caption="Tên tiếng anh"
           />
-          <DxColumn :width="332" data-field="Explain" caption="Diễn giải" />
-          <DxColumn :width="140" data-field="IsActive" caption="Trạng thái" />
+          <DxColumn :width="332" data-field="Description" caption="Diễn giải" />
+          <DxColumn :width="140" data-field="Active" caption="Trạng thái" />
           <DxColumn
             :width="0"
             data-field="IsParent"
@@ -73,7 +73,7 @@
             caption="Chức năng"
             cell-template="functionTemplate"
           />
-          <template #functionTemplate="">
+          <template #functionTemplate="{ data: options }">
             <div class="flex">
               <span
                 style="
@@ -81,7 +81,7 @@
                   font-weight: bold;
                   color: #0075c0 !important;
                 "
-                @click="handleEditClick(employee)"
+                @click="handleClickEdit(options.data)"
                 >Sửa</span
               >
               <div class="down-icon" @click="toogleMenu"></div>
@@ -133,10 +133,12 @@
         </div>
       </footer>
     </div>
-    <account-detail v-if="isShowDialog" @closeForm="closeForm" />
+    <account-detail v-if="isShowDialog" @closeForm="closeForm" :idAccountSelected ="idAccountSelected"/>
   </div>
 </template>
 <script>
+import axios from "axios";
+import MISAapi from "@/js/api";
 import BaseSmallButton from "../base/button/BaseSmallButton.vue";
 import BaseTooltip from "../base/BaseTooltip.vue";
 import PageCombobox from "../base/PageCombobox.vue";
@@ -166,188 +168,111 @@ export default {
       page: 1,
       isShowDialog: false,
       isShowFooterCbb: false,
-      fakeData: [
-        {
-          AccountId: "1",
-          ParentAccountId: 0,
-          IsParent: true,
-          BankNumber: "111",
-          BankName: "Tiền mặt Việt Nam",
-          Nature: "Dư có",
-          EnglishName: "Cash in hand",
-          Explain: "diễn giải",
-          IsActive: "Ngừng sử dụng",
-        },
-        {
-          AccountId: 2,
-          ParentAccountId: "1",
-          IsParent: true,
-          BankNumber: "1112",
-          BankName: "Tiền mặt Việt Nam",
-          Nature: "Dư có",
-          EnglishName: "Cash in hand",
-          Explain: "diễn giải",
-          IsActive: "Đang sử dụng",
-        },
-        {
-          AccountId: 3,
-          ParentAccountId: 2,
-          IsParent: true,
-          BankNumber: "11123",
-          BankName: "Tiền mặt Việt Nam",
-          Nature: "Dư có",
-          EnglishName: "Cash in hand",
-          Explain: "diễn giải",
-          IsActive: "Đang sử dụng",
-        },
-        {
-          AccountId: 4,
-          ParentAccountId: 0,
-          IsParent: true,
-          BankNumber: "114",
-          BankName: "Tiền mặt Việt Nam",
-          Nature: "Dư có",
-          EnglishName: "Cash in hand",
-          Explain: "diễn giải",
-          IsActive: "Đang sử dụng",
-        },
-        {
-          AccountId: 5,
-          ParentAccountId: 4,
-          IsParent: false,
-          BankNumber: "1145",
-          BankName: "Tiền mặt Việt Nam",
-          Nature: "Dư có",
-          EnglishName: "Cash in hand",
-          Explain: "diễn giải",
-          IsActive: "Đang sử dụng",
-        },
-        {
-          AccountId: 6,
-          ParentAccountId: 2,
-          IsParent: false,
-          BankNumber: "11126",
-          BankName: "Tiền mặt Việt Nam",
-          Nature: "Dư có",
-          EnglishName: "Cash in hand",
-          Explain: "diễn giải",
-          IsActive: "Đang sử dụng",
-        },
-        {
-          AccountId: 7,
-          ParentAccountId: 0,
-          IsParent: false,
-          BankNumber: "117",
-          BankName: "Tiền mặt Việt Nam",
-          Nature: "Dư có",
-          EnglishName: "Cash in hand",
-          Explain: "diễn giải",
-          IsActive: "Đang sử dụng",
-        },
-        {
-          AccountId: 8,
-          ParentAccountId: 3,
-          IsParent: false,
-          BankNumber: "111238",
-          BankName: "Tiền mặt Việt Nam",
-          Nature: "Dư có",
-          EnglishName: "Cash in hand",
-          Explain: "diễn giải",
-          IsActive: "Đang sử dụng",
-        },
-        {
-          AccountId: 9,
-          ParentAccountId: 0,
-          IsParent: true,
-          BankNumber: "119",
-          BankName: "Tiền mặt Việt Nam",
-          Nature: "Dư có",
-          EnglishName: "Cash in hand",
-          Explain: "diễn giải",
-          IsActive: "Đang sử dụng",
-        },
-        {
-          AccountId: 10,
-          ParentAccountId: 9,
-          IsParent: false,
-          BankNumber: "1191",
-          BankName: "Tiền mặt Việt Nam",
-          Nature: "Dư có",
-          EnglishName: "Cash in hand",
-          Explain: "diễn giải",
-          IsActive: "Đang sử dụng",
-        },
-        {
-          AccountId: 11,
-          ParentAccountId: 0,
-          IsParent: false,
-          BankNumber: "111",
-          BankName: "Tiền mặt Việt Nam",
-          Nature: "Dư có",
-          EnglishName: "Cash in hand",
-          Explain: "diễn giải",
-          IsActive: "Đang sử dụng",
-        },
-        {
-          AccountId: 12,
-          ParentAccountId: 0,
-          IsParent: false,
-          BankNumber: "101",
-          BankName: "Tiền mặt Việt Nam",
-          Nature: "Dư có",
-          EnglishName: "Cash in hand",
-          Explain: "diễn giải",
-          IsActive: "Đang sử dụng",
-        },
-        {
-          AccountId: 13,
-          ParentAccountId: 0,
-          IsParent: false,
-          BankNumber: "102",
-          BankName: "Tiền mặt Việt Nam",
-          Nature: "Dư có",
-          EnglishName: "Cash in hand",
-          Explain: "diễn giải",
-          IsActive: "Đang sử dụng",
-        },
-        {
-          AccountId: 14,
-          ParentAccountId: 0,
-          IsParent: false,
-          BankNumber: "103",
-          BankName: "Tiền mặt Việt Nam",
-          Nature: "Dư có",
-          EnglishName: "Cash in hand",
-          Explain: "diễn giải",
-          IsActive: "Đang sử dụng",
-        },
-        {
-          AccountId: 15,
-          ParentAccountId: 0,
-          IsParent: false,
-          BankNumber: "104",
-          BankName: "Tiền mặt Việt Nam",
-          Nature: "Dư có",
-          EnglishName: "Cash in hand",
-          Explain: "diễn giải",
-          IsActive: "Đang sử dụng",
-        },
-        {
-          AccountId: 16,
-          ParentAccountId: 0,
-          IsParent: false,
-          BankNumber: "105",
-          BankName: "Tiền mặt Việt Nam",
-          Nature: "Dư có",
-          EnglishName: "Cash in hand",
-          Explain: "diễn giải",
-          IsActive: "Đang sử dụng",
-        },
-      ],
+      accounts: [],
+      childAccounts: [],
+      accountSelected: {},
+      idAccountSelected: null,
     };
   },
-
+  created() {
+    this.getChildrenAccount();
+    this.filterAccount();
+  },
+  mounted() {
+    document.addEventListener("keydown", this.handleKeydown);
+  },
   methods: {
+    // Xử lý click nút sửa
+    handleClickEdit(account)
+    {
+      this.accountSelected = account;
+      this.idAccountSelected = account.AccountId;
+      this.isShowDialog = true;
+    },
+    /**
+     * phím tắt mở form thêm mới
+     * Author: NHNam (22/2/2023)
+     */
+    handleKeydown(event) {
+      var me = this;
+      if (event.ctrlKey && event.key == "1") {
+        event.preventDefault();
+        // event.stopPropagation();
+        me.isShowDialog = true;
+      }
+    },
+
+    //lọc phân trang theo tài khoản cha
+    async filterAccount() {
+      var me = this;
+      var url =
+        MISAapi.account.filter +
+        `pageSize=${this.pageSize}&pageNumber=${this.pageNumber}&keyword=${this.txtSearch}`;
+      await axios
+        .get(url)
+        .then(async function (res) {
+          me.totalPage = res.data.TotalPage;
+          me.totalRecord = res.data.TotalRecord;
+          me.accounts = res.data.Data;
+        })
+        .then(function () {
+          // xử lý tài khoản không có tài khoản cha
+          me.accounts.forEach((item) => (item.ParentId = "0"));
+
+          // Lấy ra các id của tài khoản cha
+          let accountIds = me.accounts.map((account) => account.AccountId);
+
+          // Lấy số tài khoản con tương ứng với tài khoản cha
+
+          let countRecords = 0;
+
+          // Lấy những tài khoản con
+          me.childAccounts.forEach((child) => {
+            try {
+              if (accountIds.includes(child.ParentId)) {
+                me.accounts.push(child);
+                accountIds = me.accounts.map((account) => account.AccountId);
+                countRecords++;
+              }
+            } catch (error) {
+              console.log(error);
+            }
+          });
+          me.totalRecord += countRecords;
+        })
+        .catch(function (res) {
+          console.log(res);
+        });
+    },
+
+    // lấy tài khoản con
+    async getChildrenAccount() {
+      var me = this;
+      var url = MISAapi.account.base + "GetChildrenAccount";
+      await axios
+        .get(url)
+        .then(function (res) {
+          me.childAccounts = res.data;
+        })
+        .catch(function (res) {
+          console.log(res);
+        });
+    },
+    /**
+     * Đổi size page
+     * Author: NHNam (1/1/2023)
+     */
+     async sizeRecord(e) {
+      this.pageSize = e;
+      this.showPageOption();
+      this.page = 1;
+      this.pageNumber = 1;
+      await this.filterAccount();
+      await this.getChildrenAccount();
+    },
+    /**
+     * mở menu context
+     */
     toogleMenu(e) {
       if (this.$refs.menuContext.style.display === "block") {
         $(".context-menu").hide(100);
@@ -377,9 +302,8 @@ export default {
     //click chuyển trang
     async clickCallback(pageNum) {
       this.pageNumber = pageNum;
-      // this.rowSelected = [];
-
-      // this.isCheckAll = false;
+      this.filterAccount();
+      this.getChildrenAccount();
       this.txtSearch = "";
     },
     // mở option chọn số lượng bản ghi
@@ -394,18 +318,6 @@ export default {
     //đóng chọn số bản ghi
     close() {
       this.isShowFooterCbb = false;
-    },
-    /**
-     * Đổi size page
-     * Author: NHNam (1/1/2023)
-     */
-    async sizeRecord(e) {
-      this.pageSize = e;
-      this.showPageOption();
-      this.page = 1;
-      this.pageNumber = 1;
-      // await this.filterEmployee();
-      // this.testCheckAll();
     },
     /**
      * Hiện , ẩn chọn số bản ghi trên 1 trang

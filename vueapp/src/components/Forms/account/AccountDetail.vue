@@ -22,6 +22,7 @@
             style="width: calc(25% - 9px)"
             :tabindex="1"
             :isFocus="true"
+            v-model="account.AccountNumber"
           />
         </div>
         <div style="display: flex">
@@ -31,6 +32,7 @@
             :require="true"
             style="width: 50%"
             :tabindex="2"
+            v-model="account.AccountName"
           />
           <BaseSmallInputVue
             label="Tên tiếng Anh"
@@ -38,6 +40,7 @@
             :require="false"
             style="width: 50%"
             :tabindex="3"
+            v-model="account.EnglishName"
           />
         </div>
         <div style="width: 50%; display: flex">
@@ -47,6 +50,7 @@
             :require="false"
             style="width: calc(50% - 9px)"
             :tabindex="4"
+            v-model="account.ParentId"
           />
           <!-- <BaseSmallInputVue
             label="Tính chất"
@@ -61,6 +65,7 @@
               :data="dataType"
               style="margin-top: unset !important"
               :tabindex="5"
+              v-model="Type"
             />
           </div>
         </div>
@@ -70,6 +75,7 @@
             tabindex="6"
             class="text-area"
             style="resize: none"
+            v-model="account.Description"
           ></textarea>
         </div>
         <div style="display: flex">
@@ -277,6 +283,8 @@ import BaseSmallInputVue from "../../base/input/BaseSmallInput.vue";
 import BaseCheckbox from "../../base/BaseCheckbox.vue";
 import BaseSmallButton from "../../base/button/BaseSmallButton.vue";
 import BaseComboboxV2 from "../../base/BaseComboboxV2.vue";
+import MISAapi from "@/js/api";
+import axios from "axios";
 export default {
   name: "AccountDetail",
   components: {
@@ -306,7 +314,34 @@ export default {
       dataType: ["Dư nợ", "Dư có", "Lưỡng tính", "Không có số dư"],
     };
   },
+  props:['idAccountSelected'],
+
+  created(){
+    if(this.idAccountSelected != null){
+      var me = this;
+      axios
+        .get(MISAapi.account.base + me.idAccountSelected)
+        .then(function (res) {
+          me.account = res.data;
+        })
+    }
+  },
+
   methods: {
+    handleKeydown(event){
+      var me = this;
+      // Đóng form
+      if (event.keyCode === 27) {
+        event.preventDefault();
+        // event.stopPropagation();
+        //me.checkChangeAndHideDialog();
+        me.closeForm();
+      }
+      // Lưu data
+      if (event.ctrlKey && event.key == "s") {
+        event.preventDefault();
+      }
+    },
     //check
     changeCheckboxHasForeignCurrencyAccounting(active) {
       this.account.HasForeignCurrencyAccounting = active;
@@ -370,6 +405,7 @@ export default {
     },
   },
   mounted() {
+    document.addEventListener("keydown", this.handleKeydown);
     var firstInput = document.getElementsByClassName("focus");
     firstInput[0].focus();
   },

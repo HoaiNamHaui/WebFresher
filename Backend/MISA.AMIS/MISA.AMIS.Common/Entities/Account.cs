@@ -39,7 +39,12 @@ namespace MISA.AMIS.Common.Entities
         /// <summary>
         /// Tính chất
         /// </summary>
-        public int type { get; set; }
+        public int Type { get; set; }
+
+        /// <summary>
+        /// Tên tính chất
+        /// </summary>
+        public string? TypeName { get; set; }
 
         /// <summary>
         /// Diễn giải
