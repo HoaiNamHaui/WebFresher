@@ -3,7 +3,7 @@
     <div class="header-pay-form">
       <div class="header-pay-form-left">
         <div class="icon-recent-log"></div>
-        <div class="pay-form-title">Phiếu chi PC2205002</div>
+        <div class="pay-form-title">Phiếu chi {{ payment.RefNo }}</div>
         <div class="w40">
           <BaseComboboxV2 :data="dataPayType" v-model="dataPayTypeDefault"/>
         </div>
@@ -69,7 +69,7 @@
             <input :class="{'text-gray': true}" type="date" class="input-small w100" />
           </div>
           <div class="pay-form-right-first-line w60" style="margin-left: 12px">
-            <base-small-input label="Số phiếu chi" />
+            <base-small-input label="Số phiếu chi" v-model="payment.RefNo"/>
           </div>
         </div>
         <div style="text-align: right" class="w50">
@@ -158,7 +158,10 @@ export default {
       dataPayType: ['1. Trả tiền nhà cung cấp','2. Tạm ứng cho nhân viên', '3. Chi mua ngoài có hóa đơn',
       "4. Trả lương cho nhân viên","5. Chuyển tiền cho chi nhánh khác", "6. Gửi tiền vào ngân hàng","7. Chi khác"
     ],
-    dataPayTypeDefault : "7. Chi khác"
+    dataPayTypeDefault : "7. Chi khác",
+    payment:{
+      RefNo: ""
+    }
     }
   },
   methods:{

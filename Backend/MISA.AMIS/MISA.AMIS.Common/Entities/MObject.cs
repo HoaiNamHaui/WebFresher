@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,11 +10,12 @@ namespace MISA.AMIS.Common.Entities
     /// <summary>
     /// Thông tin đối tượng
     /// </summary>
-    public class Object:BaseEntities
+    public class MObject:BaseEntities
     {
         /// <summary>
         /// Khóa chính
         /// </summary>
+        [Key]
         public Guid ObjectId { get; set; }
 
         /// <summary>

@@ -25,7 +25,7 @@
           <div style="color: #0075c0; cursor: pointer">Mở rộng</div>
           <div
             class="refresh"
-            @click="filterEmployee"
+            @click="refreshListAccount"
             style="position: relative"
           >
             <base-tooltip message="Làm mới danh sách" />
@@ -33,7 +33,8 @@
           <base-small-button @click="showDialog" btnName="Thêm" />
         </div>
       </div>
-      <div class="list-account">
+      <div class="list-account" style="position: relative;">
+        <base-no-data v-if="accounts.length > 0"/>
         <DxTreeList
           id="tasks"
           :data-source="accounts"
@@ -42,6 +43,8 @@
           :sorting="false"
           key-expr="AccountId"
           parent-id-expr="ParentId"
+          @cellDblClick="handleRowDblClick"
+          noDataText="''"
         >
           <DxColumn
             :width="130"
@@ -133,10 +136,17 @@
         </div>
       </footer>
     </div>
-    <account-detail v-if="isShowDialog" @closeForm="closeForm" :idAccountSelected ="idAccountSelected"/>
+    <account-detail
+      v-if="isShowDialog"
+      @closeForm="closeForm"
+      :idAccountSelected="idAccountSelected"
+    />
+    <base-loading v-if="isLoading"/>
   </div>
 </template>
 <script>
+import BaseNoData from "../base/BaseNoData.vue";
+import { vue3Debounce } from "vue-debounce";
 import axios from "axios";
 import MISAapi from "@/js/api";
 import BaseSmallButton from "../base/button/BaseSmallButton.vue";
@@ -146,6 +156,7 @@ import Paginate from "vuejs-paginate-next";
 import AccountDetail from "../forms/account/AccountDetail.vue";
 import $ from "jquery";
 import { DxTreeList, DxColumn } from "devextreme-vue/tree-list";
+import BaseLoading from '../base/BaseLoading.vue';
 // import $ from "jquery";
 export default {
   name: "SystemAccount",
@@ -157,9 +168,15 @@ export default {
     AccountDetail,
     DxTreeList,
     DxColumn,
+    BaseLoading,
+    BaseNoData
   },
   data() {
     return {
+      directives: {
+        debounce: vue3Debounce({ lock: true }),
+      },
+      isLoading: false,
       pageSize: 20,
       pageNumber: 1, // trang hiện tại
       txtSearch: "", // keyword lọc
@@ -181,10 +198,29 @@ export default {
   mounted() {
     document.addEventListener("keydown", this.handleKeydown);
   },
+  watch:{
+    txtSearch: function () {
+      this.page = 1;
+      this.pageNumber = 1;
+      this.getChildrenAccount();
+      this.filterAccount();
+    },
+  },
   methods: {
+
+    debounceSearch(e){
+      this.txtSearch = e;
+    },
+    /**
+     * Row Double click
+     * @param {account selected} e
+     */
+    handleRowDblClick(e) {
+      this.handleClickEdit(e.data);
+    },
+
     // Xử lý click nút sửa
-    handleClickEdit(account)
-    {
+    handleClickEdit(account) {
       this.accountSelected = account;
       this.idAccountSelected = account.AccountId;
       this.isShowDialog = true;
@@ -201,7 +237,13 @@ export default {
         me.isShowDialog = true;
       }
     },
-
+    /**
+     * Làm mới list account
+     */
+    refreshListAccount() {
+      this.getChildrenAccount();
+      this.filterAccount();
+    },
     //lọc phân trang theo tài khoản cha
     async filterAccount() {
       var me = this;
@@ -239,6 +281,7 @@ export default {
             }
           });
           me.totalRecord += countRecords;
+          me.isLoading = false;
         })
         .catch(function (res) {
           console.log(res);
@@ -247,6 +290,7 @@ export default {
 
     // lấy tài khoản con
     async getChildrenAccount() {
+      this.isLoading = true;
       var me = this;
       var url = MISAapi.account.base + "GetChildrenAccount";
       await axios
@@ -262,7 +306,7 @@ export default {
      * Đổi size page
      * Author: NHNam (1/1/2023)
      */
-     async sizeRecord(e) {
+    async sizeRecord(e) {
       this.pageSize = e;
       this.showPageOption();
       this.page = 1;
