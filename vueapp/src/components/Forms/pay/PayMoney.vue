@@ -59,16 +59,18 @@
             style="margin-bottom: 8px; margin-left: 12px"
           >
             <label for="">Ngày hạch toán</label><br />
-            <input :class="{'text-gray': true}" type="date" class="input-small w100" />
+            <!-- <input :class="{'text-gray': true}" type="date" class="input-small w100" /> -->
+            <base-datepicker />
           </div>
           <div
             class="pay-form-right-first-line w60"
             style="margin-bottom: 8px; margin-left: 12px"
           >
             <label for="">Ngày Phiếu chi</label><br />
-            <input :class="{'text-gray': true}" type="date" class="input-small w100" />
+            <!-- <input :class="{'text-gray': true}" type="date" class="input-small w100" /> -->
+            <base-datepicker />
           </div>
-          <div class="pay-form-right-first-line w60" style="margin-left: 12px">
+          <div class="pay-form-right-first-line w60" style="margin-left: 12px; max-width: 150px;">
             <base-small-input label="Số phiếu chi" v-model="payment.RefNo"/>
           </div>
         </div>
@@ -145,13 +147,16 @@ import BaseComboboxReadOnly from "../../base/BaseComboboxReadOnly.vue";
 import BaseComboboxV2 from "../../base/BaseComboboxV2.vue";
 import BaseSmallInput from "../../base/input/BaseSmallInput.vue";
 import BaseSmallButton from "../../base/button/BaseSmallButton.vue";
+import BaseDatepicker from '@/components/base/BaseDatepicker.vue';
 export default {
   name: "PayForm",
   components: {
     BaseComboboxReadOnly,
     BaseSmallInput,
     BaseSmallButton,
-    BaseComboboxV2
+    BaseComboboxV2,
+    BaseDatepicker
+
   },
   data(){
     return{

@@ -34,7 +34,7 @@
         </div>
       </div>
       <div class="list-account" style="position: relative;">
-        <base-no-data v-if="accounts.length > 0"/>
+        <base-no-data v-if="!(accounts.length > 0)"/>
         <DxTreeList
           id="tasks"
           :data-source="accounts"
@@ -240,8 +240,8 @@ export default {
     /**
      * Làm mới list account
      */
-    refreshListAccount() {
-      this.getChildrenAccount();
+    async refreshListAccount() {
+      await this.getChildrenAccount();
       this.filterAccount();
     },
     //lọc phân trang theo tài khoản cha
@@ -346,8 +346,8 @@ export default {
     //click chuyển trang
     async clickCallback(pageNum) {
       this.pageNumber = pageNum;
+      await this.getChildrenAccount();
       this.filterAccount();
-      this.getChildrenAccount();
       this.txtSearch = "";
     },
     // mở option chọn số lượng bản ghi
