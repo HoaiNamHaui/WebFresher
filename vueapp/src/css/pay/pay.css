@@ -48,6 +48,7 @@
   /* width: 100%; */
   overflow: scroll;
   background-color: #fff;
+  height: 244px;
 }
 .pay-master-data-table {
   width: max-content;
@@ -68,6 +69,8 @@
   background-color: #f4f5f8;
   border-bottom: 1px solid #e0e0e0;
   border-right: 1px solid #e0e0e0;
+  position: sticky;
+  top: 0;
 }
 .pay-master-data-table td {
   height: 36px;
@@ -78,18 +81,21 @@
 .pay-master-data-table tr th:first-child {
   position: sticky;
   left: 0;
+  bottom: 0;
   width: 50px;
   z-index: 3;
-  display: flex;
+  /* display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: center; */
 }
 .pay-master-data-table tr td:first-child {
-  position: fixed;
+  /* position: fixed; */
+  position: sticky;
+  left: 0;
   width: 50px;
-  display: flex;
+  /* display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: center; */
   background-color: #ffff;
 }
 .pay-master-data-table tr td:last-child {
@@ -107,10 +113,15 @@
   position: sticky;
   right: 0;
   border-left: 1px solid #e0e0e0;
+  z-index: 10;
 }
 .pay-master-data-table tr:last-child td {
   border: unset;
   background-color: #f4f5f8;
+}
+.pay-master-data-table tr:last-child {
+  position: sticky;
+  bottom: 0;
 }
 
 .w50px {

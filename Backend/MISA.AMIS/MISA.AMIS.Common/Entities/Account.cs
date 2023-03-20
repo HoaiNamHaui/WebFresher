@@ -22,15 +22,17 @@ namespace MISA.AMIS.Common.Entities
         /// Id tài khoản cha
         /// </summary>
         public Guid ParentId { get; set; }
-        
+
         /// <summary>
         /// Số tài khoản
         /// </summary>
+        [Required(ErrorMessage = "Số tài khoản không được bỏ trống")]        
         public string AccountNumber { get; set; }
-        
+
         /// <summary>
         /// Tên tài khoản
         /// </summary>
+        [Required(ErrorMessage = "Tên tài khoản không được bỏ trống")]
         public string AccountName { get; set; }
 
         /// <summary>
@@ -41,6 +43,7 @@ namespace MISA.AMIS.Common.Entities
         /// <summary>
         /// Tính chất
         /// </summary>
+        [Required(ErrorMessage = "Tính chất không được bỏ trống")]
         public int Type { get; set; }
 
         /// <summary>

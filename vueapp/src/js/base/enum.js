@@ -13,6 +13,21 @@ var MISAEnum = {
         ENTER: 13,
         ROW_UP: 38,
         ROW_DOWN: 40
+    },
+    FOLLOW_DETAIL:{
+        ONLY_WARNING: 0,
+        REQUIRE: 1
+    },
+    OBJECT:{
+        SUPPLIER: 0,
+        CUSTOMER: 1,
+        EMPLOYEE: 2
+    },
+    TYPE:{
+        DEBT: 0,
+        SURPLUS: 1,
+        HERMAPHRODITE: 2,
+        NO_BALANCE: 3
     }
 }
 export default MISAEnum;

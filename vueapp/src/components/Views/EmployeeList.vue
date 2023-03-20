@@ -2,9 +2,9 @@
   <div>
     <div class="content-top">
       <div class="title">Nhân viên</div>
-      <base-button @click="ShowDialog" btnName="Thêm nhân viên" />
+      <!-- <base-button @click="ShowDialog" btnName="Thêm nhân viên" /> -->
     </div>
-    <div class="content-data">
+    <!-- <div class="content-data">
       <div class="functions">
         <div class="functions-left">
           <div v-show="enableBatch">
@@ -179,7 +179,7 @@
       @closeMessageChange="isShowChangeMessage = !isShowChangeMessage"
       @hideDialogAndMessage="hideDialogAndMessage"
       @acceptSave="acceptSave"
-    />
+    /> -->
   </div>
 </template>
 <script>
@@ -189,34 +189,34 @@ import MISAResource from "../../js/base/resource";
 import MISAapi from "@/js/api";
 import MISAcommon from "../../js/base/common";
 import MISAEnum from "../../js/base/enum";
-import MessageChange from "../../components/message/MessageChange.vue";
-import MessageError from "../../components/message/MessageError.vue";
-import MessageDelete from "../../components/message/MessageDelete.vue";
-import MessageDeleteMultiple from "../../components/message/MessageDeleteMultiple.vue";
-import EmployeeDialog from "../forms/EmployeeDetail.vue";
-import BaseToast from "../base/BaseToast.vue";
-import BaseButton from "../base/button/BaseButton.vue";
-import PageCombobox from "../base/PageCombobox.vue";
-import BaseCheckBox from "../base/BaseCheckbox.vue";
-import BaseTooltip from "../base/BaseTooltip.vue";
-import Paginate from "vuejs-paginate-next";
+// import MessageChange from "../../components/message/MessageChange.vue";
+// import MessageError from "../../components/message/MessageError.vue";
+// import MessageDelete from "../../components/message/MessageDelete.vue";
+// import MessageDeleteMultiple from "../../components/message/MessageDeleteMultiple.vue";
+// import EmployeeDialog from "../forms/EmployeeDetail.vue";
+// import BaseToast from "../base/BaseToast.vue";
+// import BaseButton from "../base/button/BaseButton.vue";
+// import PageCombobox from "../base/PageCombobox.vue";
+// import BaseCheckBox from "../base/BaseCheckbox.vue";
+// import BaseTooltip from "../base/BaseTooltip.vue";
+// import Paginate from "vuejs-paginate-next";
 import $ from "jquery";
 import axios from "axios";
 export default {
   name: "TheContent",
 
   components: {
-    BaseButton,
-    EmployeeDialog,
-    Paginate,
-    PageCombobox,
-    BaseCheckBox,
-    MessageDelete,
-    MessageDeleteMultiple,
-    MessageError,
-    BaseToast,
-    MessageChange,
-    BaseTooltip,
+    // BaseButton,
+    // EmployeeDialog,
+    // Paginate,
+    // PageCombobox,
+    // BaseCheckBox,
+    // MessageDelete,
+    // MessageDeleteMultiple,
+    // MessageError,
+    // BaseToast,
+    // MessageChange,
+    // BaseTooltip,
   },
   data() {
     return {
@@ -689,7 +689,7 @@ export default {
   },
   created() {
     //Lấy danh sách nhân viên, tìm kiếm
-    this.filterEmployee();
+    // this.filterEmployee();
   },
 
   mounted() {

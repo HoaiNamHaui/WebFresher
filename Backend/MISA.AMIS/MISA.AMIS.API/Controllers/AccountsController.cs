@@ -39,5 +39,21 @@ namespace MISA.AMIS.API.Controllers
 
             }
         }
+
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            try
+            {
+                var data = _accountBL.GetAll();
+                return StatusCode(StatusCodes.Status200OK, data);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                return StatusCode(StatusCodes.Status500InternalServerError, ex);
+
+            }
+        }
     }
 }

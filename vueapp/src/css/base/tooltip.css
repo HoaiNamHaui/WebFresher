@@ -4,9 +4,9 @@
     position: absolute;
     padding: 5px 16px;
     width: max-content;
-    top: calc(100% + 3px);
+    top: calc(100% + 5px);
     transform: translate(-50%, 0);
-    border-radius: 2px;
+    border-radius: 4px;
     display: none;
-    z-index: 10;
+    z-index: 11;
 }

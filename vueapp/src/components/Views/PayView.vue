@@ -24,7 +24,11 @@
             />
             <div class="search-icon pay-icom-search-custom"></div>
           </div>
-          <div class="refresh" style="position: relative">
+          <div
+            class="refresh"
+            style="position: relative"
+            @click="refreshListpayment"
+          >
             <base-tooltip message="Làm mới danh sách" />
           </div>
           <div
@@ -36,7 +40,7 @@
           </div>
           <base-small-button
             btnName="Chi tiền"
-            @click="isShowForm = true"
+            @click="redirectPayMoney"
             style="margin-right: 12px"
           />
         </div>
@@ -44,7 +48,14 @@
       <div class="pay-data-master">
         <table class="pay-master-data-table" cellspacing="0">
           <tr>
-            <th class="w50px"><base-checkbox /></th>
+            <th class="w50px">
+              <base-checkbox
+                ref="checkAll"
+                id="checkall"
+                :checked="isCheckAll"
+                @changeCheckbox="changeCheckbox"
+              />
+            </th>
             <th class="align-center w150">Ngày hạch toán</th>
             <th class="align-center w150">Ngày chứng từ</th>
             <th class="align-left w130">Số chứng từ</th>
@@ -55,106 +66,28 @@
             <th class="align-left w300">Địa chỉ</th>
             <th class="align-center w150">Chức năng</th>
           </tr>
-          <tr>
-            <td class="w50px"><base-checkbox /></td>
-            <td class="align-center w150">02/03/2023</td>
-            <td class="align-center w150">02/03/2023</td>
-            <td class="w130">PC00002</td>
-            <td class="w200">Chi tiền cho Nguyễn Nam</td>
-            <td class="align-right w150" style="padding-right: 8px">
-              25.000.000
+          <tr v-for="(item, index) in payments" v-bind:key="index">
+            <td class="w50px">
+              <base-checkbox
+                :checked="rowSelected.includes(item.PaymentId)"
+                :id="item.PaymentId"
+                @changeCheckbox="changeCheckbox"
+              />
             </td>
-            <td class="w150">NCC00001</td>
-            <td class="w200">Nguyễn Nam</td>
-            <td class="w300">Minh Khai- Bắc Từ Liêm - Hà Nội</td>
+            <td class="align-center w150">{{ formatDate(item.RefDate) }}</td>
+            <td class="align-center w150">{{ formatDate(item.PostedDate) }}</td>
+            <td class="w130">{{ item.RefNo }}</td>
+            <td class="w200">{{ item.Reason }}</td>
+            <td class="align-right w150" style="padding-right: 8px">
+              {{ item.TotalAmount }}
+            </td>
+            <td class="w150">{{ item.ObjectCode }}</td>
+            <td class="w200">{{ item.ObjectName }}</td>
+            <td class="w300">{{ item.Address }}</td>
             <td class="flex w150" style="justify-content: center">
               <span
                 style="cursor: pointer; color: #0075c0; font-weight: bold"
-                @click="handleEditClick(employee)"
-                >Xem</span
-              >
-              <div class="down-icon" @click="toogleMenu"></div>
-            </td>
-          </tr>
-          <tr>
-            <td class="w50px"><base-checkbox /></td>
-            <td class="align-center w150">02/03/2023</td>
-            <td class="align-center w150">02/03/2023</td>
-            <td class="w130">PC00002</td>
-            <td class="w200">Chi tiền cho Nguyễn Nam</td>
-            <td class="align-right w150" style="padding-right: 8px">
-              25.000.000
-            </td>
-            <td class="w150">NCC00001</td>
-            <td class="w200">Nguyễn Nam</td>
-            <td class="w300">Minh Khai- Bắc Từ Liêm - Hà Nội</td>
-            <td class="flex w150" style="justify-content: center">
-              <span
-                style="cursor: pointer; color: #0075c0; font-weight: bold"
-                @click="handleEditClick(employee)"
-                >Xem</span
-              >
-              <div class="down-icon" @click="toogleMenu"></div>
-            </td>
-          </tr>
-          <tr>
-            <td class="w50px"><base-checkbox /></td>
-            <td class="align-center w150">02/03/2023</td>
-            <td class="align-center w150">02/03/2023</td>
-            <td class="w130">PC00002</td>
-            <td class="w200">Chi tiền cho Nguyễn Nam</td>
-            <td class="align-right w150" style="padding-right: 8px">
-              25.000.000
-            </td>
-            <td class="w150">NCC00001</td>
-            <td class="w200">Nguyễn Nam</td>
-            <td class="w300">Minh Khai- Bắc Từ Liêm - Hà Nội</td>
-            <td class="flex w150" style="justify-content: center">
-              <span
-                style="cursor: pointer; color: #0075c0; font-weight: bold"
-                @click="handleEditClick(employee)"
-                >Xem</span
-              >
-              <div class="down-icon" @click="toogleMenu"></div>
-            </td>
-          </tr>
-          <tr>
-            <td class="w50px"><base-checkbox /></td>
-            <td class="align-center w150">02/03/2023</td>
-            <td class="align-center w150">02/03/2023</td>
-            <td class="w130">PC00002</td>
-            <td class="w200">Chi tiền cho Nguyễn Nam</td>
-            <td class="align-right w150" style="padding-right: 8px">
-              25.000.000
-            </td>
-            <td class="w150">NCC00001</td>
-            <td class="w200">Nguyễn Nam</td>
-            <td class="w300">Minh Khai- Bắc Từ Liêm - Hà Nội</td>
-            <td class="flex w150" style="justify-content: center">
-              <span
-                style="cursor: pointer; color: #0075c0; font-weight: bold"
-                @click="handleEditClick(employee)"
-                >Xem</span
-              >
-              <div class="down-icon" @click="toogleMenu"></div>
-            </td>
-          </tr>
-          <tr>
-            <td class="w50px"><base-checkbox /></td>
-            <td class="align-center w150">02/03/2023</td>
-            <td class="align-center w150">02/03/2023</td>
-            <td class="w130">PC00002</td>
-            <td class="w200">Chi tiền cho Nguyễn Nam</td>
-            <td class="align-right w150" style="padding-right: 8px">
-              25.000.000
-            </td>
-            <td class="w150">NCC00001</td>
-            <td class="w200">Nguyễn Nam</td>
-            <td class="w300">Minh Khai- Bắc Từ Liêm - Hà Nội</td>
-            <td class="flex w150" style="justify-content: center">
-              <span
-                style="cursor: pointer; color: #0075c0; font-weight: bold"
-                @click="handleEditClick(employee)"
+                @click="handleEditClick(item.PaymentId)"
                 >Xem</span
               >
               <div class="down-icon" @click="toogleMenu"></div>
@@ -170,7 +103,7 @@
               class="align-right"
               style="padding-right: 8px; font-weight: bold"
             >
-              75.000.000
+              {{ sumTotalAmount }}
             </td>
             <td></td>
             <td></td>
@@ -193,7 +126,11 @@
               @click="showPageOption"
               v-click-outside-element="close"
             >
-              <button id="cbx-icon" :class="{'toogle-rotate':isShowFooterCbb}" class="cbx-icon"></button>
+              <button
+                id="cbx-icon"
+                :class="{ 'toogle-rotate': isShowFooterCbb }"
+                class="cbx-icon"
+              ></button>
             </div>
             <page-combobox
               :isShowCbb="isShowFooterCbb"
@@ -289,7 +226,11 @@
                 @click="showPageOptionDetail"
                 v-click-outside-element="closeDetail"
               >
-                <button id="cbx-icon-detail" :class="{'toogle-rotate': isShowFooterCbbDetail}" class="cbx-icon"></button>
+                <button
+                  id="cbx-icon-detail"
+                  :class="{ 'toogle-rotate': isShowFooterCbbDetail }"
+                  class="cbx-icon"
+                ></button>
               </div>
               <page-combobox
                 :isShowCbb="isShowFooterCbbDetail"
@@ -311,15 +252,20 @@
         </div>
       </div>
     </div>
-    <pay-money v-if="isShowForm" @closeForm="isShowForm = false" />
+    <!-- <pay-money v-if="isShowForm" @closeForm="isShowForm = false" /> -->
+    <BaseLoading v-if="isLoading" />
   </div>
 </template>
 <script>
 import BaseTooltip from "../base/BaseTooltip.vue";
 import BaseSmallButton from "../base/button/BaseSmallButton.vue";
-import PayMoney from "../forms/pay/PayMoney.vue";
+// import PayMoney from "../forms/pay/PayMoney.vue";
 import BaseCheckbox from "../base/BaseCheckbox.vue";
 import PageCombobox from "../base/PageCombobox.vue";
+import commonJS from "@/js/base/common";
+import axios from "axios";
+import MISAapi from "@/js/api";
+import BaseLoading from "../base/BaseLoading.vue";
 // import $ from "jquery";
 import Paginate from "vuejs-paginate-next";
 export default {
@@ -327,23 +273,30 @@ export default {
   components: {
     BaseTooltip,
     BaseSmallButton,
-    PayMoney,
+    // PayMoney,
     BaseCheckbox,
     PageCombobox,
     Paginate,
+    BaseLoading,
   },
-  props:['openForm'],
+  props: ["openForm"],
   data() {
     return {
+      isCheckAll: false,
+      isActive: false,
+      rowSelected: [],
+      isLoading: false,
       isShowForm: false,
+      payments: [],
       pageSize: 20,
       pageNumber: 1, // trang hiện tại
       txtSearch: "", // keyword lọc
       totalPage: 0, // tổng số trang
       totalRecord: 0, // tổng số bản ghi
       page: 1,
+      sumTotalAmount: 0,
       isShowFooterCbb: false,
-
+      focusSearch: false,
       pageSizeDetail: 20,
       pageNumberDetail: 1, // trang hiện tại
       txtSearchDetail: "", // keyword lọc
@@ -353,13 +306,45 @@ export default {
       isShowFooterCbbDetail: false,
     };
   },
+  watch: {
+    txtSearch: async function () {
+      this.page = 1;
+      this.pageNumber = 1;
+      await this.filterPayment();
+      this.testCheckAll();
+    },
+  },
   methods: {
+
+    handleEditClick(id){
+      this.$router.push({ path: '/PayMoney', params: { id: id }})
+    },
+    // chuyển trang form detail
+    redirectPayMoney(){
+      this.$router.push('/PayMoney')
+    },
+
+    //Làm mới list payment
+    refreshListpayment(){
+      this.filterPayment();
+      this.testCheckAll();
+    },
+    //delay
+    debounceSearch(e) {
+      this.txtSearch = e;
+    },
+
+    //format ngày
+    formatDate(date) {
+      return commonJS.formatDate(date);
+    },
+
+    //Chuyển trang
     async clickCallback(pageNum) {
       this.pageNumber = pageNum;
-      // this.rowSelected = [];
-
-      // this.isCheckAll = false;
       this.txtSearch = "";
+      await this.filterPayment();
+      this.testCheckAll();
     },
     showPageOption() {
       // $("#cbx-icon").toggleClass("toogle-rotate");
@@ -382,8 +367,8 @@ export default {
       this.showPageOption();
       this.page = 1;
       this.pageNumber = 1;
-      // await this.filterEmployee();
-      // this.testCheckAll();
+      await this.filterPayment();
+      this.testCheckAll();
     },
     /**
      * Hiện , ẩn chọn số bản ghi trên 1 trang
@@ -424,7 +409,6 @@ export default {
       this.showPageOptionDetail();
       this.page = 1;
       this.pageNumber = 1;
-      // await this.filterEmployee();
       // this.testCheckAll();
     },
     /**
@@ -438,10 +422,80 @@ export default {
         this.isShowFooterCbbDetail = isShowCbb;
       }
     },
+    //lọc phân trang payment
+    async filterPayment() {
+      this.sumTotalAmount = 0;
+      this.isLoading = true;
+      var me = this;
+      var url =
+        MISAapi.payment.filter +
+        `pageSize=${this.pageSize}&pageNumber=${this.pageNumber}&keyword=${this.txtSearch}`;
+      await axios
+        .get(url)
+        .then(function (res) {
+          me.totalPage = res.data.TotalPage;
+          me.totalRecord = res.data.TotalRecord;
+          me.payments = res.data.Data;
+          me.payments.forEach((element) => {
+            me.sumTotalAmount += element.TotalAmount;
+          });
+          me.isLoading = false;
+        })
+        .catch((res) => {
+          console.log(res);
+        });
+    },
+    /**
+     * Check All , uncheck CheckBox
+     * Author: NHNam (10/1/2023)
+     */
+    changeCheckbox(active, id) {
+      // Check all
+      if (id === "checkall" && active) {
+        this.rowSelected = this.rowSelected.concat(
+          this.payments
+            .map((x) => x.PaymentId)
+            .filter((x) => !this.rowSelected.includes(x))
+        );
+      } else if (id === "checkall" && !active) {
+        this.payments
+          .map((x) => x.PaymentId)
+          .forEach((e) => {
+            this.rowSelected = this.rowSelected.filter((x) => x != e);
+          });
+        this.isCheckAll = false;
+      } else {
+        if (active) {
+          this.rowSelected.push(id);
+        } else {
+          this.rowSelected = this.rowSelected.filter((x) => x != id);
+        }
+      }
+      this.testCheckAll();
+    },
+
+    testCheckAll() {
+      // Kiểm tra có check all hay không
+      var count = 0;
+      // Đếm số phần tử check của page
+      this.payments
+        .map((x) => x.PaymentId)
+        .forEach((e) => {
+          if (this.rowSelected.filter((x) => x == e).length > 0) count++;
+        });
+
+      // Kiểm tra để check
+      if (this.payments.length > 0 && count == this.payments.length) {
+        this.isCheckAll = true;
+      } else if (count < this.payments.length) {
+        this.isCheckAll = false;
+      }
+    },
   },
-  created(){
+  created() {
     this.isShowForm = this.openForm;
-  }
+    this.filterPayment();
+  },
 };
 </script>
 

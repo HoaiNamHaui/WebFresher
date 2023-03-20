@@ -168,6 +168,10 @@
   width: 18px;
   height: 18px;
   cursor: pointer;
+  position: relative;
+}
+.icon-close:hover .tooltip-container{
+  display: block;
 }
 
 .icon-hint {

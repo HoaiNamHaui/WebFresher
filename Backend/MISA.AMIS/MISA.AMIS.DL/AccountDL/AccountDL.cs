@@ -27,5 +27,20 @@ namespace MISA.AMIS.DL.AccountDL
             }
             return listAccount;
         }
+
+        /// <summary>
+        /// Lấy tất cả tài khoản
+        /// </summary>
+        /// <returns></returns>
+        public List<Account> GetAll()
+        {
+            var listAccount = new List<Account>();
+            string storedProcedureName = "Proc_Account_GetAll";
+            using (var mySqlConnection = new MySqlConnection(DatabaseContext.ConnectionString))
+            {
+                listAccount = mySqlConnection.Query<Account>(storedProcedureName, commandType: System.Data.CommandType.StoredProcedure).ToList();
+            }
+            return listAccount;
+        }
     }
 }

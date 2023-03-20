@@ -148,6 +148,7 @@ import BaseComboboxV2 from "../../base/BaseComboboxV2.vue";
 import BaseSmallInput from "../../base/input/BaseSmallInput.vue";
 import BaseSmallButton from "../../base/button/BaseSmallButton.vue";
 import BaseDatepicker from '@/components/base/BaseDatepicker.vue';
+// import axios from "axios";
 export default {
   name: "PayForm",
   components: {
@@ -169,12 +170,17 @@ export default {
     }
     }
   },
+  created(){
+    const id = this.$route.params;
+    console.log(id);
+  },
   methods:{
     /**
      * đóng form
      */
     closeForm(){
-      this.$emit('closeForm')
+      // this.$emit('closeForm')
+      this.$router.go(-1);
     }
   }
 };

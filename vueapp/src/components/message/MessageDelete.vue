@@ -2,30 +2,30 @@
     <div class="overlay-message">
         <div class="messagebox">
         <div class="messagebox-header">
-            <div class="messagebox-header-title">Xóa nhân viên</div>
+            <div class="messagebox-header-title">{{ messageTitle }}</div>
             <div class="messagebox-header-close" @click="closeMessage"></div>
         </div>
         <div class="messagebox-content">
             <div class="messagebox-delete-icon"></div>
-            <div class="messagebox-content-describe">Bạn có chắc chắn muốn xóa <b>{{ employeeSelected.EmployeeCode }}</b> ?</div>
+            <div class="messagebox-content-describe">Bạn có chắc chắn muốn xóa <b>{{ objectCode }}</b> ?</div>
         </div>
         <div class="messagebox-footer">
             <button class="button-white" @click="closeMessage">Hủy</button>
-            <button class="button button-red" @click="deleteEmployee">Đồng ý</button>
+            <button class="button button-red" @click="confirm">Đồng ý</button>
         </div>
     </div>
     </div>
 </template>
 <script>
-  import axios from "axios";
-  import MISAapi from "@/js/api";
+//   import axios from "axios";
+//   import MISAapi from "@/js/api";
 export default{
     name: "MessageDelete",
     data(){
         return{
         }
     },
-    props: ["employeeSelected"],
+    props: ["objectCode", "messageTitle"],
     methods:{
         /**
          * Đóng form xác nhận xóa
@@ -35,18 +35,11 @@ export default{
             this.$emit('cancelDelete',false)
         },
         /**
-         * gọi api xóa nhân viên
-         * Author: NHNam (5/1/2023)
+         * Xác nhận xóa
          */
-        async deleteEmployee(){
-            var me = this;
-            await axios
-                .delete(MISAapi.employee.employeeApi+ `${me.employeeSelected.EmployeeId}`)
-                .then((data) => console.log(data))
-                .catch((error) => console.log(error));
-            this.$emit('cancelDelete',false)   
-            this.$emit('DeleteSuccess') 
-        },
+        confirm(){
+            this.$emit('confirmDelete')
+        }
     }
 }
 </script>

@@ -518,7 +518,6 @@ export default {
               me.handleErrorCode(res);
             }
           });
-        console.log(res.data);
         me.$emit(
           "showToast",
           MISAResource.vi.add,

@@ -42,6 +42,6 @@
 	background: url('../../assets/img/Sprites.64af8f61.svg') no-repeat -32px -959px;
 	width: 36px;
 	height: 36px;
-    margin-right: 8px;
+    padding-right: 38px;
 }
 </style>

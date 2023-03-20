@@ -8,7 +8,7 @@
         <a href="/CashView/PayView" class="process-pay" @click="handleClickPayMoney">Chi tiền</a>
       </div>
       <div class="process-content-footer">
-        <div class="dictionary-item">
+        <div class="dictionary-item" @click="this.$router.push('/SystemAccount')">
           <div class="employee-icon"></div>
           <a href="/SystemAccount" class="system-account">Hệ thống tài khoản</a>
         </div>
@@ -21,8 +21,10 @@ export default {
   name: "ProcessView",
   methods:{
     //chuyển đến form chi tiền
-    handleClickPayMoney(){
-      this.$emit('openFormPayMoney');
+    handleClickPayMoney(e){
+      e.preventDefault();
+      // this.$emit('openFormPayMoney');
+      this.$router.push('/PayMoney')
     }
   }
 };

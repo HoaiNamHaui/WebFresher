@@ -19,10 +19,27 @@ var MISAResource = {
             400: "Dữ liệu nhập không hợp lệ!",
             404: "Không tìm thấy trang",
             otherCode: "Có lỗi xảy ra vui lòng thử lại!"
-        }
+        },
+        account:{
+            parentMessage: "Bạn phải xóa tất cả các tài khoản con trước khi xóa tài khoản cha",
+            referenceMessage: "Tài khoản đã có phát sinh trên các danh mục, chứng từ. không thể xóa."
+        },
+        errorAccount:{
+            accountNumberEmpty: "Số tài khoản không được phép bỏ trống",
+            accountNameEmpty: "Tên tài khoản không được phép bỏ trống",
+            typeEmpty: "Tính chất không được bỏ trống",
+            duplicateAccount: "Số tài khoản đã tồn tại",
+            childrenAccount: "Số tài khoản chi tiết phải bắt đầu bằng số của tài khoản tổng hợp"
+        },
+        formAccountMode: {
+            Add: "Thêm tài khoản",
+            Edit: "Sửa tài khoản",
+            Duplicate: "Nhân bản tài khoản"
+        },
+        GUID_EMPTY: "00000000-0000-0000-0000-000000000000"
     },
     "en":{
         ErrorMsg: "Error!"
-    }
+    },
 }
 export default MISAResource;

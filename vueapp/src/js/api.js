@@ -13,6 +13,10 @@ var MISAapi = {
     "account":{
         base: "https://localhost:7116/api/v1/Accounts/",
         filter: "https://localhost:7116/api/v1/Accounts/Filter?",
-    }
+    },
+    "payment":{
+        base: "https://localhost:7116/api/v1/Payments/",
+        filter: "https://localhost:7116/api/v1/Payments/Filter?",
+    },
 }
 export default MISAapi;

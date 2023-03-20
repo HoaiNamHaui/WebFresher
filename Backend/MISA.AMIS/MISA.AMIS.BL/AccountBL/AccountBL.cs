@@ -36,5 +36,14 @@ namespace MISA.AMIS.BL.AccountBL
         {
             return _accountDL.GetChildAccount();
         }
+
+        /// <summary>
+        /// Lấy tất cả tài khoản
+        /// </summary>
+        /// <returns></returns>
+        public List<Account> GetAll()
+        {
+            return _accountDL.GetAll();
+        }
     }
 }

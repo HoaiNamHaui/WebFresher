@@ -30,11 +30,12 @@
           >
             <base-tooltip message="Làm mới danh sách" />
           </div>
-          <base-small-button @click="showDialog" btnName="Thêm" />
+          <base-small-button @click="showDialog" btnName="Thêm">
+          </base-small-button>
         </div>
       </div>
-      <div class="list-account" style="position: relative;">
-        <base-no-data v-if="!(accounts.length > 0)"/>
+      <div class="list-account" style="position: relative">
+        <base-no-data v-if="!(accounts.length > 0)" />
         <DxTreeList
           id="tasks"
           :data-source="accounts"
@@ -44,7 +45,8 @@
           key-expr="AccountId"
           parent-id-expr="ParentId"
           @cellDblClick="handleRowDblClick"
-          noDataText="''"
+          @cellClick="handleCellClick"
+          noDataText=""
         >
           <DxColumn
             :width="130"
@@ -92,9 +94,22 @@
           </template>
         </DxTreeList>
         <div class="context-menu" ref="menuContext">
-          <div class="context-menu-item">Nhân bản</div>
-          <div class="context-menu-item">Xóa</div>
-          <div class="context-menu-item">Ngừng sử dụng</div>
+          <div class="context-menu-item" @click="handleDuplicate">Nhân bản</div>
+          <div class="context-menu-item" @click="ShowWarningDelete">Xóa</div>
+          <div
+            class="context-menu-item"
+            v-if="accountSelected.IsActive"
+            @click="stopUsing"
+          >
+            Ngừng sử dụng
+          </div>
+          <div
+            class="context-menu-item"
+            v-if="!accountSelected.IsActive"
+            @click="using"
+          >
+            Sử dụng
+          </div>
         </div>
       </div>
       <footer>
@@ -139,12 +154,31 @@
     <account-detail
       v-if="isShowDialog"
       @closeForm="closeForm"
-      :idAccountSelected="idAccountSelected"
+      :id-account-selected="idAccountSelected"
+      @reloadListAccount="refreshListAccount"
+      @showToast="showToast"
+      :isDuplicate="isDuplicate"
+      @changeDuplicateMode="isDuplicate = false"
     />
-    <base-loading v-if="isLoading"/>
+    <base-loading v-if="isLoading" />
+    <message-delete
+      v-if="isShowMessageDelete"
+      @confirmDelete="confirmDelete"
+      @cancelDelete="isShowMessageDelete = false"
+      messageTitle="Xóa tài khoản"
+      :object-code="accountSelected.AccountNumber"
+    />
+    <BaseToast
+      v-if="isShowToast"
+      @hideToast="isShowToast = false"
+      :message="message"
+    />
+    <message-error v-if="isError" :error="error" @close="isError = false" />
   </div>
 </template>
 <script>
+import MessageError from "../message/MessageError.vue";
+import BaseToast from "../base/BaseToast.vue";
 import BaseNoData from "../base/BaseNoData.vue";
 import { vue3Debounce } from "vue-debounce";
 import axios from "axios";
@@ -156,7 +190,10 @@ import Paginate from "vuejs-paginate-next";
 import AccountDetail from "../forms/account/AccountDetail.vue";
 import $ from "jquery";
 import { DxTreeList, DxColumn } from "devextreme-vue/tree-list";
-import BaseLoading from '../base/BaseLoading.vue';
+import BaseLoading from "../base/BaseLoading.vue";
+import MessageDelete from "../message/MessageDelete.vue";
+import MISAResource from "@/js/base/resource";
+import MISAEnum from "@/js/base/enum";
 // import $ from "jquery";
 export default {
   name: "SystemAccount",
@@ -169,7 +206,10 @@ export default {
     DxTreeList,
     DxColumn,
     BaseLoading,
-    BaseNoData
+    BaseNoData,
+    MessageDelete,
+    BaseToast,
+    MessageError,
   },
   data() {
     return {
@@ -183,12 +223,19 @@ export default {
       totalPage: 0, // tổng số trang
       totalRecord: 0, // tổng số bản ghi
       page: 1,
+      focusSearch: false,
       isShowDialog: false,
       isShowFooterCbb: false,
       accounts: [],
       childAccounts: [],
       accountSelected: {},
       idAccountSelected: null,
+      isShowMessageDelete: false,
+      isError: false,
+      error: "",
+      isShowToast: false,
+      message: "",
+      isDuplicate: 0,
     };
   },
   created() {
@@ -198,7 +245,7 @@ export default {
   mounted() {
     document.addEventListener("keydown", this.handleKeydown);
   },
-  watch:{
+  watch: {
     txtSearch: function () {
       this.page = 1;
       this.pageNumber = 1;
@@ -207,8 +254,117 @@ export default {
     },
   },
   methods: {
+    /**
+     * Ngưng sử dụng
+     */
+    stopUsing() {
+      var me = this;
+      this.accountSelected.IsActive = false;
+      console.log(this.accountSelected);
+      if (this.accountSelected.ParentId == 0) {
+        this.accountSelected.ParentId = MISAResource.vi.GUID_EMPTY;
+      }
+      axios
+        .put(
+          MISAapi.account.base + this.accountSelected.AccountId,
+          this.accountSelected
+        )
+        .then(() => {
+          me.refreshListAccount();
+        })
+        .catch((res) => {
+          console.log(res);
+        });
+    },
 
-    debounceSearch(e){
+    /**
+     * Sử dụng
+     */
+    using() {
+      var me = this;
+      this.accountSelected.IsActive = true;
+      console.log(this.accountSelected);
+      if (this.accountSelected.ParentId == 0) {
+        this.accountSelected.ParentId = MISAResource.vi.GUID_EMPTY;
+      }
+      axios
+        .put(
+          MISAapi.account.base + this.accountSelected.AccountId,
+          this.accountSelected
+        )
+        .then(() => {
+          me.refreshListAccount();
+        })
+        .catch((res) => {
+          console.log(res);
+        });
+    },
+
+    // nhân bản tài khoản
+    handleDuplicate() {
+      this.isDuplicate = MISAEnum.FormMode.Duplicate;
+      this.handleClickEdit(this.accountSelected);
+    },
+
+    /**
+     * show toast message
+     */
+    showToast(e) {
+      this.message = e;
+      this.isShowToast = true;
+      var me = this;
+      setTimeout(function () {
+        me.isShowToast = false;
+      }, 3000);
+    },
+    /**
+     * Xác nhận xóa
+     */
+    confirmDelete() {
+      var me = this;
+      try {
+        var url = MISAapi.account.base + me.accountSelected.AccountId;
+        me.isLoading = true;
+        me.isShowMessageDelete = false;
+        axios
+          .delete(url)
+          .then(() => {
+            me.getChildrenAccount();
+            me.filterAccount();
+            me.isLoading = false;
+          })
+          .catch((res) => {
+            console.log("catch trên");
+            me.isLoading = false;
+            console.log(123);
+            console.log(res);
+            me.error = MISAResource.vi.account.referenceMessage;
+            console.log(me.error);
+            me.isError = true;
+          });
+      } catch (error) {
+        console.log("catch dưới");
+        me.isLoading = false;
+        console.log(error);
+      }
+    },
+
+    /**
+     * Cảnh báo xóa
+     * Author: NHNam
+     */
+    ShowWarningDelete() {
+      if (this.accountSelected.IsParent) {
+        this.error = MISAResource.vi.account.parentMessage;
+        this.isError = true;
+      } else {
+        console.log(this.accountSelected);
+        this.isShowMessageDelete = true;
+      }
+    },
+
+    // delay thời gian search
+    debounceSearch(e) {
       this.txtSearch = e;
     },
     /**
@@ -217,6 +373,13 @@ export default {
      */
     handleRowDblClick(e) {
       this.handleClickEdit(e.data);
+    },
+    /**
+     * Row click
+     * @param {account selected} e
+     */
+    handleCellClick(e) {
+      this.accountSelected = e.data;
     },
 
     // Xử lý click nút sửa
@@ -280,7 +443,12 @@ export default {
               console.log(error);
             }
           });
-          me.totalRecord += countRecords;
+          if (!me.txtSearch) {
+            me.totalRecord += me.childAccounts.length;
+          } else {
+            me.totalRecord += countRecords;
+          }
+
           me.isLoading = false;
         })
         .catch(function (res) {
@@ -341,6 +509,7 @@ export default {
     },
     // đóng form
     closeForm() {
+      (this.accountSelected = {}), (this.idAccountSelected = null);
       this.isShowDialog = false;
     },
     //click chuyển trang
