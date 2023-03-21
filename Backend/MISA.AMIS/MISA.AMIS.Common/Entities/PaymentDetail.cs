@@ -31,7 +31,6 @@ namespace MISA.AMIS.Common.Entities
         /// </summary>
         public string? DebitAccount { get; set; }
 
-
         /// <summary>
         /// Tài khoản có
         /// </summary>

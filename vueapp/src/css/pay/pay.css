@@ -35,6 +35,32 @@
   padding: 0 20px;
   border: 1px solid #b1b2b3;
   border-radius: 2px;
+  opacity: 0.4;
+  position: relative;
+  font-weight: 600;
+}
+.pay-batch-option{
+  height: 28px;
+  width: 100px;
+  position: absolute;
+  text-indent: 8px;
+  top: calc(100% + 3px);
+  right: 0;
+  z-index: 99;
+  border: 1px solid #b1b2b3;
+  line-height: 28px;
+  background-color: #fff;
+  border-radius: 2px;
+  cursor: pointer;
+}
+.pay-batch-option:hover{
+  background-color: #2ca01c;
+  color: white;
+}
+
+.pay-batch-active{
+  opacity: 1 !important;
+  cursor: pointer;
 }
 .pay-batch-icon {
   background: url("../../assets/img/Sprites.64af8f61.svg") no-repeat -564px -365px;

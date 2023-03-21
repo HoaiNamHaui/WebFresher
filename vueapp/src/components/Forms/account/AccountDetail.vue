@@ -25,6 +25,7 @@
             :tabindex="1"
             :isFocus="true"
             v-model="account.AccountNumber"
+            :error="errors.accountNumber"
           />
         </div>
         <div style="display: flex">
@@ -35,6 +36,7 @@
             style="width: 50%"
             :tabindex="2"
             v-model="account.AccountName"
+            :error="errors.accountName"
           />
           <BaseSmallInputVue
             label="Tên tiếng Anh"
@@ -79,6 +81,7 @@
               v-model="account.Type"
               prop-name="text"
               prop-value="value"
+              :error="errors.type"
             />
           </div>
         </div>
@@ -413,7 +416,10 @@ export default {
   },
 
   methods: {
-    // không chọn tài khoản tổng hợp
+    /**
+     * Không phải tài khoản tổng hợp bỏ id
+     * Author: NHNam (203/2023)
+     */
     removeParentId() {
       this.account.ParentId = MISAResource.vi.GUID_EMPTY;
       this.parentNumber = "";
@@ -421,7 +427,8 @@ export default {
     },
 
     /**
-     * Cất và thêm
+     * cất và thêm
+     * Author: NHNam (203/2023)
      */
     async saveAndClose() {
       try {
@@ -435,6 +442,10 @@ export default {
       }
     },
 
+    /**
+     * lưu tài khoản
+     * Author: NHNam (203/2023)
+     */
     async saveAccount() {
       var me = this;
       var newData = this.account;
@@ -469,7 +480,10 @@ export default {
       }
       this.$emit("changeDuplicateMode");
     },
-    //Xử lý phím tắt
+    /**
+     * Xử lý phím tắt
+     * Author: NHNam (203/2023)
+     */
     handleKeydown(event) {
       var me = this;
       // Đóng form
@@ -494,6 +508,7 @@ export default {
 
     /**
      * Validate
+     * Author: NHNam (19/3/2023)
      */
     validate() {
       this.resetError();
@@ -540,6 +555,7 @@ export default {
 
     /**
      * HIện message lỗi validate
+     * Author: NHNam (19/3/2023)
      */
     sendErrorMessage() {
       if (this.errors.accountNumber) {
@@ -560,7 +576,7 @@ export default {
 
     /**
      * reset các lỗi
-     * Author: NHNam
+     * Author: NHNam (19/3/2023)
      */
     resetError() {
       this.errors = {
@@ -570,7 +586,10 @@ export default {
       };
     },
 
-    // reset thông tin account
+    /**
+     * reset thông tin account
+     * Author: NHNam (203/2023)
+     */
     resetAccount() {
       this.account = {
         parentNumber: "",
@@ -603,7 +622,8 @@ export default {
     },
 
     /**
-     * Cất và thêm
+     * cất và thêm
+     * Author: NHNam (203/2023)
      */
     async saveAndAdd() {
       try {
@@ -620,6 +640,7 @@ export default {
 
     /**
      * Đổi tiêu đề form theo form mode
+     * Author: NHNam (19/3/2023)
      */
     handleTitleForm() {
       if (this.account.AccountId == null) {
@@ -632,74 +653,107 @@ export default {
       }
     },
 
-    //check có hạch toán ngoại tệ
+    /**
+     * check có hạch toán ngoại tệ
+     * Author: NHNam (203/2023)
+     */
     changeCheckboxHasForeignCurrencyAccounting(active) {
       this.account.HasForeignCurrencyAccounting = active;
     },
-    //check theo dõi theo đối tượng
+    /**
+     * check theo dõi theo đối tượng
+     * Author: NHNam (203/2023)
+     */
     changeCheckboxTrackObject(active) {
       this.account.IsTrackObject = active;
       if (this.account.IsTrackObject) {
         this.account.Object = MISAEnum.OBJECT.CUSTOMER;
       }
     },
-    //check theo dõi theo tổng hợp chi phí
+    /**
+     * check theo dõi theo tổng hợp chi phí
+     * Author: NHNam (203/2023)
+     */
     changeCheckboxTrackJob(active) {
       this.account.IsTrackJob = active;
       if (this.account.IsTrackJob) {
         this.account.Job = MISAEnum.FOLLOW_DETAIL.ONLY_WARNING;
       }
     },
-    //check theo dõi theo đơn hàng
+    /**
+     * check theo dõi theo đơn hàng
+     * Author: NHNam (203/2023)
+     */
     changeCheckboxTrackOrder(active) {
       this.account.IsTrackOrder = active;
       if (this.account.IsTrackOrder) {
         this.account.Order = MISAEnum.FOLLOW_DETAIL.ONLY_WARNING;
       }
     },
-    //check theo dõi theo hợp đồng mua
+    /**
+     * check theo dõi theo hợp đồng mua
+     * Author: NHNam (203/2023)
+     */
     changeCheckboxTrackPurchaseContract(active) {
       this.account.IsTrackPurchaseContract = active;
       if (this.account.IsTrackPurchaseContract) {
         this.account.PurchaseContract = MISAEnum.FOLLOW_DETAIL.REQUIRE;
       }
     },
-    //check theo dõi theo tổ chức đơn vị
+    /**
+     * check theo dõi theo tổ chức đơn vị
+     * Author: NHNam (203/2023)
+     */
     changeCheckboxTrackOrganizationUnit(active) {
       this.account.IsTrackOrganizationUnit = active;
       if (this.account.IsTrackOrganizationUnit) {
         this.account.Unit = MISAEnum.FOLLOW_DETAIL.REQUIRE;
       }
     },
-    //check theo dõi theo tài khoản ngân hàng
+    /**
+     * check theo dõi theo tài khoản ngân hàng
+     * Author: NHNam (203/2023)
+     */
     changeCheckboxTrackBankAccount(active) {
       this.account.IsTrackBankAccount = active;
       if (this.account.IsTrackBankAccount) {
         this.account.BankAccount = MISAEnum.FOLLOW_DETAIL.REQUIRE;
       }
     },
-    //check theo dõi theo công trình
+    /**
+     * check theo dõi theo công trình
+     * Author: NHNam (203/2023)
+     */
     changeCheckboxTrackProjectWork(active) {
       this.account.IsTrackProjectWork = active;
       if (this.account.IsTrackProjectWork) {
         this.account.ProjectWork = MISAEnum.FOLLOW_DETAIL.REQUIRE;
       }
     },
-    //check theo dõi theo hợp đồng mua
+    /**
+     * check theo dõi theo hợp đồng mua
+     * Author: NHNam (203/2023)
+     */
     changeCheckboxTrackSaleContract(active) {
       this.account.IsTrackSaleContract = active;
       if (this.account.IsTrackSaleContract) {
         this.account.SaleContract = MISAEnum.FOLLOW_DETAIL.REQUIRE;
       }
     },
-    //check theo dõi theo khoản mục cp
+    /**
+     * check theo dõi theo khoản mục cp
+     * Author: NHNam (203/2023)
+     */
     changeCheckboxTrackExpenseItem(active) {
       this.account.IsTrackExpenseItem = active;
       if (this.account.IsTrackExpenseItem) {
         this.account.ExpenseItem = MISAEnum.FOLLOW_DETAIL.REQUIRE;
       }
     },
-    //check theo dõi theo mã thống kê
+    /**
+     * check theo dõi theo mã thống kê
+     * Author: NHNam (203/2023)
+     */
     changeCheckboxTrackItem(active) {
       console.log(active);
       this.account.IsTrackItem = active;
@@ -707,16 +761,25 @@ export default {
         this.account.Item = MISAEnum.FOLLOW_DETAIL.REQUIRE;
       }
     },
-    //đóng form
+    /**
+     * đóng form
+     * Author: NHNam (203/2023)
+     */
     closeForm() {
       this.$emit("closeForm");
     },
-    //mở rộng thu gọn chi tiết
+    /**
+     * mở rộng thu gọn chi tiết
+     * Author: NHNam (203/2023)
+     */
     toggleDetail() {
       this.$refs.collapseContent.classList.toggle("hide-content");
     },
 
-    //focus input đầu tiên
+    /**
+     * focus ô đầu tiên
+     * Author: NHNam (203/2023)
+     */
     focusFirstInput(e) {
       e.preventDefault();
       var firstInput = document.getElementsByClassName("focus");

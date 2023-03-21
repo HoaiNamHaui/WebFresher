@@ -25,9 +25,9 @@ var MISAResource = {
             referenceMessage: "Tài khoản đã có phát sinh trên các danh mục, chứng từ. không thể xóa."
         },
         errorAccount:{
-            accountNumberEmpty: "Số tài khoản không được phép bỏ trống",
-            accountNameEmpty: "Tên tài khoản không được phép bỏ trống",
-            typeEmpty: "Tính chất không được bỏ trống",
+            accountNumberEmpty: "Số tài khoản không được để trống",
+            accountNameEmpty: "Tên tài khoản không được để trống",
+            typeEmpty: "Tính chất không được để trống",
             duplicateAccount: "Số tài khoản đã tồn tại",
             childrenAccount: "Số tài khoản chi tiết phải bắt đầu bằng số của tài khoản tổng hợp"
         },

@@ -4,9 +4,15 @@
       <div class="pay-master-header">
         <div class="pay-header-left flex">
           <div class="pay-header-left-icon"></div>
-          <div class="pay-batch">
+          <div class="pay-batch" 
+          :class="{'pay-batch-active': isActiveBatch}" 
+          v-click-outside-element="openBatch"
+          @click="openBatch">
             <div>Thực hiện hàng loạt</div>
             <div class="pay-batch-icon"></div>
+            <div class="pay-batch-option" v-if="isActiveBatch" v-show="isOpenbatch">
+              Xóa
+            </div>
           </div>
         </div>
         <div class="pay-header-right">
@@ -304,6 +310,8 @@ export default {
       totalRecordDetail: 0, // tổng số bản ghi
       pageDetail: 1,
       isShowFooterCbbDetail: false,
+      isActiveBatch: false,
+      isOpenbatch: false,
     };
   },
   watch: {
@@ -313,39 +321,83 @@ export default {
       await this.filterPayment();
       this.testCheckAll();
     },
+    rowSelected:{
+      handler: function(){
+        if(this.rowSelected.length > 1){
+          this.isActiveBatch = true;
+        }
+        else{
+          this.isActiveBatch = false;
+        }
+      },
+      deep: true
+    }
   },
   methods: {
+    /**
+     * Mở chọn thực hiện hàng loại
+     * Author: NHNam (20/3/2023)
+     */
+    openBatch(){
+      if(this.isActiveBatch){
+        this.isOpenbatch = !this.isOpenbatch;
+      }
+    },
 
+    /**
+     * click sửa
+     * Author: NHNam (20/3/2023)
+     */
     handleEditClick(id){
       this.$router.push({ path: '/PayMoney', query: { id: id }})
     },
-    // chuyển trang form detail
+    
+    /**
+     * chuyển trang form detail
+     * Author: NHNam (20/3/2023)
+     */
     redirectPayMoney(){
       this.$router.push('/PayMoney')
     },
 
-    //Làm mới list payment
+    /**
+     * làm mới danh sách phiếu chi
+     * Author: NHNam (20/3/2023)
+     */
     refreshListpayment(){
       this.filterPayment();
       this.testCheckAll();
     },
-    //delay
+    /**
+     * debounce lấy giá trị input search
+     * Author: NHNam (20/3/2023)
+     */
     debounceSearch(e) {
       this.txtSearch = e;
     },
 
-    //format ngày
+    /**
+     * format ngày
+     * Author: NHNam (20/3/2023)
+     */
     formatDate(date) {
       return commonJS.formatDate(date);
     },
 
-    //Chuyển trang
+    /**
+     * chuyển trang
+     * Author: NHNam (20/3/2023)
+     */
     async clickCallback(pageNum) {
       this.pageNumber = pageNum;
       this.txtSearch = "";
       await this.filterPayment();
       this.testCheckAll();
     },
+    /**
+     * Mở chọn số bản ghi
+     * Author: NHNam (20/3/2023)
+     */
     showPageOption() {
       // $("#cbx-icon").toggleClass("toogle-rotate");
       if (!this.isShowFooterCbb) {
@@ -354,7 +406,10 @@ export default {
         this.isShowFooterCbb = false;
       }
     },
-    //đóng chọn số bản ghi
+    /**
+     * đóng chọn số bản ghi
+     * Author: NHNam (20/3/2023)
+     */
     close() {
       this.isShowFooterCbb = false;
     },
@@ -381,6 +436,10 @@ export default {
         this.isShowFooterCbb = isShowCbb;
       }
     },
+    /**
+     * chuyển trang detail
+     * Author: NHNam (20/3/2023)
+     */
     async clickCallbackDetail(pageNum) {
       this.pageNumberDetail = pageNum;
       // this.rowSelected = [];
@@ -388,6 +447,10 @@ export default {
       // this.isCheckAll = false;
       this.txtSearchDetail = "";
     },
+    /**
+     * mở chọn số bản ghi detail
+     * Author: NHNam (20/3/2023)
+     */
     showPageOptionDetail() {
       // $("#cbx-icon-detail").toggleClass("toogle-rotate");
       if (!this.isShowFooterCbbDetail) {
@@ -396,7 +459,10 @@ export default {
         this.isShowFooterCbbDetail = false;
       }
     },
-    //đóng chọn số bản ghi
+    /**
+     * đóng chọn số bản ghi
+     * Author: NHNam (20/3/2023)
+     */
     closeDetail() {
       this.isShowFooterCbbDetail = false;
     },
@@ -422,7 +488,10 @@ export default {
         this.isShowFooterCbbDetail = isShowCbb;
       }
     },
-    //lọc phân trang payment
+    /**
+     * lọc phân trang payment
+     * Author: NHNam (20/3/2023)
+     */
     async filterPayment() {
       this.sumTotalAmount = 0;
       this.isLoading = true;
@@ -439,6 +508,7 @@ export default {
           me.payments.forEach((element) => {
             me.sumTotalAmount += element.TotalAmount;
           });
+          me.sumTotalAmount = me.sumTotalAmount.toFixed(4);
           me.isLoading = false;
         })
         .catch((res) => {
@@ -474,6 +544,10 @@ export default {
       this.testCheckAll();
     },
 
+    /**
+     * kiểm tra check all hay không
+     * Author: NHNam (20/3/2023)
+     */
     testCheckAll() {
       // Kiểm tra có check all hay không
       var count = 0;

@@ -1,5 +1,5 @@
 <template>
-    <div class="m-b-8">
+    <div class="m-b-8 base-input-container" style="position: relative;">
       <label for="" class="label"
         >{{ label }}
         <span :class="{ hide: !isRequire }" class="red">*</span>
@@ -20,6 +20,8 @@
         :tabindex="tabindex"
       />
       <br />
+      <div class="input-tooltip-error" v-if="isError">{{ error }}
+      </div>
     </div>
   </template>
   <script>

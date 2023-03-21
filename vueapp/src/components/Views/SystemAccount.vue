@@ -256,6 +256,7 @@ export default {
   methods: {
     /**
      * Ngưng sử dụng
+     * Author: NHNam (203/2023)
      */
     stopUsing() {
       var me = this;
@@ -279,6 +280,7 @@ export default {
 
     /**
      * Sử dụng
+     * Author: NHNam (203/2023)
      */
     using() {
       var me = this;
@@ -300,7 +302,10 @@ export default {
         });
     },
 
-    // nhân bản tài khoản
+    /**
+     * nhân bản
+     * Author: NHNam (203/2023)
+     */
     handleDuplicate() {
       this.isDuplicate = MISAEnum.FormMode.Duplicate;
       this.handleClickEdit(this.accountSelected);
@@ -308,6 +313,7 @@ export default {
 
     /**
      * show toast message
+     * Author: NHNam (203/2023)
      */
     showToast(e) {
       this.message = e;
@@ -319,6 +325,7 @@ export default {
     },
     /**
      * Xác nhận xóa
+     * Author: NHNam (203/2023)
      */
     confirmDelete() {
       var me = this;
@@ -363,13 +370,17 @@ export default {
       }
     },
 
-    // delay thời gian search
+    /**
+     * delay thời gian lấy giá trị input search
+     * Author: NHNam (203/2023)
+     */
     debounceSearch(e) {
       this.txtSearch = e;
     },
     /**
      * Row Double click
      * @param {account selected} e
+     * Author: NHNam (203/2023)
      */
     handleRowDblClick(e) {
       this.handleClickEdit(e.data);
@@ -377,12 +388,16 @@ export default {
     /**
      * Row click
      * @param {account selected} e
+     * Author: NHNam (203/2023)
      */
     handleCellClick(e) {
       this.accountSelected = e.data;
     },
 
-    // Xử lý click nút sửa
+    /**
+     * click nút sửa
+     * Author: NHNam (203/2023)
+     */
     handleClickEdit(account) {
       this.accountSelected = account;
       this.idAccountSelected = account.AccountId;
@@ -402,12 +417,16 @@ export default {
     },
     /**
      * Làm mới list account
+     * Author: NHNam (19/3/2023)
      */
     async refreshListAccount() {
       await this.getChildrenAccount();
       this.filterAccount();
     },
-    //lọc phân trang theo tài khoản cha
+    /**
+     * lọc phân trang theo tài khoản cha
+     * Author: NHNam (203/2023)
+     */
     async filterAccount() {
       var me = this;
       var url =
@@ -456,7 +475,10 @@ export default {
         });
     },
 
-    // lấy tài khoản con
+    /**
+     * lấy tài khoản con
+     * Author: NHNam (203/2023)
+     */
     async getChildrenAccount() {
       this.isLoading = true;
       var me = this;
@@ -503,23 +525,35 @@ export default {
       }
     },
 
-    //hiện dialog
+    /**
+     * show form detail
+     * Author: NHNam (203/2023)
+     */
     showDialog() {
       this.isShowDialog = true;
     },
-    // đóng form
+    /**
+     * đóng form detail
+     * Author: NHNam (203/2023)
+     */
     closeForm() {
       (this.accountSelected = {}), (this.idAccountSelected = null);
       this.isShowDialog = false;
     },
-    //click chuyển trang
+    /**
+     * chuyển trang
+     * Author: NHNam (203/2023)
+     */
     async clickCallback(pageNum) {
       this.pageNumber = pageNum;
       await this.getChildrenAccount();
       this.filterAccount();
       this.txtSearch = "";
     },
-    // mở option chọn số lượng bản ghi
+    /**
+     * mở option chọn số lượng bản ghi
+     * Author: NHNam (203/2023)
+     */
     showPageOption() {
       // $("#cbx-icon").toggleClass("toogle-rotate");
       if (!this.isShowFooterCbb) {
