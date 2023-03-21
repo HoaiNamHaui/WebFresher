@@ -701,6 +701,7 @@ export default {
     },
     //check theo dõi theo mã thống kê
     changeCheckboxTrackItem(active) {
+      console.log(active);
       this.account.IsTrackItem = active;
       if (this.account.IsTrackItem) {
         this.account.Item = MISAEnum.FOLLOW_DETAIL.REQUIRE;

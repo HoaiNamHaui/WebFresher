@@ -171,7 +171,7 @@ export default {
     }
   },
   created(){
-    const id = this.$route.params;
+    const id = this.$route.query.id;
     console.log(id);
   },
   methods:{

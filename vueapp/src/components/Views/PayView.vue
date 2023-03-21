@@ -317,7 +317,7 @@ export default {
   methods: {
 
     handleEditClick(id){
-      this.$router.push({ path: '/PayMoney', params: { id: id }})
+      this.$router.push({ path: '/PayMoney', query: { id: id }})
     },
     // chuyển trang form detail
     redirectPayMoney(){

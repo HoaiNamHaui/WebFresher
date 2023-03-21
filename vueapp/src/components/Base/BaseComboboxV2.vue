@@ -1,6 +1,8 @@
 <template>
   <div class="combobox-container" :class="{ error: isError }">
-    <div class="disable-combobox" v-if="isDisable"></div>
+    <div class="disable-combobox" v-if="isDisable">
+      <div class="combobox-button-icon"></div>
+    </div>
     <input
       :tabindex="tabindex"
       id="id"
@@ -55,9 +57,9 @@ export default {
     };
   },
   watch: {
-    modelValue: async function () {
+    modelValue: function () {
       if (this.modelValue || this.modelValue === 0) {
-        await this.setItemSelected();
+        this.setItemSelected();
       }
     },
     //Lỗi hiển thị border lỗi
@@ -103,14 +105,14 @@ export default {
       }
     }
 
-    if (this.isDisable) {
-      this.textSelected = "";
-    }
+    // if (this.isDisable) {
+    //   this.textSelected = "";
+    // }
   },
   updated() {
-    if (this.isDisable == true) {
-      this.textSelected = "";
-    }
+    // if (this.isDisable == true) {
+    //   this.textSelected = "";
+    // }
     /**
      * ModelValue cập nhật bind dữ liệu input, set item
      * Author: NHNam (12/1/2023)
@@ -135,8 +137,8 @@ export default {
   components: {},
   methods: {
     //blur input
-    checkValue(){
-      if(!this.textSelected){
+    checkValue() {
+      if (!this.textSelected) {
         this.$emit("removeParentId");
       }
     },
@@ -173,14 +175,17 @@ export default {
      */
     async setItemSelected() {
       var me = this;
+
       // Tìm item tương ứng với cái modelValue:
       let entitySelected = this.entities.find(
         (item) => item[me.propValue] === me["modelValue"]
       );
+
       this.$emit("changeGrade", entitySelected?.Grade);
       this.$emit("getParentAccountNumber", entitySelected?.AccountNumber);
       if (entitySelected) {
         me.textSelected = entitySelected[me.propName];
+        console.log(me.textSelected);
         // Tính toán lại Index của item đã được chọn
         let findIndex = this.entities.findIndex(
           (item) => item[me.propValue] === entitySelected[me.propValue]
@@ -327,11 +332,16 @@ export default {
   color: #fff;
 }
 .disable-combobox {
-  background-color: #000;
-  opacity: 0.1;
+  /* background-color: #000;
+  opacity: 0.1; */
+  background-color: #e1e1e1;
   width: 100%;
   height: 100%;
   position: absolute;
+  justify-content: flex-end;
+  padding-right: 9px;
+  display: flex;
+  align-items: center;
   top: 0;
   left: 0;
   z-index: 10;

@@ -55,7 +55,7 @@ const routers = [
   // { path: "/ReportView", component: ReportView },
   // { path: "/AnalysisView", component: AnalysisView },
   { path: "/SystemAccount", component: SystemAccount },
-  { path: "/PayMoney/", name:'PayMoney' , component: PayMoney },
+  { path: "/PayMoney", name:'PayMoney' , component: PayMoney },
   {
     path: "/CategoryView",
     component: CategoryView,
