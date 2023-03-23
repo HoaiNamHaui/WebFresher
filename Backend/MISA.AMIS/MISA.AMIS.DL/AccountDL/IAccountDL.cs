@@ -21,5 +21,14 @@ namespace MISA.AMIS.DL.AccountDL
         /// </summary>
         /// <returns></returns>
         List<Account> GetAll();
+
+        /// <summary>
+        /// Lấy tài khoản theo số tài khoản
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="accountNumber">Số tài khoản</param>
+        /// <returns>Tài khỏan</returns>
+        /// CreatedBy: NHNam(12/2/2023)
+        Account GetAccountByAccountNumber(Guid? id, string accountNumber);
     }
 }

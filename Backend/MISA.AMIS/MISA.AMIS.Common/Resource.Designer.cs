@@ -61,6 +61,15 @@ namespace MISA.AMIS.Common {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Số tài khoản chi tiết phải bắt đầu bằng số của tài khoản tổng hợp.
+        /// </summary>
+        public static string ChildAccount {
+            get {
+                return ResourceManager.GetString("ChildAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Dữ liệu đầu vào không hợp lệ.
         /// </summary>
         public static string DataInvalid {
@@ -97,6 +106,15 @@ namespace MISA.AMIS.Common {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Số tài khoản đã tồn tại.
+        /// </summary>
+        public static string DuplicateAccountNumber {
+            get {
+                return ResourceManager.GetString("DuplicateAccountNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Mã nhân viên đã tồn tại.
         /// </summary>
         public static string DuplicateCode {
@@ -129,6 +147,15 @@ namespace MISA.AMIS.Common {
         public static string EmployeeNameEmpty {
             get {
                 return ResourceManager.GetString("EmployeeNameEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Số tài khoản phải có độ dài &gt;= 3 ký tự.
+        /// </summary>
+        public static string inValidLengthAccount {
+            get {
+                return ResourceManager.GetString("inValidLengthAccount", resourceCulture);
             }
         }
         

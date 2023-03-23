@@ -15,7 +15,7 @@
       auto-apply
       close-on-scroll
       show-now-button
-      :format="formatDate"
+      format="dd/MM/yyyy"
       :day-names="['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN']"
     >
       <template #dp-input="{ value }">

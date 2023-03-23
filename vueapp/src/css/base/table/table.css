@@ -131,8 +131,8 @@
 .list-account{
     height: 484px;
     width: 100%;
-    overflow-x: auto;
-    overflow-y: auto;
+    /* overflow-x: auto;
+    overflow-y: auto; */
     margin: 0 auto;
     position: relative;
 }

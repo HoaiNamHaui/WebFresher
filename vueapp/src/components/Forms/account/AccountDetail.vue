@@ -9,7 +9,7 @@
       </div>
       <div class="form-button">
         <div @click="closeForm" class="icon-close" id="btnClose">
-          <base-tooltip message="Đóng"/>
+          <base-tooltip message="Đóng (ESC)" />
         </div>
       </div>
       <div class="form-header">
@@ -58,12 +58,13 @@
           /> -->
           <div style="width: calc(50% - 9px)">
             <label for="">Tài khoản tổng hợp </label><br />
-            <base-combobox-v-2
+            <base-combobox-table
               :api="api"
               style="margin-top: unset !important"
               :tabindex="4"
               prop-value="AccountId"
               prop-name="AccountNumber"
+              :list-title="listTitle"
               v-model="account.ParentId"
               @changeGrade="account.Grade = $event ? $event + 1 : account.Grade"
               @getParentAccountNumber="parentNumber = $event"
@@ -343,6 +344,7 @@ import MISAEnum from "@/js/base/enum";
 import MISAResource from "@/js/base/resource";
 import BaseLoading from "@/components/base/BaseLoading.vue";
 import BaseTooltip from "@/components/base/BaseTooltip.vue";
+import BaseComboboxTable from '@/components/base/BaseComboboxTable.vue';
 export default {
   name: "AccountDetail",
   components: {
@@ -350,15 +352,17 @@ export default {
     BaseCheckbox,
     BaseSmallButton,
     BaseComboboxV2,
+    BaseComboboxTable,
     MessageError,
     BaseLoading,
-    BaseTooltip
+    BaseTooltip,
   },
   data() {
     return {
       titleForm: MISAResource.vi.formAccountMode.Add,
       isFullsize: false,
       isLoading: false,
+      listTitle: accountData.listTitle,
       account: {
         parentNumber: "",
         ParentId: MISAResource.vi.GUID_EMPTY,
@@ -399,6 +403,7 @@ export default {
       isValid: false,
       isError: false,
       error: "",
+      isProcessing: false,
     };
   },
   props: ["idAccountSelected", "isDuplicate"],
@@ -435,7 +440,9 @@ export default {
         this.validate();
         if (this.isValid) {
           await this.saveAccount();
-          this.closeForm();
+          if(!this.error){
+            this.closeForm();
+          }   
         }
       } catch (error) {
         console.log(error);
@@ -449,36 +456,59 @@ export default {
     async saveAccount() {
       var me = this;
       var newData = this.account;
-      this.isLoading = true;
-      if (
-        !this.account.AccountId ||
-        this.isDuplicate === MISAEnum.FormMode.Duplicate
-      ) {
-        await axios
-          .post(MISAapi.account.base, newData)
-          .then(() => {
-            this.isLoading = false;
-            me.$emit("reloadListAccount");
-            me.$emit("showToast", MISAResource.vi.add);
-          })
-          .catch((res) => {
-            console.log(res);
-          });
+      if (!this.isProcessing) {
+        this.isProcessing = true;
+        this.isLoading = true;
+        if (
+          !this.account.AccountId ||
+          this.isDuplicate === MISAEnum.FormMode.Duplicate
+        ) {
+          await axios
+            .post(MISAapi.account.base, newData)
+            .then(() => {
+              this.isLoading = false;
+              me.$emit("reloadListAccount");
+              me.$emit("showToast", MISAResource.vi.add);
+            })
+
+            .catch((res) => {
+              console.log(res);
+              this.errors.accountNumber =
+                res.response.data.MoreInfo.ListError[0];
+              if (this.errors.accountNumber) {
+                this.error = this.errors.accountNumber;
+                this.isError = true;
+                this.sendErrorMessage();
+              }
+              this.isLoading = false;
+            });
+        } else {
+          await axios
+            .put(MISAapi.account.base + this.account.AccountId, newData)
+            .then(() => {
+              this.isLoading = false;
+              // me.$emit("reloadListAccount");
+              // me.$emit("showToast", MISAResource.vi.update);
+            })
+            .catch((res) => {
+              console.log(res);
+              this.errors.accountNumber =
+                res.response.data.MoreInfo.ListError[0];
+              if (this.errors.accountNumber) {
+                this.error = this.errors.accountNumber;
+                this.isError = true;
+                this.sendErrorMessage();
+              }
+              this.isLoading = false;
+            });
+          me.$emit("reloadListAccount");
+          me.$emit("showToast", MISAResource.vi.update);
+        }
+        this.$emit("changeDuplicateMode");
+        this.isProcessing = false;
       } else {
-        await axios
-          .put(MISAapi.account.base + this.account.AccountId, newData)
-          .then(() => {
-            this.isLoading = false;
-            // me.$emit("reloadListAccount");
-            // me.$emit("showToast", MISAResource.vi.update);
-          })
-          .catch((res) => {
-            console.log(res);
-          });
-        me.$emit("reloadListAccount");
-        me.$emit("showToast", MISAResource.vi.update);
+        return;
       }
-      this.$emit("changeDuplicateMode");
     },
     /**
      * Xử lý phím tắt
@@ -517,6 +547,12 @@ export default {
       if (!this.account.AccountNumber) {
         this.errors.accountNumber =
           MISAResource.vi.errorAccount.accountNumberEmpty;
+        this.isValid = false;
+      }
+      // độ dài nhỏ hơn 3
+      else if(this.account.AccountNumber.length < 3){
+        this.errors.accountNumber = 
+        MISAResource.vi.errorAccount.minLength;
         this.isValid = false;
       }
 
@@ -697,7 +733,7 @@ export default {
     changeCheckboxTrackPurchaseContract(active) {
       this.account.IsTrackPurchaseContract = active;
       if (this.account.IsTrackPurchaseContract) {
-        this.account.PurchaseContract = MISAEnum.FOLLOW_DETAIL.REQUIRE;
+        this.account.PurchaseContract = MISAEnum.FOLLOW_DETAIL.ONLY_WARNING;
       }
     },
     /**

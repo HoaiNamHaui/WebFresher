@@ -42,5 +42,26 @@ namespace MISA.AMIS.DL.AccountDL
             }
             return listAccount;
         }
+
+        /// <summary>
+        /// Lấy tài khoản theo số tài khoản
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="accountNumber">Số tài khoản</param>
+        /// <returns>Tài khỏan</returns>
+        /// CreatedBy: NHNam(12/2/2023)
+        public Account GetAccountByAccountNumber(Guid? id, string accountNumber)
+        {
+            var result = new Account();
+            string storedProcedureName = "Proc_Account_CheckDuplicate";
+            var parameters = new DynamicParameters();
+            parameters.Add("p_AccountNumber", accountNumber);
+            parameters.Add("p_AccountId", id);
+            using (var mySqlConnection = new MySqlConnection(DatabaseContext.ConnectionString))
+            {
+                result = mySqlConnection.QueryFirstOrDefault<Account>(storedProcedureName, parameters, commandType: System.Data.CommandType.StoredProcedure);
+            }
+            return result;
+        }
     }
 }

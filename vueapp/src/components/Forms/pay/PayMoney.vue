@@ -5,12 +5,17 @@
         <div class="icon-recent-log"></div>
         <div class="pay-form-title">Phiếu chi {{ payment.RefNo }}</div>
         <div class="w40">
-          <BaseComboboxV2 :data="dataPayType" v-model="dataPayTypeDefault"/>
+          <BaseComboboxV2
+            :data="dataPayType"
+            v-model="payment.ReasonType"
+            propName="text"
+            propValue="value"
+          />
         </div>
         <!-- <BaseComboboxV2 :data="dataPayType" v-model="dataPayTypeDefault"/> -->
       </div>
       <div class="header-pay-form-right" @click="closeForm">
-        <div class="icon-close" style="margin: 6px 8px" ></div>
+        <div class="icon-close" style="margin: 6px 8px"></div>
       </div>
     </div>
     <div class="pay-form-enter flex" style="align-items: unset">
@@ -18,7 +23,15 @@
         <div class="pay-form-left-first-line flex w100">
           <div class="w45">
             <label for="">Mã đối tượng</label>
-            <base-combobox-read-only style="margin-bottom: 8px" />
+            <!-- <base-combobox-read-only style="margin-bottom: 8px" /> -->
+            <BaseComboboxTable :listTitle="objectTilte"
+              :api="objectApi"
+              v-model="payment.ObjectId"
+              style="margin-top: unset !important; margin-bottom: 8px"
+              prop-name="ObjectCode"
+              prop-value="ObjectId"
+            />
+
           </div>
           <base-small-input
             label="Tên đối tượng"
@@ -42,9 +55,16 @@
         <div class="pay-form-left-fourth-line flex w100">
           <div class="w40">
             <label for="">Nhân viên</label>
-            <base-combobox-read-only style="margin-bottom: 8px" />
+            <!-- <base-combobox-read-only style="margin-bottom: 8px" /> -->
+            <BaseComboboxTable :listTitle="employeeTitle"
+              :api="employeeApi"
+              v-model="payment.EmployeeId"
+              style="margin-top: unset !important; margin-bottom: 8px"
+              prop-name="EmployeeCode"
+              prop-value="EmployeeId"
+            />
           </div>
-          <base-small-input class="w20" label="Kèm theo" />
+          <base-small-input class="w20" label="Kèm theo"/>
           <div style="padding-top: 20px; padding-left: 6px">chứng từ gốc</div>
         </div>
         <div>Tham chiếu</div>
@@ -70,8 +90,11 @@
             <!-- <input :class="{'text-gray': true}" type="date" class="input-small w100" /> -->
             <base-datepicker />
           </div>
-          <div class="pay-form-right-first-line w60" style="margin-left: 12px; max-width: 150px;">
-            <base-small-input label="Số phiếu chi" v-model="payment.RefNo"/>
+          <div
+            class="pay-form-right-first-line w60"
+            style="margin-left: 12px; max-width: 150px"
+          >
+            <base-small-input label="Số phiếu chi" v-model="payment.RefNo" />
           </div>
         </div>
         <div style="text-align: right" class="w50">
@@ -131,58 +154,78 @@
         </button>
       </div>
       <div class="pay-form-footer">
-        <button style="margin-left: 20px;"  class="small-button-white small-button" id="btnCancel" @click="closeForm">
+        <button
+          style="margin-left: 20px"
+          class="small-button-white small-button"
+          id="btnCancel"
+          @click="closeForm"
+        >
           Hủy
         </button>
-        <div style="display: flex; align-items: center; padding-right: 20px;">
+        <div style="display: flex; align-items: center; padding-right: 20px">
           <button class="small-button-white small-button">Cất</button>
-          <base-small-button  btnName="Cất và Thêm" />
+          <base-small-button btnName="Cất và Thêm" />
         </div>
-    </div>
+      </div>
     </div>
   </div>
 </template>
 <script>
-import BaseComboboxReadOnly from "../../base/BaseComboboxReadOnly.vue";
+// import BaseComboboxReadOnly from "../../base/BaseComboboxReadOnly.vue";
 import BaseComboboxV2 from "../../base/BaseComboboxV2.vue";
 import BaseSmallInput from "../../base/input/BaseSmallInput.vue";
 import BaseSmallButton from "../../base/button/BaseSmallButton.vue";
-import BaseDatepicker from '@/components/base/BaseDatepicker.vue';
-// import axios from "axios";
+import BaseDatepicker from "@/components/base/BaseDatepicker.vue";
+import paymentData from "@/js/payment/payment";
+import ObjectTitle from "@/js/object/object";
+import EmployeeTitle from "@/js/employee/employee"
+import MISAapi from "@/js/api";
+import BaseComboboxTable from "@/components/base/BaseComboboxTable.vue";
+import axios from "axios";
 export default {
   name: "PayForm",
   components: {
-    BaseComboboxReadOnly,
+    // BaseComboboxReadOnly,
     BaseSmallInput,
     BaseSmallButton,
     BaseComboboxV2,
-    BaseDatepicker
-
+    BaseDatepicker,
+    BaseComboboxTable
   },
-  data(){
-    return{
-      dataPayType: ['1. Trả tiền nhà cung cấp','2. Tạm ứng cho nhân viên', '3. Chi mua ngoài có hóa đơn',
-      "4. Trả lương cho nhân viên","5. Chuyển tiền cho chi nhánh khác", "6. Gửi tiền vào ngân hàng","7. Chi khác"
-    ],
-    dataPayTypeDefault : "7. Chi khác",
-    payment:{
-      RefNo: ""
-    }
-    }
+  data() {
+    return {
+      dataPayType: paymentData.options,
+      payment: {
+        RefNo: "",
+        ReasonType: paymentData.options[6].value,
+      },
+      objectApi: MISAapi.object.base,
+      objectTilte: ObjectTitle.listTitle,
+      employeeApi: MISAapi.employee.filter + `pageSize=${this.pageSize}&pageNumber=${this.pageNumber}`,
+      employeeTitle: EmployeeTitle.listTitle
+    };
   },
-  created(){
+  created() {
     const id = this.$route.query.id;
-    console.log(id);
+    if(id){
+      var url = MISAapi.payment.base + id;
+      axios.get(url).then(res => {
+        this.payment = res.data;
+      }).
+      catch(error => {
+        console.log(error);
+      })
+    }
   },
-  methods:{
+  methods: {
     /**
      * đóng form
      */
-    closeForm(){
+    closeForm() {
       // this.$emit('closeForm')
       this.$router.go(-1);
-    }
-  }
+    },
+  },
 };
 </script>
 <style>

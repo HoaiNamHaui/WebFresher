@@ -1,4 +1,16 @@
 var accountData = {
+  listTitle: [
+    {
+      title: "Số tài khoản",
+      attribute: "AccountNumber",
+      width: "150px"
+    },
+    {
+      title: "Tên tài khoản",
+      attribute: "AccountName",
+      width: "250px"
+    }
+  ],
   dataOther: [
     {
       value: 0,

@@ -22,7 +22,9 @@
           </div>
         </div>
         <div class="functions-right">
-          <div style="color: #0075c0; cursor: pointer">Mở rộng</div>
+          <div style="color: #0075c0; cursor: pointer" @click="toogleExpanded">
+            {{ isExpandAll ? "Thu gọn" : "Mở rộng" }}
+          </div>
           <div
             class="refresh"
             @click="refreshListAccount"
@@ -42,12 +44,22 @@
           :column-auto-width="true"
           :word-wrap-enabled="true"
           :sorting="false"
+          :expanded-row-keys="
+            !isExpandAll ? expandedRowKeys : newExpandedRowKeys
+          "
           key-expr="AccountId"
           parent-id-expr="ParentId"
           @cellDblClick="handleRowDblClick"
           @cellClick="handleCellClick"
           noDataText=""
         >
+          <DxScrolling mode="standard" />
+          <DxPaging :enabled="false" :page-size="10" />
+          <DxPager
+            :show-page-size-selector="true"
+            :allowed-page-sizes="allowedPageSizes"
+            :show-info="true"
+          />
           <DxColumn
             :width="130"
             data-field="AccountNumber"
@@ -55,17 +67,17 @@
           />
           <!-- <DxColumn :width="0" data-field="AccountId" caption="ID" /> -->
           <DxColumn
-            :width="250"
+            :width="240"
             data-field="AccountName"
             caption="Tên tài khoản"
           />
-          <DxColumn :width="100" data-field="TypeName" caption="Tính chất" />
+          <DxColumn :width="140" data-field="TypeName" caption="Tính chất" />
           <DxColumn
             :width="250"
             data-field="EnglishName"
             caption="Tên tiếng anh"
           />
-          <DxColumn :width="332" data-field="Description" caption="Diễn giải" />
+          <DxColumn :width="300" data-field="Description" caption="Diễn giải" />
           <DxColumn :width="140" data-field="Active" caption="Trạng thái" />
           <DxColumn
             :width="0"
@@ -189,7 +201,8 @@ import PageCombobox from "../base/PageCombobox.vue";
 import Paginate from "vuejs-paginate-next";
 import AccountDetail from "../forms/account/AccountDetail.vue";
 import $ from "jquery";
-import { DxTreeList, DxColumn } from "devextreme-vue/tree-list";
+// import { DxTreeList, DxColumn } from "devextreme-vue/tree-list";
+import { DxTreeList, DxColumn, DxPaging, DxPager, DxScrolling } from "devextreme-vue/tree-list";
 import BaseLoading from "../base/BaseLoading.vue";
 import MessageDelete from "../message/MessageDelete.vue";
 import MISAResource from "@/js/base/resource";
@@ -199,6 +212,9 @@ export default {
   name: "SystemAccount",
   components: {
     BaseSmallButton,
+    DxPaging,
+    DxPager,
+    DxScrolling,
     BaseTooltip,
     PageCombobox,
     Paginate,
@@ -236,6 +252,10 @@ export default {
       isShowToast: false,
       message: "",
       isDuplicate: 0,
+      isExpandAll: false,
+      newExpandedRowKeys: [],
+      expandedRowKeys: [],
+      allowedPageSizes: [10, 20, 30, 50, 100],
     };
   },
   created() {
@@ -254,6 +274,19 @@ export default {
     },
   },
   methods: {
+    toogleExpanded() {
+      try {
+        this.isExpandAll = !this.isExpandAll;
+        const newListAccount = this.accounts.map((item) => {
+          if (item.IsParent === true) {
+            return item.AccountId;
+          }
+        });
+        this.newExpandedRowKeys = [...newListAccount];
+      } catch (error) {
+        console.log(error);
+      }
+    },
     /**
      * Ngưng sử dụng
      * Author: NHNam (203/2023)
@@ -501,8 +534,8 @@ export default {
       this.showPageOption();
       this.page = 1;
       this.pageNumber = 1;
-      await this.filterAccount();
       await this.getChildrenAccount();
+      await this.filterAccount();
     },
     /**
      * mở menu context
@@ -641,8 +674,22 @@ tr.active td:last-child {
 .dx-treelist-table {
   width: 100%;
   font-family: Notosans-Regular;
+  /* height: 100%; */
+  overflow: auto;
 }
-
+/* .dx-treelist-content{
+  height: 100%;
+  width: 100%;
+  overflow: scroll;
+} */
+/* .dx-treelist-table tbody tr:first-child{
+  position: sticky !important;
+  top: 0;
+} */
+/* .dx-treelist-table tbody tr:first-child td:last-child{
+  background-color: #e5e8ec;
+  border-bottom: 1px solid #ddd;
+} */
 .dx-treelist-headers {
   background-color: #e5e8ec;
   color: #333333;
@@ -652,7 +699,9 @@ tr.active td:last-child {
   line-height: 18px;
   text-align: left;
 }
-
+.dx-treelist-rowsview {
+  height: calc(484px - 28px) !important;
+}
 .dx-treelist-rowsview .dx-row {
   border-bottom: 1px solid #e0e0e0;
 }
@@ -665,6 +714,8 @@ tr.active td:last-child {
   display: flex;
   justify-content: center;
   align-items: center;
+  /* position: sticky;
+  right: 0; */
 }
 
 .dx-treelist-rowsview .dx-treelist-collapsed span::before {

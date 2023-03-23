@@ -32,5 +32,10 @@ namespace MISA.AMIS.Common.Entities
         /// Số điện thoại
         /// </summary>
         public string? PhoneNumber { get; set; }
+        
+        /// <summary>
+        /// Mã đối tượng
+        /// </summary>
+        public string? ObjectCode { get; set; }
     }
 }

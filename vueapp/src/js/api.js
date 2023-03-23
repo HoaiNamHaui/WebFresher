@@ -18,5 +18,8 @@ var MISAapi = {
         base: "https://localhost:7116/api/v1/Payments/",
         filter: "https://localhost:7116/api/v1/Payments/Filter?",
     },
+    "object":{
+        base: "https://localhost:7116/api/MObjects",
+    }
 }
 export default MISAapi;
