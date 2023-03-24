@@ -185,7 +185,6 @@ export default {
       this.$emit("getParentAccountNumber", entitySelected?.AccountNumber);
       if (entitySelected) {
         me.textSelected = entitySelected[me.propName];
-        console.log(me.textSelected);
         // Tính toán lại Index của item đã được chọn
         let findIndex = this.entities.findIndex(
           (item) => item[me.propValue] === entitySelected[me.propValue]

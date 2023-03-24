@@ -59,7 +59,7 @@ namespace MISA.AMIS.Common.Entities
         /// <summary>
         /// Có hạch toán ngoại tệ
         /// </summary>
-        public bool HasForeignCurrenCyAccounting { get; set; }
+        public bool HasForeignCurrencyAccounting { get; set; }
 
         /// <summary>
         /// Trạng thái sử dụng

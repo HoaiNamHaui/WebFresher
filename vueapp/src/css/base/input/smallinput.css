@@ -11,6 +11,7 @@
     text-indent: 8px;
     color: #212121;
     font-family: Notosans-Regular;
+    font-size: 13px !important;
 }
 input[type="radio"]{
     transform: scale(1.4);

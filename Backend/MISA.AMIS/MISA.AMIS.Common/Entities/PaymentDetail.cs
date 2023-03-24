@@ -14,6 +14,7 @@ namespace MISA.AMIS.Common.Entities
         /// <summary>
         /// khóa ngoại
         /// </summary>
+        
         public Guid PaymentId { get; set; }
 
         /// <summary>

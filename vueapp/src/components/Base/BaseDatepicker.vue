@@ -60,7 +60,7 @@ import DatePicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
 export default {
   name: "MDatePicker",
-  emits: ["errorInputMessage", "update:modelValue", "blurInput"],
+  emits: ["errorInputMessage", "update:modelValue", "blurInput","changeDate"],
   components: {
     DatePicker,
   },
@@ -111,7 +111,7 @@ export default {
         const newDate = new Date(
           event.target.value.split("/").reverse().join("-")
         );
-        console.log("newDate", newDate);
+        // console.log("newDate", newDate);
         this.$emit("update:modelValue", newDate, this.name);
         this.$emit("blurInput");
       } else {
@@ -130,7 +130,10 @@ export default {
           event.target.value.split("/").reverse().join("-")
         );
         this.$emit("update:modelValue", newDate, this.name);
-        console.log(newDate);
+        // console.log(newDate);
+      }
+      else{
+        this.$emit("update:modelValue", "", this.name);
       }
     },
     /**
@@ -173,13 +176,16 @@ export default {
     },
   },
   watch: {
+    date: function(){
+      this.$emit("changeDate");
+    },
     /**
      * Truyền modelValue thay đổi
      * Author : NHNam (05/1/2023)
      */
     modelValue: function () {
       this.date = this.modelValue;
-      console.log("date: " + this.date);
+      // console.log("date: " + this.date);
     },
     /**
      * Hàm theo dõi sự thay đổi của isErrorInput mỗi khi validate

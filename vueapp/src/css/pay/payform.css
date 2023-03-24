@@ -5,9 +5,10 @@
   /* top: -90px; */
   width: 100vw;
   height: 100vh;
-  background-color: #fff;
+  /* background-color: #fff; */
   z-index: 50;
-  background-color: #f4f5f8;
+  /* background-color: #f4f5f8; */
+  background-color: #eceef1;;
 }
 .header-pay-form {
   height: 36px;
@@ -125,12 +126,20 @@
   padding: 2px 10px;
 }
 .pay-data-detail tr th {
-  background-color: #f4f5f8;
+  /* background-color: #f4f5f8; */
+  background-color: #e5e8ec;;
   padding: 2px 10px;
   border-bottom: 1px solid #e0e0e0;
   border-right: 1px solid #e0e0e0;
   height: 26px;
 }
+.pay-data-detail tr:last-child {
+  height: 26px;
+  line-height: 26px;
+  background-color: #e5e8ec;
+  font-weight: bold;
+}
+
 .pay-control-detail {
   margin-top: 8px;
 }

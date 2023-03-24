@@ -1,5 +1,5 @@
 <template>
-  <div class="combobox-container" :class="{ error: isError }">
+  <div class="combobox-container" :class="{ error: isError, 'border-focus': isFocus }">
     <div class="disable-combobox" v-if="isDisable">
       <div class="combobox-button-icon"></div>
     </div>
@@ -83,6 +83,7 @@ export default {
       indexItemSelect: 0,
       itemSelected: null,
       isError: false,
+      isFocus: false,
     };
   },
   watch: {
@@ -291,15 +292,18 @@ export default {
     background-color: #e5e8ec;
     position: sticky;
     top: 0;
+    
 }
 .row-header-comboxbox th{
     text-align: left;
     text-indent: 8px;
+    font-size: 13px;
 }
 .row-item-table{
     text-indent: 8px;
     height: 26px;
     line-height: 26px;
+    font-size: 13px;
 }
 .row-item-table:hover{
     background-color: #e8e9ec;
@@ -322,6 +326,9 @@ export default {
   border-radius: 2px;
   box-sizing: border-box;
   font-family: Notosans-Regular;
+}
+.border-focus{
+  border: 1px solid #2ca01c;
 }
 .error {
   border: 1px solid red;

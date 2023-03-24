@@ -5,6 +5,7 @@ using MISA.AMIS.BL.DepartmentBL;
 using MISA.AMIS.BL.EmployeeBL;
 using MISA.AMIS.BL.MObjectBL;
 using MISA.AMIS.BL.PaymentBL;
+using MISA.AMIS.BL.PaymentDetailBL;
 using MISA.AMIS.DL;
 using MISA.AMIS.DL.AccountDL;
 using MISA.AMIS.DL.BaseDL;
@@ -12,6 +13,7 @@ using MISA.AMIS.DL.DepartmentDL;
 using MISA.AMIS.DL.EmployeeDL;
 using MISA.AMIS.DL.Object;
 using MISA.AMIS.DL.ObjectDL;
+using MISA.AMIS.DL.PaymentDetailDL;
 using MISA.AMIS.DL.PaymentDL;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -37,7 +39,8 @@ builder.Services.AddScoped(typeof(IBaseDL<>), typeof(BaseDL<>));
 
 builder.Services.AddScoped<IPaymentBL, PaymentBL>();
 builder.Services.AddScoped<IPaymentDL, PaymentDL>();
-
+builder.Services.AddScoped<IPaymentDetailBL, PaymentDetailBL>();
+builder.Services.AddScoped<IPaymentDetailDL, PaymentDetailDL>();
 
 DatabaseContext.ConnectionString =  builder.Configuration.GetConnectionString("MySql");
 
