@@ -31,6 +31,17 @@ namespace MISA.AMIS.BL.AccountBL
         #endregion
 
         /// <summary>
+        /// Update isActive của các tài khoản trong list id
+        /// </summary>
+        /// <param name="accoundIds">list id</param>
+        /// <param name="isActive">trang thái</param>
+        /// <returns></returns>
+        public int UpdateIsActiveAccount(IEnumerable<Guid> accoundIds, bool isActive)
+        {
+            return _accountDL.UpdateIsActiveAccount(accoundIds, isActive);
+        }
+
+        /// <summary>
         /// Lấy tài khoản con
         /// </summary>
         /// <returns></returns>

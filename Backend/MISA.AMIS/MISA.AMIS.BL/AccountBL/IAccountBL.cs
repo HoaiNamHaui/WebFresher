@@ -1,5 +1,7 @@
 ﻿using MISA.AMIS.BL.BaseBL;
 using MISA.AMIS.Common.Entities;
+using MISA.AMIS.DL.AccountDL;
+using MISA.AMIS.DL.EmployeeDL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +12,7 @@ namespace MISA.AMIS.BL.AccountBL
 {
     public interface IAccountBL : IBaseBL<Account>
     {
+
         /// <summary>
         /// Lấy tài khoản con
         /// </summary>
@@ -21,5 +24,13 @@ namespace MISA.AMIS.BL.AccountBL
         /// </summary>
         /// <returns></returns>
         List<Account> GetAll();
+
+        /// <summary>
+        /// Update isActive của các tài khoản trong list id
+        /// </summary>
+        /// <param name="accoundIds">list id</param>
+        /// <param name="isActive">trang thái</param>
+        /// <returns></returns>
+        int UpdateIsActiveAccount(IEnumerable<Guid> accoundIds, bool isActive);
     }
 }

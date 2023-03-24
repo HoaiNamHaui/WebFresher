@@ -47,6 +47,8 @@
 .messagebox-content-describe{
     font-weight: 400;
     font-size: 14px;
+    max-width: 320px;
+    padding-left: 10px;
 }
 .messagebox-content{
     margin-top: 16px;

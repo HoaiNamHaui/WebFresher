@@ -24,6 +24,10 @@ namespace MISA.AMIS.API.Controllers
 
         #endregion
 
+        /// <summary>
+        /// Lấy các tài khoản con
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("GetChildrenAccount")]
         public IActionResult GetChildAccount()
         {
@@ -40,6 +44,10 @@ namespace MISA.AMIS.API.Controllers
             }
         }
 
+        /// <summary>
+        /// Lấy tất cả các tài khoản
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public IActionResult GetAll()
         {
@@ -54,6 +62,27 @@ namespace MISA.AMIS.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex);
 
             }
+        }
+
+        /// <summary>
+        /// Update active cho list id
+        /// </summary>
+        /// <param name="accountIds"></param>
+        /// <param name="isActive"></param>
+        /// <returns></returns>
+        [HttpPut("UpdateIsActive")]
+        public IActionResult UpdateIsActive([FromBody] IEnumerable<Guid> accountIds, [FromQuery] bool isActive) {
+            var numberOfUpdate = 0;
+            try
+            {
+                numberOfUpdate = _accountBL.UpdateIsActiveAccount(accountIds, isActive);    
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+            return Ok(numberOfUpdate);
         }
     }
 }

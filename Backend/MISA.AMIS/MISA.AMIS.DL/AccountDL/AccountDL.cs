@@ -6,6 +6,7 @@ using MySqlConnector;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -62,6 +63,41 @@ namespace MISA.AMIS.DL.AccountDL
                 result = mySqlConnection.QueryFirstOrDefault<Account>(storedProcedureName, parameters, commandType: System.Data.CommandType.StoredProcedure);
             }
             return result;
+        }
+
+        /// <summary>
+        /// Update isActive của các tài khoản trong list id
+        /// </summary>
+        /// <param name="accoundIds">list id</param>
+        /// <param name="isActive">trang thái</param>
+        /// <returns></returns>
+        public int UpdateIsActiveAccount(IEnumerable<Guid> accountIds, bool isActive)
+        {
+            var storeName = "Proc_Account_UpdateIsActive";
+            int rowsEffect = 0;
+            var parameters = new DynamicParameters();
+            var listRecordsId = $"{String.Join(",", accountIds)}";
+            parameters.Add("p_AccountIds", listRecordsId);
+            parameters.Add("p_IsActive", isActive);
+            using (var mySqlConnection = new MySqlConnection(DatabaseContext.ConnectionString))
+            {
+                mySqlConnection.Open();
+                using (var transaction = mySqlConnection.BeginTransaction())
+                {
+                    try
+                    {
+                        rowsEffect = mySqlConnection.Execute(storeName, parameters, transaction: transaction, commandType: System.Data.CommandType.StoredProcedure);
+                        if (rowsEffect == accountIds?.Count()) transaction.Commit();
+                        else transaction.Rollback();
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        throw new Exception(ex.Message);
+                    }
+                }
+            }
+            return rowsEffect;
         }
     }
 }

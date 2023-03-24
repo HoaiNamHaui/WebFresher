@@ -30,5 +30,13 @@ namespace MISA.AMIS.DL.AccountDL
         /// <returns>Tài khỏan</returns>
         /// CreatedBy: NHNam(12/2/2023)
         Account GetAccountByAccountNumber(Guid? id, string accountNumber);
+
+        /// <summary>
+        /// Update isActive của các tài khoản trong list id
+        /// </summary>
+        /// <param name="accoundIds">list id</param>
+        /// <param name="isActive">trang thái</param>
+        /// <returns></returns>
+        int UpdateIsActiveAccount(IEnumerable<Guid> accoundIds, bool isActive);
     }
 }

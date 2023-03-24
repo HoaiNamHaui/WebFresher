@@ -178,7 +178,14 @@
       @confirmDelete="confirmDelete"
       @cancelDelete="isShowMessageDelete = false"
       messageTitle="Xóa tài khoản"
+      type-object="tài khoản"
       :object-code="accountSelected.AccountNumber"
+    />
+    <mesage-confirm
+      v-if="isShowMessageConfirm"
+      @confirmMessage="confirmMessage"
+      @closeMessage="closeAndUse"
+      messageTitle="Thông báo"
     />
     <BaseToast
       v-if="isShowToast"
@@ -202,11 +209,18 @@ import Paginate from "vuejs-paginate-next";
 import AccountDetail from "../forms/account/AccountDetail.vue";
 import $ from "jquery";
 // import { DxTreeList, DxColumn } from "devextreme-vue/tree-list";
-import { DxTreeList, DxColumn, DxPaging, DxPager, DxScrolling } from "devextreme-vue/tree-list";
+import {
+  DxTreeList,
+  DxColumn,
+  DxPaging,
+  DxPager,
+  DxScrolling,
+} from "devextreme-vue/tree-list";
 import BaseLoading from "../base/BaseLoading.vue";
 import MessageDelete from "../message/MessageDelete.vue";
 import MISAResource from "@/js/base/resource";
 import MISAEnum from "@/js/base/enum";
+import MesageConfirm from '../message/MesageConfirm.vue';
 // import $ from "jquery";
 export default {
   name: "SystemAccount",
@@ -226,6 +240,7 @@ export default {
     MessageDelete,
     BaseToast,
     MessageError,
+    MesageConfirm
   },
   data() {
     return {
@@ -247,6 +262,7 @@ export default {
       accountSelected: {},
       idAccountSelected: null,
       isShowMessageDelete: false,
+      isShowMessageConfirm: false,
       isError: false,
       error: "",
       isShowToast: false,
@@ -291,17 +307,40 @@ export default {
      * Ngưng sử dụng
      * Author: NHNam (203/2023)
      */
-    stopUsing() {
+    async stopUsing() {
+      // var me = this;
+      // this.accountSelected.IsActive = false;
+      // console.log(this.accountSelected);
+      // if (this.accountSelected.ParentId == 0) {
+      //   this.accountSelected.ParentId = MISAResource.vi.GUID_EMPTY;
+      // }
+      // axios
+      //   .put(
+      //     MISAapi.account.base + this.accountSelected.AccountId,
+      //     this.accountSelected
+      //   )
+      //   .then(() => {
+      //     me.refreshListAccount();
+      //   })
+      //   .catch((res) => {
+      //     console.log(res);
+      //   });
+      await this.handleActiveAccount(this.accountSelected.AccountId, true, this.accountSelected.IsParent, true)
+      await this.getChildrenAccount();
+      this.filterAccount();
+    },
+
+    /**
+     * update trạng thái sử dụng
+     * @param {} isActive
+     * @param {*} listId
+     */
+    async updateIsActiveAccount(listId, isActive) {
       var me = this;
-      this.accountSelected.IsActive = false;
-      console.log(this.accountSelected);
-      if (this.accountSelected.ParentId == 0) {
-        this.accountSelected.ParentId = MISAResource.vi.GUID_EMPTY;
-      }
       axios
         .put(
-          MISAapi.account.base + this.accountSelected.AccountId,
-          this.accountSelected
+          `https://localhost:7116/api/v1/Accounts/UpdateIsActive?isActive=${isActive}`,
+          listId
         )
         .then(() => {
           me.refreshListAccount();
@@ -311,30 +350,75 @@ export default {
         });
     },
 
+    async handleActiveAccount(accountId, isActive, isParent, hasActiveChild) {
+      try {
+        if (isParent) {
+          if (hasActiveChild) {
+            var accountIds = [accountId];
+            await this.getChildrenAccount();
+            var childs = this.childAccounts;
+
+            childs.forEach((child) => {
+              try {
+                if (accountIds.includes(child.ParentId)) {
+                  accountIds.push(child.AccountId);
+                }
+              } catch (error) {
+                console.log(error);
+              }
+            });
+            await this.updateIsActiveAccount(accountIds, !isActive);
+          } else {
+            await this.updateIsActiveAccount([accountId], !isActive);
+          }
+        }else{
+          await this.updateIsActiveAccount([accountId], !isActive);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async closeAndUse(){
+      await this.handleActiveAccount(this.accountSelected.AccountId, false, this.accountSelected.IsParent, false)
+      await this.getChildrenAccount();
+      this.isShowMessageConfirm = false;
+      this.filterAccount();
+    },
     /**
      * Sử dụng
      * Author: NHNam (203/2023)
      */
-    using() {
-      var me = this;
-      this.accountSelected.IsActive = true;
-      console.log(this.accountSelected);
-      if (this.accountSelected.ParentId == 0) {
-        this.accountSelected.ParentId = MISAResource.vi.GUID_EMPTY;
+    async using() {
+      // var me = this;
+      // this.accountSelected.IsActive = true;
+      // console.log(this.accountSelected);
+      // if (this.accountSelected.ParentId == 0) {
+      //   this.accountSelected.ParentId = MISAResource.vi.GUID_EMPTY;
+      // }
+      // axios
+      //   .put(
+      //     MISAapi.account.base + this.accountSelected.AccountId,
+      //     this.accountSelected
+      //   )
+      //   .then(() => {
+      //     me.refreshListAccount();
+      //   })
+      //   .catch((res) => {
+      //     console.log(res);
+      //   });
+      if(this.accountSelected.IsParent){
+        this.isShowMessageConfirm = true;
       }
-      axios
-        .put(
-          MISAapi.account.base + this.accountSelected.AccountId,
-          this.accountSelected
-        )
-        .then(() => {
-          me.refreshListAccount();
-        })
-        .catch((res) => {
-          console.log(res);
-        });
+      else{
+        await this.confirmMessage();
+      }
     },
-
+    async confirmMessage(){
+      await this.handleActiveAccount(this.accountSelected.AccountId, false, this.accountSelected.IsParent, true)
+      await this.getChildrenAccount();
+      this.isShowMessageConfirm = false;
+      this.filterAccount();
+    },
     /**
      * nhân bản
      * Author: NHNam (203/2023)

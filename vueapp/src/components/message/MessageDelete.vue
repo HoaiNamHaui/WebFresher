@@ -7,7 +7,7 @@
         </div>
         <div class="messagebox-content">
             <div class="messagebox-delete-icon"></div>
-            <div class="messagebox-content-describe">Bạn có chắc chắn muốn xóa <b>{{ objectCode }}</b> ?</div>
+            <div class="messagebox-content-describe">Bạn có chắc chắn muốn xóa {{ typeObject }} <b>{{ objectCode }}</b> ?</div>
         </div>
         <div class="messagebox-footer">
             <button class="button-white" @click="closeMessage">Hủy</button>
@@ -25,7 +25,7 @@ export default{
         return{
         }
     },
-    props: ["objectCode", "messageTitle"],
+    props: ["objectCode", "messageTitle","typeObject"],
     methods:{
         /**
          * Đóng form xác nhận xóa

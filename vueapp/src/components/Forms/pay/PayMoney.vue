@@ -245,6 +245,7 @@ export default {
         ReasonType: paymentData.options[6].value,
         PostedDate: new Date(),
         RefDate: new Date(),
+        Reason: "Chi tiền cho "
       },
       objectApi: MISAapi.object.base,
       objectTilte: ObjectTitle.listTitle,

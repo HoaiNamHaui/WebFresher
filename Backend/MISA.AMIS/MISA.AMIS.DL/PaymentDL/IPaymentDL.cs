@@ -10,5 +10,19 @@ namespace MISA.AMIS.DL.PaymentDL
 {
     public interface IPaymentDL : IBaseDL<Payment>
     {
+        /// <summary>
+        /// Xóa hoàng loạt
+        /// </summary>
+        /// <param name="ids">mảng các id</param>
+        /// <returns>Số bản ghi xóa</returns>
+        /// CreatedBy: NHNam(12/2/2023)
+        int DeleteMultiple(IEnumerable<Guid> ids);
+
+        /// <summary>
+        /// Lấy số phiếu chi max
+        /// </summary>
+        /// <returns>Số phiếu chi lớn nhất</returns>
+        /// CreatedBy: NHNam(3/2/2023)
+        string GetMaxRefNo();
     }
 }
