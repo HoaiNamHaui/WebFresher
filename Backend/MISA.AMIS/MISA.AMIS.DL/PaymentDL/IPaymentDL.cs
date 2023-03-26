@@ -24,5 +24,14 @@ namespace MISA.AMIS.DL.PaymentDL
         /// <returns>Số phiếu chi lớn nhất</returns>
         /// CreatedBy: NHNam(3/2/2023)
         string GetMaxRefNo();
+
+        /// <summary>
+        /// Lấy phiếu chi theo số phiếu chi
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="refNo">Số phiếu chi</param>
+        /// <returns>Tài khỏan</returns>
+        /// CreatedBy: NHNam(12/2/2023)
+        Payment GetPaymentByRefNo(Guid? id, string refNo);
     }
 }

@@ -31,12 +31,14 @@
               style="margin-top: unset !important; margin-bottom: 8px"
               prop-name="ObjectCode"
               prop-value="ObjectId"
+              @getObjectName="getObjectName"
             />
           </div>
           <base-small-input
             label="Tên đối tượng"
             class="custom-padding-input w55"
             v-model="payment.ObjectName"
+            @getTempReson="getTempReson"
           />
         </div>
         <div class="pay-form-left-second-line flex w100">
@@ -57,6 +59,7 @@
             class="w100"
             style="margin-right: 12px"
             v-model="payment.Reason"
+            @checkChangeByUser="checkChangeByUser"
           />
         </div>
         <div class="pay-form-left-fourth-line flex w100">
@@ -144,23 +147,39 @@
           <th class="align-left">Tên đối tượng</th>
           <th></th>
         </tr>
-        <tr>
-          <td>1</td>
-          <td><input type="text" value="Chi tiền cho" /></td>
-          <td><input type="text" /></td>
-          <td><input type="text" value="111" /></td>
-          <td><input type="text" value="0" style="text-align: right" /></td>
-          <td><input type="text" /></td>
-          <td><input type="text" /></td>
-          <td><div class="icon-delete"></div></td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td><input type="text" value="Chi tiền cho" /></td>
-          <td><input type="text" /></td>
-          <td><input type="text" /></td>
-          <td><input type="text" style="text-align: right" /></td>
-          <td><input type="text" /></td>
+        <tr v-for="(detail, index) in paymentDetails" :key="index">
+          <td>{{ index + 1 }}</td>
+          <td><input type="text" v-model="detail.Description" /></td>
+          <td>
+            <!-- <input type="text" /> -->
+            <base-combobox-table
+              :api="api"
+              style="margin-top: unset !important"
+              prop-value="AccountId"
+              prop-name="AccountNumber"
+              :list-title="listTitle"
+              v-model="detail.DebitAccount"
+            />
+          </td>
+          <td>
+            <!-- <input type="text" value="111" /> -->
+            <base-combobox-table
+              :api="api"
+              style="margin-top: unset !important"
+              prop-value="AccountId"
+              prop-name="AccountNumber"
+              :list-title="listTitle"
+              v-model="detail.CreditAccount"
+            />
+          </td>
+          <td>
+            <input
+              type="text"
+              v-model="detail.Amount"
+              style="text-align: right"
+            />
+          </td>
+          <td><input type="text" v-model="detail.ObjectName" /></td>
           <td><input type="text" /></td>
           <td><div class="icon-delete"></div></td>
         </tr>
@@ -180,6 +199,7 @@
           class="button-white"
           id="btnCancel"
           style="height: 24px !important; line-height: 24px; font-size: 12px"
+          @click="addLine"
         >
           Thêm dòng
         </button>
@@ -187,6 +207,7 @@
           class="button-white"
           id="btnCancel"
           style="height: 24px !important; line-height: 24px; font-size: 12px"
+          @click="deleteAllLine"
         >
           Xóa hết dòng
         </button>
@@ -221,8 +242,10 @@ import paymentData from "@/js/payment/payment";
 import ObjectTitle from "@/js/object/object";
 import EmployeeTitle from "@/js/employee/employee";
 import MISAapi from "@/js/api";
+import accountData from "@/js/account/account";
 import BaseComboboxTable from "@/components/base/BaseComboboxTable.vue";
 import MessageError from "@/components/message/MessageError.vue";
+import MISAResource from "@/js/base/resource";
 import axios from "axios";
 export default {
   name: "PayForm",
@@ -245,7 +268,7 @@ export default {
         ReasonType: paymentData.options[6].value,
         PostedDate: new Date(),
         RefDate: new Date(),
-        Reason: "Chi tiền cho "
+        Reason: "Chi tiền cho ",
       },
       objectApi: MISAapi.object.base,
       objectTilte: ObjectTitle.listTitle,
@@ -261,24 +284,18 @@ export default {
       },
       isValid: false,
       isSameDate: true,
-      paymentDetails: [],
+      listTitle: accountData.listTitle,
+      api: MISAapi.account.base,
+      paymentDetails: [
+        {
+          Description: MISAResource.vi.payment.reason,
+        },
+      ],
+      isChangeByUser: false,
+      reasonTemp: "",
     };
   },
-  watch: {
-    // payment: {
-    //   handler: function (newValue, oldValue) {
-    //     var date1 = this.formatDate(oldValue.PostedDate);
-    //     var date2 = this.formatDate(this.payment.RefDate);
-    //     if (date1 === date2) {
-    //       this.isSameDate = true;
-    //     }
-    //     else{
-    //       this.isSameDate = false
-    //     }
-    //   },
-    //   deep: true,
-    // },
-  },
+  watch: {},
   created() {
     const id = this.$route.query.id;
     if (id) {
@@ -292,9 +309,83 @@ export default {
         .catch((error) => {
           console.log(error);
         });
+    } else {
+      this.getNewRefNo();
     }
   },
   methods: {
+    /**
+     * Xóa hết dòng
+     * Author: NHNam(22/3/2023)
+     */
+    deleteAllLine() {
+      this.paymentDetails = [
+        {
+          Description: MISAResource.vi.payment.reason,
+        },
+      ];
+    },
+
+    /**
+     * Thêm dòng
+     * Author: NHNam(22/3/2023)
+     */
+    addLine() {
+      var numberOfDetail = this.paymentDetails.length;
+      this.paymentDetails = [
+        ...this.paymentDetails,
+        this.paymentDetails[numberOfDetail - 1],
+      ];
+    },
+
+    /**
+     * Lấy số phiếu chi mới
+     * Author: NHNam (24/3/2023)
+     */
+    async getNewRefNo() {
+      var url = MISAapi.payment.base + "NewRefNo";
+      axios
+        .get(url)
+        .then((res) => {
+          this.payment.RefNo = res.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+
+    /**
+     * Nhận lý do chi tạm thời
+     * Author: NHNam (24/3/2023)
+     */
+    getTempReson(e) {
+      this.reasonTemp = MISAResource.vi.payment.reason + e;
+      if (!this.isChangeByUser) {
+        this.payment.Reason = this.reasonTemp;
+      }
+    },
+    /**
+     * Lưu trạng thái người dùng đã thay đổi lý do
+     * @param {} e
+     */
+    checkChangeByUser(e) {
+      if (e !== MISAResource.vi.payment.reason) {
+        this.isChangeByUser = true;
+      }
+    },
+
+    /**
+     * Nhận ObjectName từ combobox mã đối tượng
+     * Author: NHNam (24/3/2023)
+     */
+    getObjectName(e) {
+      this.payment.ObjectName = e;
+    },
+
+    /**
+     * Xử lý thay đổi ngày chứng từ
+     * Author: NHNam (24/3/2023)
+     */
     handleRefDateChange() {
       var date1 = this.formatDate(this.payment.PostedDate);
       var date2 = this.formatDate(this.payment.RefDate);
@@ -304,6 +395,10 @@ export default {
         this.isSameDate = false;
       }
     },
+    /**
+     * Xử lý thay đổi ngày
+     * Author: NHNam (24/3/2023)
+     */
     handleDateChange() {
       if (this.isSameDate) {
         this.payment.RefDate = this.payment.PostedDate;
@@ -315,8 +410,6 @@ export default {
      * Author: NHNam (23/3/2023)
      */
     savePayment() {
-      console.log(this.payment.RefDate);
-      console.log(this.payment.PostedDate);
       this.validate();
     },
 

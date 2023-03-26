@@ -60,6 +60,7 @@ export default {
      */
     blurInput() {
       this.$emit("unfocus", false);
+      this.$emit("checkChangeByUser",this.value)
     },
   },
   created() {
@@ -77,6 +78,7 @@ export default {
     },
     value: function (newValue) {
       this.$emit("update:modelValue", newValue);
+      this.$emit("getTempReson", newValue)
     },
     //Lỗi hiển thị border lỗi
     error: function () {

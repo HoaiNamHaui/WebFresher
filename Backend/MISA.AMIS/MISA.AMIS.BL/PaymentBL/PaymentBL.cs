@@ -1,6 +1,7 @@
 ﻿using MISA.AMIS.BL.BaseBL;
 using MISA.AMIS.Common;
 using MISA.AMIS.Common.Entities;
+using MISA.AMIS.Common.Entities.DTO;
 using MISA.AMIS.DL.AccountDL;
 using MISA.AMIS.DL.BaseDL;
 using MISA.AMIS.DL.EmployeeDL;
@@ -83,5 +84,47 @@ namespace MISA.AMIS.BL.PaymentBL
             var data = _paymentDL.GetByFilter(pageNumber, pageSize, keyword).Data;
             return data;
         }
+
+        /// <summary>
+        /// Validate custom theo đối tượng cụ thể
+        /// </summary>
+        /// <param name="account">Tài khoản validate</param>
+        /// <returns>Kết quả validate</returns>
+        /// CreatedBy: NHNam(22/3/2023)
+        protected override ValidateResult ValidateCustom(Payment payment, Guid? id)
+        {
+            ValidateResult validateResult = new ValidateResult();
+            validateResult.IsSuccess = true;
+            // Trùng số tài khoản
+            var acc = _paymentDL.GetPaymentByRefNo(id, payment.RefNo);
+            if (acc != null)
+            {
+                validateResult.ListError.Add(Resource.DuplicateRefNo);
+                validateResult.IsSuccess = false;
+            }
+
+            // Bỏ trống số phiếu chi
+            if (!string.IsNullOrEmpty(payment.RefNo))
+            {
+                validateResult.ListError.Add(Resource.EmptyRefNo);
+                validateResult.IsSuccess = false;
+            }
+
+            // Bỏ trống ngày hạch toán
+            if (payment.PostedDate  == null)
+            {
+                validateResult.ListError.Add(Resource.EmptyPostedDate);
+                validateResult.IsSuccess = false;
+            }
+
+            // Bỏ trống ngày chứng từ
+            if (payment.RefDate == null)
+            {
+                validateResult.ListError.Add(Resource.EmptyRefDate);
+                validateResult.IsSuccess = false;
+            }
+            return validateResult;
+        }
+
     }
 }

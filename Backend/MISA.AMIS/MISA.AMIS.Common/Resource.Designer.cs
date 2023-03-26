@@ -124,6 +124,15 @@ namespace MISA.AMIS.Common {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Số phiếu chi đã tồn tại.
+        /// </summary>
+        public static string DuplicateRefNo {
+            get {
+                return ResourceManager.GetString("DuplicateRefNo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Email không đúng định dạng.
         /// </summary>
         public static string EmailIncorrectFormat {
@@ -147,6 +156,33 @@ namespace MISA.AMIS.Common {
         public static string EmployeeNameEmpty {
             get {
                 return ResourceManager.GetString("EmployeeNameEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ngày hạch toán toán không được để trống.
+        /// </summary>
+        public static string EmptyPostedDate {
+            get {
+                return ResourceManager.GetString("EmptyPostedDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ngày chứng từ không được để trống.
+        /// </summary>
+        public static string EmptyRefDate {
+            get {
+                return ResourceManager.GetString("EmptyRefDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Số chứng từ không được để trống.
+        /// </summary>
+        public static string EmptyRefNo {
+            get {
+                return ResourceManager.GetString("EmptyRefNo", resourceCulture);
             }
         }
         

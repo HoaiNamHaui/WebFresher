@@ -91,7 +91,8 @@
 .pay-form-detail {
   background-color: #fff;
   padding: 6px 20px 12px 20px;
-  height: calc(100vh - 254px - 54px);
+  height: calc(100vh - 254px - 54px - 42px);
+  overflow-y: scroll;
 }
 .align-left {
   text-align: left;

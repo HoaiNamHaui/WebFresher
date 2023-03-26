@@ -18,7 +18,7 @@ namespace MISA.AMIS.DL.Object
         public List<MObject> GetAll()
         {
             List<MObject> result = new List<MObject>();
-            string storedProcedureName = "Proc_Object_GetAll";
+            string storedProcedureName = "Proc_MObject_GetAll";
             using (var mySqlConnection = new MySqlConnection(DatabaseContext.ConnectionString))
             {
                 result = mySqlConnection.Query<MObject>(storedProcedureName, commandType: System.Data.CommandType.StoredProcedure).ToList();

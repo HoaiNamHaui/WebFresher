@@ -21,7 +21,7 @@ namespace MISA.AMIS.Common.Entities
         /// <summary>
         /// Khóa ngoại
         /// </summary>
-        public Guid ObjectId { get; set; }
+        public Guid MObjectId { get; set; }
 
         /// <summary>
         /// mã đối tượng

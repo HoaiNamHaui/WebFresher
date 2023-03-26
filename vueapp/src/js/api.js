@@ -17,6 +17,7 @@ var MISAapi = {
     "payment":{
         base: "https://localhost:7116/api/v1/Payments/",
         filter: "https://localhost:7116/api/v1/Payments/Filter?",
+        deleteMultiple: "https://localhost:7116/api/v1/Payments/DeleteMultiple",
     },
     "object":{
         base: "https://localhost:7116/api/MObjects",

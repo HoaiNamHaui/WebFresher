@@ -8,7 +8,7 @@
         ></div>
       </div>
       <div class="form-button">
-        <div @click="closeForm" class="icon-close" id="btnClose">
+        <div @click="checkChangeAndHideDialog" class="icon-close" id="btnClose">
           <base-tooltip message="Đóng (ESC)" />
         </div>
       </div>
@@ -329,6 +329,11 @@
     </div>
     <base-loading v-if="isLoading" />
     <message-error v-if="isError" :error="error" @close="isError = false" />
+    <message-change v-if="isChanged"
+    @closeMessageChange="isChanged = false"
+    @hideDialogAndMessage="closeForm"
+    @acceptSave="saveAndClose"
+    />
   </div>
 </template>
 <script>
@@ -345,6 +350,7 @@ import MISAResource from "@/js/base/resource";
 import BaseLoading from "@/components/base/BaseLoading.vue";
 import BaseTooltip from "@/components/base/BaseTooltip.vue";
 import BaseComboboxTable from '@/components/base/BaseComboboxTable.vue';
+import MessageChange from "../../../components/message/MessageChange.vue";
 export default {
   name: "AccountDetail",
   components: {
@@ -356,14 +362,44 @@ export default {
     MessageError,
     BaseLoading,
     BaseTooltip,
+    MessageChange
   },
   data() {
     return {
       titleForm: MISAResource.vi.formAccountMode.Add,
       isFullsize: false,
       isLoading: false,
+      isChanged: false,
       listTitle: accountData.listTitle,
       account: {
+        parentNumber: "",
+        ParentId: MISAResource.vi.GUID_EMPTY,
+        HasForeignCurrencyAccounting: false,
+        IsTrackObject: false,
+        IsTrackJob: false,
+        IsTrackOrder: false,
+        IsTrackPurchaseContract: false,
+        IsTrackOrganizationUnit: false,
+        IsTrackBankAccount: false,
+        IsTrackProjectWork: false,
+        IsTrackSaleContract: false,
+        IsTrackExpenseItem: false,
+        IsTrackItem: false,
+        IsActive: true,
+        Type: 0,
+        Object: 1,
+        Job: 0,
+        Order: 0,
+        PurchaseContract: 0,
+        Unit: 0,
+        BankAccount: 0,
+        ProjectWork: 0,
+        SaleContract: 0,
+        ExpenseItem: 0,
+        Item: 0,
+        Grade: 1,
+      },
+      accountTemp: {
         parentNumber: "",
         ParentId: MISAResource.vi.GUID_EMPTY,
         HasForeignCurrencyAccounting: false,
@@ -400,6 +436,7 @@ export default {
         accountName: "",
         type: "",
       },
+      // accountTemp: {},
       isValid: false,
       isError: false,
       error: "",
@@ -415,8 +452,14 @@ export default {
         .get(MISAapi.account.base + me.idAccountSelected)
         .then(function (res) {
           me.account = res.data;
+        })
+        .then(() => {
+          this.accountTemp = Object.assign({}, this.account);
         });
     }
+    // else{
+    //   this.employeeTemp = Object.assign({}, this.account);
+    // }
     this.handleTitleForm();
   },
 
@@ -657,6 +700,17 @@ export default {
       };
     },
 
+    /**
+     * Check thay đổi dữ liệu để đóng
+     * Author: NHNam (203/2023)
+     */
+    checkChangeAndHideDialog(){
+      if (JSON.stringify(this.account) == JSON.stringify(this.accountTemp)) {
+        this.closeForm();
+      } else {
+        this.isChanged = true;
+      }
+    },
     /**
      * cất và thêm
      * Author: NHNam (203/2023)

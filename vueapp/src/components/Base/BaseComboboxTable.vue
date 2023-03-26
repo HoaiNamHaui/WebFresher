@@ -214,6 +214,7 @@ export default {
 
       this.$emit("changeGrade", entitySelected?.Grade);
       this.$emit("getParentAccountNumber", entitySelected?.AccountNumber);
+      this.$emit("getObjectName", entitySelected?.ObjectName);
       if (entitySelected) {
         me.textSelected = entitySelected[me.propName];
         console.log(me.textSelected);

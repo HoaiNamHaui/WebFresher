@@ -138,6 +138,9 @@
   <data name="DuplicateCode" xml:space="preserve">
     <value>Mã nhân viên đã tồn tại</value>
   </data>
+  <data name="DuplicateRefNo" xml:space="preserve">
+    <value>Số phiếu chi đã tồn tại</value>
+  </data>
   <data name="EmailIncorrectFormat" xml:space="preserve">
     <value>Email không đúng định dạng</value>
   </data>
@@ -146,6 +149,15 @@
   </data>
   <data name="EmployeeNameEmpty" xml:space="preserve">
     <value>Tên nhân viên không được bỏ trống</value>
+  </data>
+  <data name="EmptyPostedDate" xml:space="preserve">
+    <value>Ngày hạch toán toán không được để trống</value>
+  </data>
+  <data name="EmptyRefDate" xml:space="preserve">
+    <value>Ngày chứng từ không được để trống</value>
+  </data>
+  <data name="EmptyRefNo" xml:space="preserve">
+    <value>Số chứng từ không được để trống</value>
   </data>
   <data name="inValidLengthAccount" xml:space="preserve">
     <value>Số tài khoản phải có độ dài &gt;= 3 ký tự</value>

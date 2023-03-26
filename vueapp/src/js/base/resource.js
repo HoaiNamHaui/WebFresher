@@ -37,7 +37,10 @@ var MISAResource = {
             Edit: "Sửa tài khoản",
             Duplicate: "Nhân bản tài khoản"
         },
-        GUID_EMPTY: "00000000-0000-0000-0000-000000000000"
+        GUID_EMPTY: "00000000-0000-0000-0000-000000000000",
+        payment: {
+            reason: "Chi tiền cho "
+        }
     },
     "en":{
         ErrorMsg: "Error!"

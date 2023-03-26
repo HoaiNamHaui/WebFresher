@@ -4,13 +4,20 @@
       <div class="pay-master-header">
         <div class="pay-header-left flex">
           <div class="pay-header-left-icon"></div>
-          <div class="pay-batch" 
-          :class="{'pay-batch-active': isActiveBatch}" 
-          v-click-outside-element="openBatch"
-          @click="openBatch">
+          <div
+            class="pay-batch"
+            :class="{ 'pay-batch-active': isActiveBatch }"
+            v-click-outside-element="closeBatch"
+            @click="openBatch"
+          >
             <div>Thực hiện hàng loạt</div>
             <div class="pay-batch-icon"></div>
-            <div class="pay-batch-option" v-if="isActiveBatch" v-show="isOpenbatch">
+            <div
+              class="pay-batch-option"
+              v-if="isActiveBatch"
+              v-show="isOpenbatch"
+              @click="deleteMuliple"
+            >
               Xóa
             </div>
           </div>
@@ -72,7 +79,7 @@
             <th class="align-left w300">Địa chỉ</th>
             <th class="align-center w150">Chức năng</th>
           </tr>
-          <tr v-for="(item, index) in payments" v-bind:key="index">
+          <tr v-for="(item, index) in payments" v-bind:key="index" @click="paymentSelected = item">
             <td class="w50px">
               <base-checkbox
                 :checked="rowSelected.includes(item.PaymentId)"
@@ -216,6 +223,10 @@
             </tr>
           </table>
         </div>
+        <div class="context-menu" ref="menuContext">
+          <div class="context-menu-item">Nhân bản</div>
+          <div class="context-menu-item" @click="ShowWarningDelete">Xóa</div>
+        </div>
         <div class="pay-detail-paging">
           <div class="total-record">
             Tổng số:
@@ -260,16 +271,33 @@
     </div>
     <!-- <pay-money v-if="isShowForm" @closeForm="isShowForm = false" /> -->
     <BaseLoading v-if="isLoading" />
+    <MessageDelete
+      v-if="isShowMessageDelete"
+      @confirmDelete="confirmDelete"
+      @cancelDelete="isShowMessageDelete = false"
+      messageTitle="Xóa chứng từ"
+      type-object="chứng từ"
+      :object-code="paymentSelected.RefNo"
+    />
+    <message-delete-multiple
+      v-if="confirmDeleteMultiple"
+      :rowSelected="rowSelected"
+      @cancelDeleteMultiple="confirmDeleteMultiple = false"
+      @handleDeleteMultiple="handleDeleteMultiple"
+    />
   </div>
 </template>
 <script>
 import BaseTooltip from "../base/BaseTooltip.vue";
 import BaseSmallButton from "../base/button/BaseSmallButton.vue";
+import MessageDelete from "../message/MessageDelete.vue";
+import MessageDeleteMultiple from "../../components/message/MessageDeleteMultiple.vue";
 // import PayMoney from "../forms/pay/PayMoney.vue";
 import BaseCheckbox from "../base/BaseCheckbox.vue";
 import PageCombobox from "../base/PageCombobox.vue";
 import commonJS from "@/js/base/common";
 import axios from "axios";
+import $ from "jquery";
 import MISAapi from "@/js/api";
 import BaseLoading from "../base/BaseLoading.vue";
 // import $ from "jquery";
@@ -284,6 +312,8 @@ export default {
     PageCombobox,
     Paginate,
     BaseLoading,
+    MessageDelete,
+    MessageDeleteMultiple
   },
   props: ["openForm"],
   data() {
@@ -294,6 +324,9 @@ export default {
       isLoading: false,
       isShowForm: false,
       payments: [],
+      paymentSelected: {},
+      isShowMessageDelete: false,
+      confirmDeleteMultiple: false,
       pageSize: 20,
       pageNumber: 1, // trang hiện tại
       txtSearch: "", // keyword lọc
@@ -321,50 +354,138 @@ export default {
       await this.filterPayment();
       this.testCheckAll();
     },
-    rowSelected:{
-      handler: function(){
-        if(this.rowSelected.length > 1){
+    rowSelected: {
+      handler: function () {
+        if (this.rowSelected.length > 1) {
           this.isActiveBatch = true;
-        }
-        else{
+        } else {
           this.isActiveBatch = false;
         }
       },
-      deep: true
-    }
+      deep: true,
+    },
   },
   methods: {
     /**
-     * Mở chọn thực hiện hàng loại
-     * Author: NHNam (20/3/2023)
+     * gọi api xóa hàng loạt
+     * Author: NHNam (7/1/2023)
      */
-    openBatch(){
-      if(this.isActiveBatch){
-        this.isOpenbatch = !this.isOpenbatch;
+    async handleDeleteMultiple(){
+      var data = this.rowSelected
+      try {
+        await axios.delete(MISAapi.payment.deleteMultiple, { data });
+        this.confirmDeleteMultiple = false;
+         this.filterPayment();
+         this.rowSelected = [];
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
+
+    /**
+     * hiện thông báo xác nhận xóa
+     * Author: NHNam (7/1/2023)
+     */
+     deleteMuliple() {
+      this.confirmDeleteMultiple = true;
+    },
+
+    /**
+     * Cảnh báo xóa
+     * Author: NHNam
+     */
+     ShowWarningDelete() {
+        this.isShowMessageDelete = true;
+    },
+
+    /**
+     * Xác nhận xóa
+     * Author: NHNam (203/2023)
+     */
+     confirmDelete() {
+      var me = this;
+      try {
+        var url = MISAapi.payment.base + me.paymentSelected.PaymentId;
+        me.isLoading = true;
+        me.isShowMessageDelete = false;
+        axios
+          .delete(url)
+          .then(() => {
+            me.filterPayment();
+            me.isLoading = false;
+          })
+          .catch((res) => {
+            me.isLoading = false;
+            console.log(res);
+          });
+      } catch (error) {
+        me.isLoading = false;
+        console.log(error);
       }
     },
 
     /**
+     * Call api xuất file excel
+     * Author: NHNam(12/2/2023)
+     */
+    exportToExcel() {
+      this.isLoading = true;
+      axios({
+        url:
+          MISAapi.payment.base +
+          "ExportExcel?" +
+          `pageSize=${this.pageSize}&pageNumber=${this.pageNumber}&keyword=${this.txtSearch}`, // endpoint của API
+        method: "GET",
+        responseType: "blob", // định dạng dữ liệu trả về
+      }).then((response) => {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", "DS_Phieu_Chi.xlsx"); // tên file được download
+        document.body.appendChild(link);
+        link.click();
+        this.isLoading = false;
+      });
+    },
+
+    /**
+     * Mở chọn thực hiện hàng loại
+     * Author: NHNam (20/3/2023)
+     */
+    openBatch() {
+      if (this.isActiveBatch) {
+        this.isOpenbatch = !this.isOpenbatch;
+      }
+    },
+    /**
+     * Đóng chọn thực hiện hàng loại
+     * Author: NHNam (20/3/2023)
+     */
+    closeBatch(){
+      this.isOpenbatch = false;
+    },
+    /**
      * click sửa
      * Author: NHNam (20/3/2023)
      */
-    handleEditClick(id){
-      this.$router.push({ path: '/PayMoney', query: { id: id }})
+    handleEditClick(id) {
+      this.$router.push({ path: "/PayMoney", query: { id: id } });
     },
-    
+
     /**
      * chuyển trang form detail
      * Author: NHNam (20/3/2023)
      */
-    redirectPayMoney(){
-      this.$router.push('/PayMoney')
+    redirectPayMoney() {
+      this.$router.push("/PayMoney");
     },
 
     /**
      * làm mới danh sách phiếu chi
      * Author: NHNam (20/3/2023)
      */
-    refreshListpayment(){
+    refreshListpayment() {
       this.filterPayment();
       this.testCheckAll();
     },
@@ -565,6 +686,24 @@ export default {
         this.isCheckAll = false;
       }
     },
+
+    toogleMenu(e) {
+      if (this.$refs.menuContext.style.display === "block") {
+        $(".context-menu").hide(100);
+      } else {
+        this.$refs.menuContext.style.display;
+        this.btnMenuContext = e.target;
+        var x = e.clientX;
+        var y = e.clientY;
+        var clientHeight = document.getElementById("content").clientHeight;
+        if (clientHeight - y < 80) {
+          y = y - 110;
+        }
+        $(".context-menu").css("top", y + 10 + "px");
+        $(".context-menu").css("left", x - 110 + "px");
+        $(".context-menu").show(100);
+      }
+    },
   },
   created() {
     this.isShowForm = this.openForm;
@@ -575,6 +714,7 @@ export default {
 
 <style scoped>
 @import url(../../css/pay/pay.css);
+@import url(../../css/base/contextmenu.css);
 .pay-search-custom {
   height: 26px !important;
   border: none;

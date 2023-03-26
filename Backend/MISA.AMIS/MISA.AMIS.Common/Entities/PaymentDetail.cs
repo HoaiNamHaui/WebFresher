@@ -23,6 +23,16 @@ namespace MISA.AMIS.Common.Entities
         public Guid ObjectId { get; set; }
 
         /// <summary>
+        /// Tên đối tượng
+        /// </summary>
+        public String? ObjectName { get; set; }
+
+        /// <summary>
+        /// Mã đối tượng
+        /// </summary>
+        public String? ObjectCode { get; set; }
+
+        /// <summary>
         /// Tổng chi phiếu
         /// </summary>
         public decimal Amount { get; set; }

@@ -413,6 +413,11 @@ export default {
         await this.confirmMessage();
       }
     },
+
+    /**
+     * xử lý active tài khoản
+     * Author: NHNam (20/3/2023)
+     */
     async confirmMessage(){
       await this.handleActiveAccount(this.accountSelected.AccountId, false, this.accountSelected.IsParent, true)
       await this.getChildrenAccount();
@@ -458,12 +463,9 @@ export default {
             me.isLoading = false;
           })
           .catch((res) => {
-            console.log("catch trên");
-            me.isLoading = false;
-            console.log(123);
             console.log(res);
+            me.isLoading = false;
             me.error = MISAResource.vi.account.referenceMessage;
-            console.log(me.error);
             me.isError = true;
           });
       } catch (error) {
@@ -623,6 +625,7 @@ export default {
     },
     /**
      * mở menu context
+     * Author: NHNam (1/1/2023)
      */
     toogleMenu(e) {
       if (this.$refs.menuContext.style.display === "block") {

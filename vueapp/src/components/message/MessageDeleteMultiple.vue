@@ -8,7 +8,7 @@
       <div class="messagebox-content">
         <div class="messagebox-delete-icon"></div>
         <div class="messagebox-content-describe">
-          Bạn có chắc chắn xóa các bản ghi đã chọn?
+          Bạn có chắc chắn xóa các chứng từ đã chọn?
         </div>
       </div>
       <div class="messagebox-footer">
@@ -19,8 +19,6 @@
   </div>
 </template>
 <script>
-import axios from "axios";
-import MISAapi from "@/js/api";
 export default {
   name: "MessageDelete",
   data() {
@@ -40,15 +38,16 @@ export default {
      * Author: NHNam (5/1/2023)
      */
     async deleteEmployeeMultiple() {
-      var me = this;
-      var data = me.rowSelected;
-      try {
-        await axios.delete(MISAapi.employee.deleteMultiple, { data });
-      } catch (error) {
-        console.error(error);
-      }
-      this.$emit("cancelDeleteMultiple", false);
-      this.$emit("DeleteMultipleSuccess");
+      // var me = this;
+      // var data = me.rowSelected;
+      // try {
+      //   await axios.delete(MISAapi.employee.deleteMultiple, { data });
+      // } catch (error) {
+      //   console.error(error);
+      // }
+      // this.$emit("cancelDeleteMultiple", false);
+      // this.$emit("DeleteMultipleSuccess");
+      this.$emit("handleDeleteMultiple")
     },
   },
 };
