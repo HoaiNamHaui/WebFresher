@@ -104,7 +104,7 @@ namespace MISA.AMIS.BL.PaymentBL
             }
 
             // Bỏ trống số phiếu chi
-            if (!string.IsNullOrEmpty(payment.RefNo))
+            if (string.IsNullOrEmpty(payment.RefNo))
             {
                 validateResult.ListError.Add(Resource.EmptyRefNo);
                 validateResult.IsSuccess = false;

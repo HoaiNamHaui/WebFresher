@@ -54,7 +54,7 @@
           noDataText=""
         >
           <DxScrolling mode="standard" />
-          <DxPaging :enabled="false" :page-size="10" />
+          <DxPaging :enabled="false" :page-size="10" />expandedRowKeys
           <DxPager
             :show-page-size-selector="true"
             :allowed-page-sizes="allowedPageSizes"

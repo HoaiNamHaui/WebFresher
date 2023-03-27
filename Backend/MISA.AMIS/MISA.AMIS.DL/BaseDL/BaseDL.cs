@@ -20,7 +20,7 @@ namespace MISA.AMIS.DL.BaseDL
         /// <param name="record">Bản ghi cần thêm</param>
         /// <returns>1 nếu thêm thành công</returns>
         /// CreatedBy: NHNam(3/2/2023)
-        public int InsertRecord(T record)
+        public Guid InsertRecord(T record)
         {
             try
             {
@@ -37,12 +37,17 @@ namespace MISA.AMIS.DL.BaseDL
                     numberOfAffectedRow = mySqlConnection.Execute(storedProcedureName, parameters, commandType: System.Data.CommandType.StoredProcedure);
                     mySqlConnection.Close();
                 }
-                return numberOfAffectedRow;
+
+                if(numberOfAffectedRow > 0)
+                {
+                    return parameters.Get<Guid>($"p_{typeof(T).Name}Id");
+                }
+                return Guid.Empty;
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return 0;
+                return Guid.Empty;
             }
         }
 

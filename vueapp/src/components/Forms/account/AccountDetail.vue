@@ -599,6 +599,13 @@ export default {
         this.isValid = false;
       }
 
+      // độ dài lớn hơn 25
+      else if(this.account.AccountNumber.length > 25){
+        this.errors.accountNumber = 
+        MISAResource.vi.errorAccount.maxLength;
+        this.isValid = false;
+      }
+
       // Tài khoản chi tiết không bắt đầu bằng tài khoản cha
       else if (this.parentNumber) {
         var regex = new RegExp("^" + this.parentNumber + "*");

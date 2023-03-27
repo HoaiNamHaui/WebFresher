@@ -199,6 +199,7 @@ export default {
       this.textSelected = entity[this.propName];
       this.isShowData = false;
       this.$emit("update:modelValue", entity[this.propValue]);
+      this.$emit("selfChange");
     },
     /**
      * Bind giá trị được select, hightlight item đc chọn
@@ -211,10 +212,12 @@ export default {
       let entitySelected = this.entities.find(
         (item) => item[me.propValue] === me["modelValue"]
       );
-
       this.$emit("changeGrade", entitySelected?.Grade);
       this.$emit("getParentAccountNumber", entitySelected?.AccountNumber);
       this.$emit("getObjectName", entitySelected?.ObjectName);
+      this.$emit("getObjectCode", entitySelected?.ObjectCode);
+      this.$emit("getAddress", entitySelected?.Address);
+      this.$emit("getObjectId", entitySelected?.ObjectId);
       if (entitySelected) {
         me.textSelected = entitySelected[me.propName];
         console.log(me.textSelected);

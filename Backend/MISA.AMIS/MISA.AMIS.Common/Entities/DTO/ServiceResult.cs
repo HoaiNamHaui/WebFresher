@@ -15,6 +15,11 @@ namespace MISA.AMIS.Common.Entities.DTO
         public bool IsSuccess { get; set; }
 
         /// <summary>
+        /// Id bản ghi đã thêm
+        /// </summary>
+        public Guid Id { get; set; }
+
+        /// <summary>
         /// Mã lỗi
         /// </summary>
         public int? ErrorCode { get; set; }

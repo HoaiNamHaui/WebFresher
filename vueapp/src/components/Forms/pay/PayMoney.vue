@@ -32,6 +32,9 @@
               prop-name="ObjectCode"
               prop-value="ObjectId"
               @getObjectName="getObjectName"
+              @getObjectCode="getObjectCode"
+              @getObjectId="getObjectId"
+              @getAddress="getAddress"
             />
           </div>
           <base-small-input
@@ -129,7 +132,7 @@
         <div style="text-align: right" class="w50">
           <div>Tổng tiền</div>
           <div style="font-size: 36px; font-weight: bold">
-            {{ payment.TotalAmount }}
+            {{ formatMoney(payment.TotalAmount) }}
           </div>
         </div>
       </div>
@@ -149,7 +152,7 @@
         </tr>
         <tr v-for="(detail, index) in paymentDetails" :key="index">
           <td>{{ index + 1 }}</td>
-          <td><input type="text" v-model="detail.Description" /></td>
+          <td><input type="text" v-model="paymentDetails[index].Description" /></td>
           <td>
             <!-- <input type="text" /> -->
             <base-combobox-table
@@ -158,7 +161,7 @@
               prop-value="AccountId"
               prop-name="AccountNumber"
               :list-title="listTitle"
-              v-model="detail.DebitAccount"
+              v-model="paymentDetails[index].DebitAccount"
             />
           </td>
           <td>
@@ -169,18 +172,31 @@
               prop-value="AccountId"
               prop-name="AccountNumber"
               :list-title="listTitle"
-              v-model="detail.CreditAccount"
+              v-model="paymentDetails[index].CreditAccount"
             />
           </td>
           <td>
-            <input
+            <!-- <input
               type="text"
               v-model="detail.Amount"
               style="text-align: right"
+            /> -->
+            <base-input-money v-model="paymentDetails[index].Amount" />
+          </td>
+          <td>
+            <!-- <input type="text" v-model="detail.ObjectCode" /> -->
+            <BaseComboboxTable
+              :listTitle="objectTilte"
+              :api="objectApi"
+              v-model="detail.ObjectId"
+              prop-name="ObjectCode"
+              prop-value="ObjectId"
+              @getObjectName="paymentDetails[index].ObjectName = $event"
+              @getObjectCode="paymentDetails[index].ObjectCode = $event"
+              @selfChange="isChangeByDetail = true"
             />
           </td>
-          <td><input type="text" v-model="detail.ObjectName" /></td>
-          <td><input type="text" /></td>
+          <td><input type="text" v-model="paymentDetails[index].ObjectName" /></td>
           <td><div class="icon-delete"></div></td>
         </tr>
         <tr>
@@ -225,19 +241,23 @@
           <button class="small-button-white small-button" @click="savePayment">
             Cất
           </button>
-          <base-small-button btnName="Cất và Thêm" />
+          <!-- <base-small-button btnName="Cất và Thêm" /> -->
+          <base-button-option />
         </div>
       </div>
     </div>
     <message-error v-if="isError" :error="error" @close="isError = false" />
+    <base-loading v-if="isLoading" />
   </div>
 </template>
 <script>
 // import BaseComboboxReadOnly from "../../base/BaseComboboxReadOnly.vue";
 import BaseComboboxV2 from "../../base/BaseComboboxV2.vue";
 import BaseSmallInput from "../../base/input/BaseSmallInput.vue";
-import BaseSmallButton from "../../base/button/BaseSmallButton.vue";
+import BaseInputMoney from "@/components/base/input/BaseInputMoney.vue";
+// import BaseSmallButton from "../../base/button/BaseSmallButton.vue";
 import BaseDatepicker from "@/components/base/BaseDatepicker.vue";
+import BaseButtonOption from "@/components/base/button/BaseButtonOption.vue";
 import paymentData from "@/js/payment/payment";
 import ObjectTitle from "@/js/object/object";
 import EmployeeTitle from "@/js/employee/employee";
@@ -247,16 +267,20 @@ import BaseComboboxTable from "@/components/base/BaseComboboxTable.vue";
 import MessageError from "@/components/message/MessageError.vue";
 import MISAResource from "@/js/base/resource";
 import axios from "axios";
+import BaseLoading from "@/components/base/BaseLoading.vue";
 export default {
   name: "PayForm",
   components: {
     // BaseComboboxReadOnly,
+    BaseInputMoney,
     MessageError,
     BaseSmallInput,
-    BaseSmallButton,
+    // BaseSmallButton,
     BaseComboboxV2,
     BaseDatepicker,
     BaseComboboxTable,
+    BaseButtonOption,
+    BaseLoading
   },
   data() {
     return {
@@ -293,9 +317,21 @@ export default {
       ],
       isChangeByUser: false,
       reasonTemp: "",
+      isChangeByDetail: false,
+      isLoading: false,
     };
   },
-  watch: {},
+  watch: {
+    paymentDetails: {
+      handler: function () {
+        this.payment.TotalAmount = 0;
+        this.paymentDetails.forEach((item) => {
+          this.payment.TotalAmount += item.Amount;
+        });
+      },
+      deep: true,
+    },
+  },
   created() {
     const id = this.$route.query.id;
     if (id) {
@@ -314,6 +350,18 @@ export default {
     }
   },
   methods: {
+    /**
+     * format tiền
+     * @param {số tiền} number
+     * Author: NHNam (22/3/2023)
+     */
+    formatMoney(number) {
+      if (number) {
+        return new Intl.NumberFormat().format(number);
+      }
+      return 0;
+    },
+
     /**
      * Xóa hết dòng
      * Author: NHNam(22/3/2023)
@@ -380,8 +428,41 @@ export default {
      */
     getObjectName(e) {
       this.payment.ObjectName = e;
+      if (!this.isChangeByDetail) {
+        this.paymentDetails.forEach((element) => {
+          element.ObjectName = e;
+        });
+      }
     },
-
+    /**
+     * Nhận ObjectCOde từ combobox đối tượng
+     * Author: NHNam (24/3/2023)
+     */
+    getObjectCode(e) {
+      if (!this.isChangeByDetail) {
+        this.paymentDetails.forEach((element) => {
+          element.ObjectCode = e;
+        });
+      }
+    },
+    /**
+     * Nhận Address từ combobox đối tượng
+     * Author: NHNam (24/3/2023)
+     */
+    getAddress(e) {
+      this.payment.Address = e;
+    },
+    /**
+     * Nhận ObjectId từ combobox đối tượng
+     * Author: NHNam (24/3/2023)
+     */
+    getObjectId(e) {
+      if (!this.isChangeByDetail) {
+        this.paymentDetails.forEach((element) => {
+          element.ObjectId = e;
+        });
+      }
+    },
     /**
      * Xử lý thay đổi ngày chứng từ
      * Author: NHNam (24/3/2023)
@@ -409,8 +490,58 @@ export default {
      * Lưu phiếu chi
      * Author: NHNam (23/3/2023)
      */
-    savePayment() {
+    async savePayment() {
+      var me = this;
+      this.isLoading = true;
       this.validate();
+      if (this.isValid) {
+        try {
+          await this.callApiSavePayment();
+          if(this.payment.PaymentId){
+            // this.paymentDetails.forEach(element => {
+            //   element.PaymentId = me.payment.PaymentId;
+            // });
+            alert(this.payment.PaymentId)
+            for(var i = 0; i < me.paymentDetails.length; i++){
+              me.paymentDetails[i].PaymentId = me.payment.PaymentId;
+            }
+          }
+          await this.callApiSavePaymentDetails(); 
+          this.isLoading = false;
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    },
+    /**
+     * Cất paymentdetails
+     * Author: NHNam (27/3/2023)
+     */
+    async callApiSavePaymentDetails(){
+      var me = this;
+      var url = MISAapi.paymentDetail.base + "InsertPaymentDetails";
+      axios
+        .post(url, me.paymentDetails)
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+
+    /**
+     * Cất payment
+     * Author: NHNam (27/3/2023)
+     */
+    async callApiSavePayment() {
+      var me = this;
+      var url = MISAapi.payment.base;
+      axios
+        .post(url, me.payment)
+        .then((res) => {
+          this.payment.PaymentId = res;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
 
     /**

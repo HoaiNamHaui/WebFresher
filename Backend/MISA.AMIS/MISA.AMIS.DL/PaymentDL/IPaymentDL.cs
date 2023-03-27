@@ -33,5 +33,6 @@ namespace MISA.AMIS.DL.PaymentDL
         /// <returns>Tài khỏan</returns>
         /// CreatedBy: NHNam(12/2/2023)
         Payment GetPaymentByRefNo(Guid? id, string refNo);
+
     }
 }

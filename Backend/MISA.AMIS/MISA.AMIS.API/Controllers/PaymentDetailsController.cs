@@ -63,7 +63,7 @@ namespace MISA.AMIS.API.Controllers
         /// <param name="id">ID record</param>
         /// <returns>Employee</returns>
         /// Created by: NHNam (16/1/2023)
-        [HttpGet("{id}")]
+        [HttpGet("GetByPaymentId/{id}")]
         public IActionResult GetByPaymentId([FromRoute] Guid id)
         {
             try
@@ -83,6 +83,25 @@ namespace MISA.AMIS.API.Controllers
                 };
                 return StatusCode(StatusCodes.Status500InternalServerError, res);
 
+            }
+        }
+
+        [HttpPost("InsertPaymentDetails")]
+        public IActionResult InsertPaymentDetails([FromBody] IEnumerable<PaymentDetail> paymentDetails)
+        {
+            try
+            {
+                var listIds = _paymentDetailBL.InsertPaymentDetails(paymentDetails);
+                return StatusCode(StatusCodes.Status201Created, listIds);
+            }catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                var res = new ErrorResult
+                {
+                    DevMsg = ex.Message,
+                    UserMsg = Resource.MISAError
+                };
+                return StatusCode(StatusCodes.Status500InternalServerError, res);
             }
         }
     }

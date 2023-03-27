@@ -57,12 +57,15 @@ namespace MISA.AMIS.BL.BaseBL
                 }
                 // Thành công -> gọi vào DL để chạy Stored
                 record = AddProperties(record, true);
-                var numberOfAffectedRows = _baseDL.InsertRecord(record);
+                var id = _baseDL.InsertRecord(record);
 
                 // Xử lý kết quả trả về
-                if (numberOfAffectedRows > 0)
+                if (id != Guid.Empty)
                 {
-                    return new ServiceResult { IsSuccess = true };
+                    var props = record.GetType().GetProperties();
+                    return new ServiceResult { IsSuccess = true,
+                        Id= id,
+                    };
                 }
                 else
                 {

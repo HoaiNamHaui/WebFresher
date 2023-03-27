@@ -21,6 +21,9 @@ var MISAapi = {
     },
     "object":{
         base: "https://localhost:7116/api/MObjects",
+    },
+    "paymentDetail":{
+        base: "https://localhost:7116/api/v1/PaymentDetails/"
     }
 }
 export default MISAapi;

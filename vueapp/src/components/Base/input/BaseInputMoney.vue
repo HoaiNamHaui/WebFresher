@@ -1,11 +1,12 @@
 <template>
   <div>
     <input
-      class="input"
+      class="input-money"
       type="text"
 
       v-model="valueFormat"
       @keydown="handleBackspace"
+      style="text-align: right;;"
     />
   </div>
 </template>
@@ -23,7 +24,7 @@ export default {
   watch: {
     valueFormat: function (newValue) {
       // Cập nhật giá trị value
-      this.value = parseInt(newValue.replaceAll(".", "").replace("đ",""));
+      this.value = parseInt(newValue.replaceAll(".", ""));
       this.valueFormat = this.money;
     },
     value: function (newValue) {
@@ -31,18 +32,18 @@ export default {
     },
   },
   methods: {
-    handleBackspace(e){
-      if(e.keyCode == 8){
-        var length = this.valueFormat.length;
-        if(length >= 1)
-        this.valueFormat = this.valueFormat.slice(0, length -2)
-      }
-    }
+    // handleBackspace(e){
+    //   if(e.keyCode == 8){
+    //     var length = this.valueFormat.length;
+    //     if(length >= 1)
+    //     this.valueFormat = this.valueFormat.slice(0, length -2)
+    //   }
+    // }
   },
   computed: {
     money: function () {
       if (this.value) {
-        var money = new Intl.NumberFormat().format(this.value) + "đ";
+        var money = new Intl.NumberFormat().format(this.value);
         return money;
       }
       else{
@@ -58,5 +59,5 @@ export default {
 </script>
 
 <style scoped>
-@import url(../../../css/base/input/input.css);
+@import url(../../../css/base/input/smallinput.css);
 </style>

@@ -30,7 +30,8 @@ var MISAResource = {
             typeEmpty: "Tính chất không được để trống",
             duplicateAccount: "Số tài khoản đã tồn tại",
             childrenAccount: "Số tài khoản chi tiết phải bắt đầu bằng số của tài khoản tổng hợp",
-            minLength: "Số tài khoản phải có độ dài >= 3 ký tự"
+            minLength: "Số tài khoản phải có độ dài >= 3 ký tự",
+            maxLength: "Số tài khoản phải có độ dài <= 25 ký tự",
         },
         formAccountMode: {
             Add: "Thêm tài khoản",

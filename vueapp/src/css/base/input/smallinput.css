@@ -30,6 +30,19 @@ input[type="text"]{
     border: 1px solid #2ca01c;
 }
 
+.input-money{
+    height: 26px;
+    border-radius: 2px;
+    border: 1px solid #babec5;
+    box-sizing: border-box;
+    outline: none;
+    /* margin-top: 6px; */
+    text-indent: 8px;
+    color: #212121;
+    font-family: Notosans-Regular;
+    font-size: 13px !important;
+}
+
 .text-gray::-webkit-datetime-edit { color: #aaa; }
 .text-gray:focus::-webkit-datetime-edit { color: #000; }
 .text-gray::-webkit-calendar-picker-indicator {

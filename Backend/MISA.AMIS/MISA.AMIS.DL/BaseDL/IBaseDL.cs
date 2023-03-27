@@ -16,7 +16,7 @@ namespace MISA.AMIS.DL.BaseDL
         /// <param name="record">bản ghi cần thêm</param>
         /// <returns>Trả về 1 nếu thành công</returns>
         /// Created by: NHNam (8/1/2023)
-        int InsertRecord(T record);
+        Guid InsertRecord(T record);
 
         /// <summary>
         /// Sửa thông tin bản ghi

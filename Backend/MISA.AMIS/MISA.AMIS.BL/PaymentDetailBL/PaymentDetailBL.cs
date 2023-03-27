@@ -57,5 +57,15 @@ namespace MISA.AMIS.BL.PaymentDetailBL
             }
             return result;
         }
+
+        /// <summary>
+        /// Insert nhiều detail
+        /// </summary>
+        /// <param name="paymentDetail"></param>
+        /// <returns></returns>
+        public List<Guid> InsertPaymentDetails(IEnumerable<PaymentDetail> paymentDetails)
+        {
+            return _paymentDetailDL.InsertPaymentDetails(paymentDetails);
+        }
     }
 }

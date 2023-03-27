@@ -8,6 +8,8 @@ using MySqlConnector;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.WebSockets;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -61,6 +63,54 @@ namespace MISA.AMIS.DL.PaymentDetailDL
                 result.CurrentPage = pageNumber;
             }
             return result;
+        }
+
+        /// <summary>
+        /// Insert nhiều detail
+        /// </summary>
+        /// <param name="paymentDetail"></param>
+        /// <returns></returns>
+        public List<Guid> InsertPaymentDetails(IEnumerable<PaymentDetail> paymentDetails)
+        {
+            using (var mySqlConnection = new MySqlConnection(DatabaseContext.ConnectionString))
+            {
+                mySqlConnection.Open();
+                using( var transaction = mySqlConnection.BeginTransaction())
+                {
+                    try
+                    {
+                        int rowsEffected = 0;
+                        List<Guid> paymentDetailIds = new List<Guid>();
+                        foreach (var paymentDetail in paymentDetails)
+                        {
+                            var storedName = "Proc_PaymentDetail_Insert";
+                            var parameters = new DynamicParameters();
+                            parameters.Add("ModifiedBy", "Nguyễn Hoài Nam");
+                            parameters.Add("CreatedBy", "Nguyễn Hoài Nam");
+                            var listProps = typeof(PaymentDetail).GetProperties();
+                            foreach (var prop in listProps)
+                            {
+                                parameters.Add($"p_{prop.Name}", prop.GetValue(paymentDetail));
+                            }
+                            parameters.Add("p_PaymentDetailId", Guid.NewGuid(), System.Data.DbType.String);
+                            var numberOfAffectedRow = mySqlConnection.Execute(storedName, parameters, commandType: System.Data.CommandType.StoredProcedure, transaction:transaction);
+                            rowsEffected += numberOfAffectedRow;
+                            paymentDetailIds.Add(parameters.Get<Guid>("p_PaymentDetailId"));
+                        }
+                        if (rowsEffected != paymentDetails.Count()) transaction.Rollback();
+                        transaction.Commit();
+                        return paymentDetailIds;
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        throw new Exception(ex.Message);
+                    }
+                }
+
+
+                
+            }
         }
     }
 }

@@ -41,7 +41,7 @@ namespace MISA.AMIS.API.Controllers
                 var result = _baseBL.InsertRecord(record);
                 if (result.IsSuccess)
                 {
-                    return StatusCode(StatusCodes.Status201Created, 1);
+                    return StatusCode(StatusCodes.Status201Created, result.Id);
                 }
                 else if (!result.IsSuccess && result.ErrorCode == ErrorCode.BAD_REQUEST)
                 {

@@ -27,5 +27,12 @@ namespace MISA.AMIS.DL.PaymentDetailDL
         /// <returns></returns>
         /// CreatedBy: NHNam(3/2/2023)
         PagingResult<PaymentDetail> GetByPaymentIdAndPaging(int pageNumber, int pageSize, Guid  PaymentId);
+
+        /// <summary>
+        /// Insert nhiều detail
+        /// </summary>
+        /// <param name="paymentDetail"></param>
+        /// <returns></returns>
+        List<Guid> InsertPaymentDetails(IEnumerable<PaymentDetail> paymentDetail);
     }
 }

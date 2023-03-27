@@ -12,9 +12,13 @@ namespace MISA.AMIS.Common.Entities
     public class PaymentDetail:BaseEntities
     {
         /// <summary>
+        /// Khóa chính
+        /// </summary>
+        public Guid PaymentDetailId { get; set; }
+
+        /// <summary>
         /// khóa ngoại
         /// </summary>
-        
         public Guid PaymentId { get; set; }
 
         /// <summary>
