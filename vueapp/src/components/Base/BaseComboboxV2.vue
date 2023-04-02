@@ -1,6 +1,6 @@
 <template>
   <div class="combobox-container" :class="{ error: isError }">
-    <div class="disable-combobox" v-if="isDisable">
+    <div class="disable-combobox" v-if="isDisable" :class="{unsetOpacity: isOpacity}">
       <div class="combobox-button-icon"></div>
     </div>
     <input
@@ -132,6 +132,7 @@ export default {
     "readOnly",
     "data",
     "isDisable",
+    "isOpacity"
   ],
   emits: ["update:modelValue", "changeGrade"],
   components: {},
@@ -331,9 +332,13 @@ export default {
   background-color: #2ca01c;
   color: #fff;
 }
+.unsetOpacity{
+  opacity: unset !important;;
+}
 .disable-combobox {
   /* background-color: #000;
   opacity: 0.1; */
+  opacity: 0.1;
   background-color: #e1e1e1;
   width: 100%;
   height: 100%;

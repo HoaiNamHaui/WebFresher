@@ -86,6 +86,11 @@ namespace MISA.AMIS.API.Controllers
             }
         }
 
+        /// <summary>
+        /// Thêm nhiều payment detail
+        /// </summary>
+        /// <param name="paymentDetails"></param>
+        /// <returns></returns>
         [HttpPost("InsertPaymentDetails")]
         public IActionResult InsertPaymentDetails([FromBody] IEnumerable<PaymentDetail> paymentDetails)
         {
@@ -94,6 +99,31 @@ namespace MISA.AMIS.API.Controllers
                 var listIds = _paymentDetailBL.InsertPaymentDetails(paymentDetails);
                 return StatusCode(StatusCodes.Status201Created, listIds);
             }catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                var res = new ErrorResult
+                {
+                    DevMsg = ex.Message,
+                    UserMsg = Resource.MISAError
+                };
+                return StatusCode(StatusCodes.Status500InternalServerError, res);
+            }
+        }
+
+        /// <summary>
+        /// Sửa nhiều payment detail
+        /// </summary>
+        /// <param name="paymentDetails"></param>
+        /// <returns></returns>
+        [HttpPut("UpdatePaymentDetails")]
+        public IActionResult UpdatePaymentDetails([FromBody] IEnumerable<PaymentDetail> paymentDetails)
+        {
+            try
+            {
+                var result = _paymentDetailBL.UpdatePaymentDetails(paymentDetails);
+                return Ok(result);
+            }
+            catch(Exception ex)
             {
                 Console.WriteLine(ex.ToString());
                 var res = new ErrorResult

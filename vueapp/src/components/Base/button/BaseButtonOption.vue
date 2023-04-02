@@ -8,8 +8,8 @@
           Cất và Đóng
         </div>
       </div>
-      <button class="button-option" v-if="!toogleButton">Cất và Thêm</button>
-      <button class="button-option" v-if="toogleButton">Cất và Đóng</button>
+      <button class="button-option" @click="saveAndAdd" v-if="!toogleButton">Cất và Thêm</button>
+      <button class="button-option" @click="saveAndClose" v-if="toogleButton">Cất và Đóng</button>
       <div class="button-line"></div>
       <button
         class="button-option-icon"
@@ -29,18 +29,51 @@ export default{
     };
   },
   methods: {
+    /**
+     * Đóng chọn option
+     * Author: NHNam (20/1/2023)
+     */
     close() {
       this.isShowSelection = false;
     },
+    /**
+     * xử lí khi click vào cất và thêm
+     * Author: NHNam (20/1/2023)
+     */
     onClickSaveAndAdd() {
+      localStorage.setItem("buttonMode", false);
       this.toogleButton = false;
       this.isShowSelection = false;
+      this.saveAndAdd();
     },
+    /**
+     * xử lí khi click vào cất và đóng
+     * Author: NHNam (20/1/2023)
+     */
     onClickSaveAndClose() {
+      localStorage.setItem("buttonMode", true);
       this.toogleButton = true;
       this.isShowSelection = false;
+      this.saveAndClose();
+    },
+    /**
+     * Cất và thêm
+     * Author: NHNam (20/1/2023)
+     */
+    saveAndAdd(){
+      this.$emit("saveAndAdd");
+    },
+    /**
+     * Cất và đóng
+     * Author: NHNam (20/1/2023)
+     */
+    saveAndClose(){
+      this.$emit("saveAndClose");
     },
   },
+  created(){
+    this.toogleButton = localStorage.getItem("buttonMode");
+  }
 }
 </script>
 <style>

@@ -68,7 +68,7 @@
               v-model="account.ParentId"
               @changeGrade="account.Grade = $event ? $event + 1 : account.Grade"
               @getParentAccountNumber="parentNumber = $event"
-              @removeParentId="removeParentId"
+              @removeValue="removeParentId"
             />
           </div>
 
@@ -130,6 +130,7 @@
                       v-model="account.Object"
                       prop-name="text"
                       prop-value="value"
+                      :is-opacity="true"
                     />
                   </td>
                   <td>
@@ -161,6 +162,7 @@
                       v-model="account.Job"
                       prop-name="text"
                       prop-value="value"
+                      :is-opacity="true"
                     />
                   </td>
                   <td>
@@ -179,6 +181,7 @@
                       v-model="account.ProjectWork"
                       prop-name="text"
                       prop-value="value"
+                      :is-opacity="true"
                     />
                   </td>
                 </tr>
@@ -199,6 +202,7 @@
                       v-model="account.Order"
                       prop-name="text"
                       prop-value="value"
+                      :is-opacity="true"
                     />
                   </td>
                   <td>
@@ -217,6 +221,7 @@
                       v-model="account.SaleContract"
                       prop-name="text"
                       prop-value="value"
+                      :is-opacity="true"
                     />
                   </td>
                 </tr>
@@ -237,6 +242,7 @@
                       v-model="account.PurchaseContract"
                       prop-name="text"
                       prop-value="value"
+                      :is-opacity="true"
                     />
                   </td>
                   <td>
@@ -255,6 +261,7 @@
                       v-model="account.ExpenseItem"
                       prop-name="text"
                       prop-value="value"
+                      :is-opacity="true"
                     />
                   </td>
                 </tr>
@@ -275,6 +282,7 @@
                       v-model="account.Unit"
                       prop-name="text"
                       prop-value="value"
+                      :is-opacity="true"
                     />
                   </td>
                   <td>
@@ -293,6 +301,7 @@
                       v-model="account.Item"
                       prop-name="text"
                       prop-value="value"
+                      :is-opacity="true"
                     />
                   </td>
                 </tr>
@@ -763,9 +772,10 @@ export default {
      */
     changeCheckboxTrackObject(active) {
       this.account.IsTrackObject = active;
-      if (this.account.IsTrackObject) {
-        this.account.Object = MISAEnum.OBJECT.CUSTOMER;
-      }
+      // if (this.account.IsTrackObject) {
+      //   this.account.Object = MISAEnum.OBJECT.CUSTOMER;
+      // }
+      this.account.Object = MISAEnum.OBJECT.CUSTOMER;
     },
     /**
      * check theo dõi theo tổng hợp chi phí
@@ -773,9 +783,10 @@ export default {
      */
     changeCheckboxTrackJob(active) {
       this.account.IsTrackJob = active;
-      if (this.account.IsTrackJob) {
-        this.account.Job = MISAEnum.FOLLOW_DETAIL.ONLY_WARNING;
-      }
+      // if (this.account.IsTrackJob) {
+      //   this.account.Job = MISAEnum.FOLLOW_DETAIL.ONLY_WARNING;
+      // }
+      this.account.Job = MISAEnum.FOLLOW_DETAIL.ONLY_WARNING;
     },
     /**
      * check theo dõi theo đơn hàng
@@ -783,9 +794,10 @@ export default {
      */
     changeCheckboxTrackOrder(active) {
       this.account.IsTrackOrder = active;
-      if (this.account.IsTrackOrder) {
-        this.account.Order = MISAEnum.FOLLOW_DETAIL.ONLY_WARNING;
-      }
+      // if (this.account.IsTrackOrder) {
+      //   this.account.Order = MISAEnum.FOLLOW_DETAIL.ONLY_WARNING;
+      // }
+      this.account.Order = MISAEnum.FOLLOW_DETAIL.ONLY_WARNING;
     },
     /**
      * check theo dõi theo hợp đồng mua
@@ -793,9 +805,10 @@ export default {
      */
     changeCheckboxTrackPurchaseContract(active) {
       this.account.IsTrackPurchaseContract = active;
-      if (this.account.IsTrackPurchaseContract) {
-        this.account.PurchaseContract = MISAEnum.FOLLOW_DETAIL.ONLY_WARNING;
-      }
+      // if (this.account.IsTrackPurchaseContract) {
+      //   this.account.PurchaseContract = MISAEnum.FOLLOW_DETAIL.ONLY_WARNING;
+      // }
+      this.account.PurchaseContract = MISAEnum.FOLLOW_DETAIL.ONLY_WARNING;
     },
     /**
      * check theo dõi theo tổ chức đơn vị
@@ -803,9 +816,10 @@ export default {
      */
     changeCheckboxTrackOrganizationUnit(active) {
       this.account.IsTrackOrganizationUnit = active;
-      if (this.account.IsTrackOrganizationUnit) {
-        this.account.Unit = MISAEnum.FOLLOW_DETAIL.REQUIRE;
-      }
+      // if (this.account.IsTrackOrganizationUnit) {
+      //   this.account.Unit = MISAEnum.FOLLOW_DETAIL.REQUIRE;
+      // }
+      this.account.Unit = MISAEnum.FOLLOW_DETAIL.ONLY_WARNING;
     },
     /**
      * check theo dõi theo tài khoản ngân hàng
@@ -813,9 +827,10 @@ export default {
      */
     changeCheckboxTrackBankAccount(active) {
       this.account.IsTrackBankAccount = active;
-      if (this.account.IsTrackBankAccount) {
-        this.account.BankAccount = MISAEnum.FOLLOW_DETAIL.REQUIRE;
-      }
+      // if (this.account.IsTrackBankAccount) {
+      //   this.account.BankAccount = MISAEnum.FOLLOW_DETAIL.ONLY_WARNING;
+      // }
+      this.account.BankAccount = MISAEnum.FOLLOW_DETAIL.ONLY_WARNING;
     },
     /**
      * check theo dõi theo công trình
@@ -823,9 +838,10 @@ export default {
      */
     changeCheckboxTrackProjectWork(active) {
       this.account.IsTrackProjectWork = active;
-      if (this.account.IsTrackProjectWork) {
-        this.account.ProjectWork = MISAEnum.FOLLOW_DETAIL.REQUIRE;
-      }
+      // if (this.account.IsTrackProjectWork) {
+      //   this.account.ProjectWork = MISAEnum.FOLLOW_DETAIL.ONLY_WARNING;
+      // }
+      this.account.ProjectWork = MISAEnum.FOLLOW_DETAIL.ONLY_WARNING;
     },
     /**
      * check theo dõi theo hợp đồng mua
@@ -833,9 +849,10 @@ export default {
      */
     changeCheckboxTrackSaleContract(active) {
       this.account.IsTrackSaleContract = active;
-      if (this.account.IsTrackSaleContract) {
-        this.account.SaleContract = MISAEnum.FOLLOW_DETAIL.REQUIRE;
-      }
+      // if (this.account.IsTrackSaleContract) {
+      //   this.account.SaleContract = MISAEnum.FOLLOW_DETAIL.ONLY_WARNING;
+      // }
+      this.account.SaleContract = MISAEnum.FOLLOW_DETAIL.ONLY_WARNING;
     },
     /**
      * check theo dõi theo khoản mục cp
@@ -843,20 +860,21 @@ export default {
      */
     changeCheckboxTrackExpenseItem(active) {
       this.account.IsTrackExpenseItem = active;
-      if (this.account.IsTrackExpenseItem) {
-        this.account.ExpenseItem = MISAEnum.FOLLOW_DETAIL.REQUIRE;
-      }
+      // if (this.account.IsTrackExpenseItem) {
+      //   this.account.ExpenseItem = MISAEnum.FOLLOW_DETAIL.ONLY_WARNING;
+      // }
+      this.account.ExpenseItem = MISAEnum.FOLLOW_DETAIL.ONLY_WARNING;
     },
     /**
      * check theo dõi theo mã thống kê
      * Author: NHNam (203/2023)
      */
     changeCheckboxTrackItem(active) {
-      console.log(active);
       this.account.IsTrackItem = active;
-      if (this.account.IsTrackItem) {
-        this.account.Item = MISAEnum.FOLLOW_DETAIL.REQUIRE;
-      }
+      // if (this.account.IsTrackItem) {
+      //   this.account.Item = MISAEnum.FOLLOW_DETAIL.ONLY_WARNING;
+      // }
+      this.account.Item = MISAEnum.FOLLOW_DETAIL.ONLY_WARNING;
     },
     /**
      * đóng form

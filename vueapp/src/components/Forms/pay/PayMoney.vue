@@ -10,6 +10,7 @@
             v-model="payment.ReasonType"
             propName="text"
             propValue="value"
+            :isDisable="!isAddMode"
           />
         </div>
         <!-- <BaseComboboxV2 :data="dataPayType" v-model="dataPayTypeDefault"/> -->
@@ -34,7 +35,8 @@
               @getObjectName="getObjectName"
               @getObjectCode="getObjectCode"
               @getObjectId="getObjectId"
-              @getAddress="getAddress"
+              @getAddw100validateress="getAddress"
+              :isDisable="!isAddMode"
             />
           </div>
           <base-small-input
@@ -42,6 +44,7 @@
             class="custom-padding-input w55"
             v-model="payment.ObjectName"
             @getTempReson="getTempReson"
+            :isDisable="!isAddMode"
           />
         </div>
         <div class="pay-form-left-second-line flex w100">
@@ -49,11 +52,13 @@
             label="Người nhận"
             class="custom-padding-input w45"
             v-model="payment.Reciver"
+            :isDisable="!isAddMode"
           />
           <base-small-input
             label="Địa chỉ"
             class="custom-padding-input w55"
             v-model="payment.Address"
+            :isDisable="!isAddMode"
           />
         </div>
         <div class="pay-form-left-third-line flex w100">
@@ -63,6 +68,7 @@
             style="margin-right: 12px"
             v-model="payment.Reason"
             @checkChangeByUser="checkChangeByUser"
+            :isDisable="!isAddMode"
           />
         </div>
         <div class="pay-form-left-fourth-line flex w100">
@@ -76,6 +82,7 @@
               style="margin-top: unset !important; margin-bottom: 8px"
               prop-name="EmployeeCode"
               prop-value="EmployeeId"
+              :isDisable="!isAddMode"
             />
           </div>
           <base-small-input
@@ -84,6 +91,7 @@
             v-model="payment.Attachment"
             placeholder-input="Số lượng"
             text-align="right"
+            :isDisable="!isAddMode"
           />
           <div style="padding-top: 20px; padding-left: 6px">chứng từ gốc</div>
         </div>
@@ -104,6 +112,8 @@
               date-name="postedDate"
               v-model="payment.PostedDate"
               @changeDate="handleDateChange"
+              :isDisable="!isAddMode"
+              name="postedDate"
             />
           </div>
           <div
@@ -116,6 +126,8 @@
               dateName="refDate"
               v-model="payment.RefDate"
               @changeDate="handleRefDateChange"
+              :isDisable="!isAddMode"
+              name="refDate"
             />
           </div>
           <div
@@ -125,7 +137,9 @@
             <base-small-input
               :error="errors.refNo"
               label="Số phiếu chi"
+              style="min-width: 150px"
               v-model="payment.RefNo"
+              :isDisable="!isAddMode"
             />
           </div>
         </div>
@@ -151,8 +165,15 @@
           <th></th>
         </tr>
         <tr v-for="(detail, index) in paymentDetails" :key="index">
+          <!-- <td>{{ JSON.stringify(detail) }}</td> -->
           <td>{{ index + 1 }}</td>
-          <td><input type="text" v-model="paymentDetails[index].Description" /></td>
+          <td>
+            <input
+              type="text"
+              v-model="paymentDetails[index].Description"
+              :disabled="!isAddMode"
+            />
+          </td>
           <td>
             <!-- <input type="text" /> -->
             <base-combobox-table
@@ -162,6 +183,8 @@
               prop-name="AccountNumber"
               :list-title="listTitle"
               v-model="paymentDetails[index].DebitAccount"
+              :defaultValue="true"
+              :isDisable="!isAddMode"
             />
           </td>
           <td>
@@ -173,6 +196,8 @@
               prop-name="AccountNumber"
               :list-title="listTitle"
               v-model="paymentDetails[index].CreditAccount"
+              :defaultValue="true"
+              :isDisable="!isAddMode"
             />
           </td>
           <td>
@@ -181,11 +206,15 @@
               v-model="detail.Amount"
               style="text-align: right"
             /> -->
-            <base-input-money v-model="paymentDetails[index].Amount" />
+            <base-input-money
+              v-model="paymentDetails[index].Amount"
+              :isDisable="!isAddMode"
+            />
           </td>
           <td>
             <!-- <input type="text" v-model="detail.ObjectCode" /> -->
             <BaseComboboxTable
+              style="margin-top: 0 !important"
               :listTitle="objectTilte"
               :api="objectApi"
               v-model="detail.ObjectId"
@@ -194,17 +223,26 @@
               @getObjectName="paymentDetails[index].ObjectName = $event"
               @getObjectCode="paymentDetails[index].ObjectCode = $event"
               @selfChange="isChangeByDetail = true"
+              :isDisable="!isAddMode"
             />
           </td>
-          <td><input type="text" v-model="paymentDetails[index].ObjectName" /></td>
-          <td><div class="icon-delete"></div></td>
+          <td>
+            <input
+              type="text"
+              v-model="paymentDetails[index].ObjectName"
+              :isDisable="!isAddMode"
+            />
+          </td>
+          <td><div class="icon-delete" @click="deleteLine(index)"></div></td>
         </tr>
         <tr>
           <td></td>
           <td></td>
           <td></td>
           <td></td>
-          <td style="text-align: right; font-size: 14px">0</td>
+          <td style="text-align: right; font-size: 14px">
+            {{ formatMoney(payment.TotalAmount) || "" }}
+          </td>
           <td></td>
           <td></td>
           <td></td>
@@ -213,7 +251,7 @@
       <div class="pay-control-detail">
         <button
           class="button-white"
-          id="btnCancel"
+          id="btAdd"
           style="height: 24px !important; line-height: 24px; font-size: 12px"
           @click="addLine"
         >
@@ -238,11 +276,25 @@
           Hủy
         </button>
         <div style="display: flex; align-items: center; padding-right: 20px">
-          <button class="small-button-white small-button" @click="savePayment">
+          <button
+            v-if="!isAddMode"
+            class="small-button-white small-button"
+            @click="editPayment"
+          >
+            Sửa
+          </button>
+          <button
+            v-if="isAddMode"
+            class="small-button-white small-button"
+            @click="savePayment"
+          >
             Cất
           </button>
           <!-- <base-small-button btnName="Cất và Thêm" /> -->
-          <base-button-option />
+          <base-button-option
+            @saveAndAdd="saveAndAdd"
+            @saveAndClose="saveAndClose"
+          />
         </div>
       </div>
     </div>
@@ -268,6 +320,7 @@ import MessageError from "@/components/message/MessageError.vue";
 import MISAResource from "@/js/base/resource";
 import axios from "axios";
 import BaseLoading from "@/components/base/BaseLoading.vue";
+
 export default {
   name: "PayForm",
   components: {
@@ -280,7 +333,7 @@ export default {
     BaseDatepicker,
     BaseComboboxTable,
     BaseButtonOption,
-    BaseLoading
+    BaseLoading,
   },
   data() {
     return {
@@ -293,6 +346,7 @@ export default {
         PostedDate: new Date(),
         RefDate: new Date(),
         Reason: "Chi tiền cho ",
+        TotalAmount: 0,
       },
       objectApi: MISAapi.object.base,
       objectTilte: ObjectTitle.listTitle,
@@ -300,11 +354,12 @@ export default {
         MISAapi.employee.filter +
         `pageSize=${this.pageSize}&pageNumber=${this.pageNumber}`,
       employeeTitle: EmployeeTitle.listTitle,
-
+      isAddMode: true,
       errors: {
         postedDate: "",
         refDate: "",
         refNo: "",
+        accountDetail: "",
       },
       isValid: false,
       isSameDate: true,
@@ -313,6 +368,8 @@ export default {
       paymentDetails: [
         {
           Description: MISAResource.vi.payment.reason,
+          PaymentId: null,
+          Amount: 0,
         },
       ],
       isChangeByUser: false,
@@ -323,11 +380,12 @@ export default {
   },
   watch: {
     paymentDetails: {
-      handler: function () {
-        this.payment.TotalAmount = 0;
-        this.paymentDetails.forEach((item) => {
-          this.payment.TotalAmount += item.Amount;
-        });
+      handler: function (newValue, oldValue) {
+        console.log({ newValue });
+        console.log({ oldValue });
+        this.payment.TotalAmount = this.paymentDetails.reduce((result, cur) => {
+          return (result += cur.Amount);
+        }, 0);
       },
       deep: true,
     },
@@ -335,12 +393,19 @@ export default {
   created() {
     const id = this.$route.query.id;
     if (id) {
+      this.isAddMode = false;
       var url = MISAapi.payment.base + id;
       axios
         .get(url)
         .then((res) => {
-          console.log(res.data);
           this.payment = res.data;
+        })
+        .then(() => {
+          axios
+            .get(MISAapi.paymentDetail.base + "GetByPaymentId/" + id)
+            .then((res) => {
+              this.paymentDetails = res.data;
+            });
         })
         .catch((error) => {
           console.log(error);
@@ -350,6 +415,56 @@ export default {
     }
   },
   methods: {
+    /**
+     * Cất và thêm
+     * Author: NHNam (20/1/2023)
+     */
+    async saveAndAdd(){
+      await this.savePayment();
+      this.payment = {
+        RefNo: "",
+        ReasonType: paymentData.options[6].value,
+        PostedDate: new Date(),
+        RefDate: new Date(),
+        Reason: "Chi tiền cho ",
+        TotalAmount: 0,
+      };
+      this.paymentDetails = [
+        {
+          Description: MISAResource.vi.payment.reason,
+          PaymentId: null,
+          Amount: 0,
+        },
+      ];
+
+      this.getNewRefNo();
+      this.isAddMode = true;
+    },
+    /**
+     * Cất và đóng
+     * Author: NHNam (20/1/2023)
+     */
+     async saveAndClose(){
+      await this.savePayment();
+      this.closeForm();
+    },
+
+    /**
+     * Xóa 1 dòng theo index
+     * Author: NHNam (28/3/2023)
+     */
+    deleteLine(index) {
+      this.paymentDetails.splice(index, 1);
+    },
+
+    /**
+     * Bỏ disable để sửa payment
+     * Author: NHNam (28/3/2023)
+     */
+    editPayment() {
+      this.isAddMode = true;
+    },
+
     /**
      * format tiền
      * @param {số tiền} number
@@ -380,10 +495,11 @@ export default {
      */
     addLine() {
       var numberOfDetail = this.paymentDetails.length;
-      this.paymentDetails = [
-        ...this.paymentDetails,
-        this.paymentDetails[numberOfDetail - 1],
-      ];
+
+      // var newObjectJson = JSON.stringify(this.paymentDetails[numberOfDetail - 1]);
+      // var newObject = JSON.parse(newObjectJson);
+      let newLine = Object.assign({}, this.paymentDetails[numberOfDetail - 1]);
+      this.paymentDetails = [...this.paymentDetails, newLine];
     },
 
     /**
@@ -482,7 +598,9 @@ export default {
      */
     handleDateChange() {
       if (this.isSameDate) {
-        this.payment.RefDate = this.payment.PostedDate;
+        var dateClone = JSON.stringify(this.payment.PostedDate);
+        // this.payment.RefDate = this.payment.PostedDate;
+        this.payment.RefDate = JSON.parse(dateClone);
       }
       this.handleRefDateChange();
     },
@@ -491,40 +609,49 @@ export default {
      * Author: NHNam (23/3/2023)
      */
     async savePayment() {
-      var me = this;
       this.isLoading = true;
       this.validate();
       if (this.isValid) {
         try {
-          await this.callApiSavePayment();
-          if(this.payment.PaymentId){
-            // this.paymentDetails.forEach(element => {
-            //   element.PaymentId = me.payment.PaymentId;
-            // });
-            alert(this.payment.PaymentId)
-            for(var i = 0; i < me.paymentDetails.length; i++){
-              me.paymentDetails[i].PaymentId = me.payment.PaymentId;
-            }
+          if (!this.payment.PaymentId) {
+            await this.callApiSavePayment();
+            // await this.callApiSavePaymentDetails();
+            this.isLoading = false;
+            this.isAddMode = false;
+          } else {
+            await this.callApiUpdatePayment();
+            // await this.callApiSavePaymentDetails();
+            this.isLoading = false;
+            this.isAddMode = false;
           }
-          await this.callApiSavePaymentDetails(); 
-          this.isLoading = false;
         } catch (error) {
           console.log(error);
         }
+      } else {
+        this.isLoading = false;
       }
     },
     /**
      * Cất paymentdetails
      * Author: NHNam (27/3/2023)
      */
-    async callApiSavePaymentDetails(){
+    async callApiSavePaymentDetails() {
       var me = this;
       var url = MISAapi.paymentDetail.base + "InsertPaymentDetails";
-      axios
-        .post(url, me.paymentDetails)
-        .catch((error) => {
-          console.log(error);
-        });
+      await axios.post(url, me.paymentDetails).catch((error) => {
+        console.log(error);
+      });
+    },
+    /**
+     * Update paymentdetails
+     * Author: NHNam (27/3/2023)
+     */
+    async callApiUpdatePaymentDetails() {
+      var me = this;
+      var url = MISAapi.paymentDetail.base + "UpdatePaymentDetails";
+      await axios.put(url, me.paymentDetails).catch((error) => {
+        console.log(error);
+      });
     },
 
     /**
@@ -537,10 +664,70 @@ export default {
       axios
         .post(url, me.payment)
         .then((res) => {
-          this.payment.PaymentId = res;
+          console.log(res);
+          me.payment.PaymentId = res.data;
+          // for (var i = 0; i < me.paymentDetails.length; i++) {
+          //   me.paymentDetails[i].PaymentId = res.data;
+          // }
+          me.paymentDetails = me.paymentDetails.map((item) => {
+            return {
+              ...item,
+              PaymentId: res.data,
+            };
+          });
+          me.callApiSavePaymentDetails();
+          axios
+            .get(
+              MISAapi.paymentDetail.base +
+                "GetByPaymentId/" +
+                me.payment.PaymentId
+            )
+            .then((res) => {
+              this.paymentDetails = res.data;
+            });
         })
-        .catch((error) => {
-          console.log(error);
+        // .then(() => {
+        //   for (var i = 0; i < me.paymentDetails.length; i++) {
+        //     me.paymentDetails[i].PaymentId = me.payment.PaymentId;
+        //   }
+        // })
+        .catch((res) => {
+          this.errors.refNo = res.response.data.MoreInfo.ListError[0];
+          this.isAddMode = true;
+          this.sendErrorMessage();
+        });
+    },
+    /**
+     * Sửa payment
+     * Author: NHNam (27/3/2023)
+     */
+    async callApiUpdatePayment() {
+      var me = this;
+      var url = MISAapi.payment.base + this.payment.PaymentId;
+      axios
+        .put(url, me.payment)
+        .then(() => {
+          // me.paymentDetails = me.paymentDetails.map((item) => {
+          //   return {
+          //     ...item,
+          //     PaymentId: res.data,
+          //   };
+          // });
+          me.callApiUpdatePaymentDetails();
+          axios
+            .get(
+              MISAapi.paymentDetail.base +
+                "GetByPaymentId/" +
+                me.payment.PaymentId
+            )
+            .then((res) => {
+              this.paymentDetails = res.data;
+            });
+        })
+        .catch((res) => {
+          this.errors.refNo = res.response.data.MoreInfo.ListError[0];
+          this.isAddMode = true;
+          this.sendErrorMessage();
         });
     },
 
@@ -548,16 +735,21 @@ export default {
      * Validate phiếu chi
      * Author: NHNam (23/3/2023)
      */
-    validate() {
+    async validate() {
       this.resetError();
       // Ngày hạch toán trống
-      if (!this.payment.PostedDate || this.payment.PostedDate == undefined) {
-        this.errors.postedDate = "Ngày hạch toán không được để trống";
+      if (
+        !this.payment.PostedDate ||
+        this.payment.PostedDate === undefined ||
+        this.payment.PostedDate === null
+      ) {
+        this.errors.postedDate = MISAResource.vi.errorPayment.postedDate;
         this.isValid = false;
       }
+
       // Ngày phiếu chi trống
-      if (!this.payment.RefDate || this.payment.RefDate == undefined) {
-        this.errors.refDate = "Ngày phiếu chi không được để trống";
+      else if (!this.payment.RefDate || this.payment.RefDate === undefined) {
+        this.errors.refDate = MISAResource.vi.errorPayment.refDate;
         this.isValid = false;
       }
       // Ngày hạch toán nhỏ hơn
@@ -565,21 +757,40 @@ export default {
         var postDate = new Date(this.payment.PostedDate);
         var refDate = new Date(this.payment.RefDate);
         if (postDate.getTime() < refDate.getTime()) {
-          this.errors.postedDate = "Ngày hạch toán phải lớn hơn ngày phiếu chi";
+          this.errors.postedDate = MISAResource.vi.errorPayment.invalidDate;
           this.isValid = false;
         }
       }
 
       // Trống số phiếu chi
       if (!this.payment.RefNo) {
-        this.errors.refNo = "Số phiếu chi không được để trống";
+        this.errors.refNo = MISAResource.vi.errorPayment.refNo;
         this.isValid = false;
+      }
+
+      // Bỏ trống tài khoản nợ ở detail
+      for (let i = 0; i < this.paymentDetails.length; i++) {
+        if (!this.paymentDetails[i].DebitAccount) {
+          this.errors.accountDetail = MISAResource.vi.errorPayment.debitAccount;
+          this.isValid = false;
+          break;
+        }
+      }
+      // Bỏ trống tài khoản có ở detail
+      for (let i = 0; i < this.paymentDetails.length; i++) {
+        if (!this.paymentDetails[i].CreditAccount) {
+          this.errors.accountDetail =
+            MISAResource.vi.errorPayment.creditAccount;
+          this.isValid = false;
+          break;
+        }
       }
 
       if (
         !this.errors.postedDate &&
         !this.errors.refDate &&
-        !this.errors.refNo
+        !this.errors.refNo &&
+        !this.errors.accountDetail
       ) {
         this.isValid = true;
       } else {
@@ -604,6 +815,10 @@ export default {
 
       if (this.errors.refNo) {
         this.error = this.errors.refNo;
+        this.isError = true;
+      }
+      if (this.errors.accountDetail) {
+        this.error = this.errors.accountDetail;
         this.isError = true;
       }
     },

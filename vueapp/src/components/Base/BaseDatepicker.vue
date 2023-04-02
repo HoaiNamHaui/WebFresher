@@ -1,5 +1,5 @@
 <template>
-  <div class="date_wrapper">
+  <div class="date_wrapper" @click="handleDisable">
     <DatePicker
       style="min-width: 150px; padding: 0px; border: 0px"
       class="textfield__input"
@@ -21,6 +21,7 @@
       <template #dp-input="{ value }">
         <div class="date-picker__wrapper">
           <input
+            style="border: 1px solid #babec5;"
             class="input-small"
             :class="{
               textfield__input: true,
@@ -36,6 +37,7 @@
             :tabindex="tabIndex"
             @blur="blurInputValue"
             @input="onInputValue"
+            :disabled="isDisable"
           />
           <p class="text-error">{{ errorMsg }}</p>
           <p v-if="!date" class="date-picker__icon">
@@ -88,11 +90,21 @@ export default {
     },
     tabIndex: Number,
     modelValue: [String, Date],
+    isDisable: Boolean,
     dateName: String,
     tooltipError: Boolean,
     tooltipContent: String,
   },
   methods: {
+    handleDisable(){
+      console.log(this.$refs[this.dateName]);
+      if(this.isDisable){
+        console.log(this.$refs[this.dateName]);
+        // this.$refs[].closeMenu();
+        
+        // datepicker.value.closeMenu();
+      }
+    },
     /**
      * Truyền sự kiện date thay đổi
      * Author : NHNam (05/1/2023)
@@ -117,7 +129,7 @@ export default {
       } else {
         this.date = null;
         this.$refs[this.name] = "";
-        this.$emit("update:modelValue", undefined, this.name);
+        this.$emit("update:modelValue", null, this.name);
       }
     },
     /**
@@ -138,7 +150,7 @@ export default {
     },
     /**
      * Check date hợp lệ
-     * Author : Văn anh (05/1/2023)
+     * Author : Author : NHNam (05/1/2023)
      */
     isValidDate(event) {
       //   var propertyName = this.dateName;

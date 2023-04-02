@@ -3,22 +3,22 @@
     <input
       class="input-money"
       type="text"
-
       v-model="valueFormat"
       @keydown="handleBackspace"
-      style="text-align: right;;"
+      style="text-align: right"
+      :disabled="isDisable"
     />
   </div>
 </template>
 <script>
 export default {
   name: "BaseInputMoney",
-  props: ["modelValue"],
+  props: ["modelValue", "isDisable"],
   emits: ["update:modelValue"],
   data() {
     return {
-      value: null,
-      valueFormat: null,
+      value: 0,
+      valueFormat: 0,
     };
   },
   watch: {
@@ -30,6 +30,10 @@ export default {
     value: function (newValue) {
       this.$emit("update:modelValue", newValue);
     },
+    modelValue: function(newValue){
+      this.value = newValue;
+      this.valueFormat = this.money;
+    }
   },
   methods: {
     // handleBackspace(e){
@@ -45,8 +49,7 @@ export default {
       if (this.value) {
         var money = new Intl.NumberFormat().format(this.value);
         return money;
-      }
-      else{
+      } else {
         return "";
       }
     },

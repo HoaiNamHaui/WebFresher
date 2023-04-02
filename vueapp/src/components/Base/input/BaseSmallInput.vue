@@ -20,6 +20,7 @@
       :tabindex="tabindex"
       :placeholder="placeholderInput"
       :style="{ textAlign: textAlign }"
+      :disabled="isDisable"
     />
     <br />
     <div class="input-tooltip-error" v-if="isError">{{ error }}</div>
@@ -29,6 +30,7 @@
 export default {
   name: "BaseInput",
   props: {
+    isDisable: Boolean,
     label: String,
     require: Boolean,
     modelValue: String,

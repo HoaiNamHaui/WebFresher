@@ -41,6 +41,14 @@ var MISAResource = {
         GUID_EMPTY: "00000000-0000-0000-0000-000000000000",
         payment: {
             reason: "Chi tiền cho "
+        },
+        errorPayment:{
+            postedDate: "Ngày hạch toán không được để trống",
+            refDate : "Ngày phiếu chi không được để trống",
+            invalidDate: "Ngày hạch toán phải lớn hơn ngày phiếu chi",
+            refNo: "Số phiếu chi không được để trống",
+            debitAccount: "Tài khoản nợ không được bỏ trống",
+            creditAccount: "Tài khoản có không được bỏ trống"
         }
     },
     "en":{

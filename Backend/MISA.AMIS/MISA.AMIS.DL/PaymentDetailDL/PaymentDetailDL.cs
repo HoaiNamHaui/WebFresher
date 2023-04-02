@@ -85,6 +85,7 @@ namespace MISA.AMIS.DL.PaymentDetailDL
                         {
                             var storedName = "Proc_PaymentDetail_Insert";
                             var parameters = new DynamicParameters();
+                            parameters.Add("PaymentDetailId", Guid.NewGuid());
                             parameters.Add("ModifiedBy", "Nguyễn Hoài Nam");
                             parameters.Add("CreatedBy", "Nguyễn Hoài Nam");
                             var listProps = typeof(PaymentDetail).GetProperties();
@@ -106,10 +107,49 @@ namespace MISA.AMIS.DL.PaymentDetailDL
                         transaction.Rollback();
                         throw new Exception(ex.Message);
                     }
+                } 
+            }
+        }
+
+        /// <summary>
+        /// Update nhiều payment detail
+        /// </summary>
+        /// <param name="paymentDetails">Mảng các payment detail</param>
+        /// <returns></returns>
+        public int UpdatePaymentDetails(IEnumerable<PaymentDetail> paymentDetails)
+        {
+            using (var mySqlConnection = new MySqlConnection(DatabaseContext.ConnectionString))
+            {
+                mySqlConnection.Open();
+                using (var transaction = mySqlConnection.BeginTransaction())
+                {
+                    try
+                    {
+                        int rowsEffected = 0;
+                        foreach (var paymentDetail in paymentDetails)
+                        {
+                            var storedName = "Proc_PaymentDetail_Update";
+                            var parameters = new DynamicParameters();
+                            parameters.Add("PaymentDetailId", Guid.NewGuid());
+                            parameters.Add("ModifiedBy", "Nguyễn Hoài Nam");
+                            var listProps = typeof(PaymentDetail).GetProperties();
+                            foreach (var prop in listProps)
+                            {
+                                parameters.Add($"p_{prop.Name}", prop.GetValue(paymentDetail));
+                            }
+                            var numberOfAffectedRow = mySqlConnection.Execute(storedName, parameters, commandType: System.Data.CommandType.StoredProcedure, transaction: transaction);
+                            rowsEffected ++;  
+                        }
+                        if (rowsEffected != paymentDetails.Count()) transaction.Rollback();
+                        transaction.Commit();
+                        return rowsEffected;
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        throw new Exception(ex.Message);
+                    }
                 }
-
-
-                
             }
         }
     }

@@ -44,12 +44,20 @@ namespace MISA.AMIS.Common.Entities
         /// <summary>
         /// Tài khoản nợ
         /// </summary>
-        public string? DebitAccount { get; set; }
+        public Guid DebitAccount { get; set; }
+        /// <summary>
+        /// Số tài khoản nợ
+        /// </summary>
+        public String? DebitAccountNumber { get; set; }
 
         /// <summary>
         /// Tài khoản có
         /// </summary>
-        public string? CreditAccount { get; set; }
+        public Guid CreditAccount { get; set; }
+        /// <summary>
+        /// Số tài khoản có
+        /// </summary>
+        public String? CreditAccountNumber { get; set; }
 
         /// <summary>
         /// Diễn giải

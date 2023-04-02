@@ -31,7 +31,7 @@
               @focus="this.focusSearch = true"
               @blur="this.focusSearch = false"
               type="text"
-              placeholder="Tìm theo mã, tên nhân viên"
+              placeholder="Tìm kiếm"
               v-debounce:1s="debounceSearch"
               class="pay-search-custom"
             />
@@ -79,7 +79,11 @@
             <th class="align-left w300">Địa chỉ</th>
             <th class="align-center w150">Chức năng</th>
           </tr>
-          <tr v-for="(item, index) in payments" v-bind:key="index" @click="paymentSelected = item">
+          <tr
+            v-for="(item, index) in payments"
+            v-bind:key="index"
+            @click="getDetails(item)"
+          >
             <td class="w50px">
               <base-checkbox
                 :checked="rowSelected.includes(item.PaymentId)"
@@ -92,7 +96,7 @@
             <td class="w130">{{ item.RefNo }}</td>
             <td class="w200">{{ item.Reason }}</td>
             <td class="align-right w150" style="padding-right: 8px">
-              {{ item.TotalAmount }}
+              {{ formatMoney(item.TotalAmount) }}
             </td>
             <td class="w150">{{ item.ObjectCode }}</td>
             <td class="w200">{{ item.ObjectName }}</td>
@@ -116,7 +120,7 @@
               class="align-right"
               style="padding-right: 8px; font-weight: bold"
             >
-              {{ sumTotalAmount }}
+              {{ formatMoney(sumTotalAmount) }}
             </td>
             <td></td>
             <td></td>
@@ -180,7 +184,16 @@
               <th class="w150 align-left">Đối tượng</th>
               <th class="w400 align-left">Tên đối tượng</th>
             </tr>
-            <tr>
+            <tr v-for="(item, index) in paymentDetails" :key="index">
+              <td class="align-center">{{ index + 1 }}</td>
+              <td>{{ item.Description }}</td>
+              <td>{{ item.DebitAccountNumber }}</td>
+              <td>{{ item.CreditAccountNumber }}</td>
+              <td class="align-right w150" style="padding-right: 8px">{{ formatMoney(item.Amount) }}</td>
+              <td>{{ item.ObjectCode }}</td>
+              <td>{{ item.ObjectName }}</td>
+            </tr>
+            <!-- <tr>
               <td class="align-center">1</td>
               <td>Chi tiền cho CÔNG TY TNHH ABCBOOK</td>
               <td>1121</td>
@@ -197,16 +210,7 @@
               <td class="align-right w150" style="padding-right: 8px">0</td>
               <td>NCC00017</td>
               <td>CÔNG TY TNHH ABCBOOK</td>
-            </tr>
-            <tr>
-              <td class="align-center">1</td>
-              <td>Chi tiền cho CÔNG TY TNHH ABCBOOK</td>
-              <td>1121</td>
-              <td>1111</td>
-              <td class="align-right w150" style="padding-right: 8px">0</td>
-              <td>NCC00017</td>
-              <td>CÔNG TY TNHH ABCBOOK</td>
-            </tr>
+            </tr> -->
             <tr>
               <td></td>
               <td class="align-center" style="font-weight: bold">Tổng</td>
@@ -216,7 +220,7 @@
                 class="align-right"
                 style="padding-right: 8px; font-weight: bold"
               >
-                0
+                {{ formatMoney(TotalAmountDetail) }}
               </td>
               <td></td>
               <td></td>
@@ -231,13 +235,13 @@
           <div class="total-record">
             Tổng số:
             <span style="font-family: Notosans-SemiBold">{{
-              totalRecord
+              totalRecordDetail
             }}</span>
             bản ghi
           </div>
           <div class="pagination">
             <div class="pages-option">
-              {{ pageSize }} bản ghi trên 1 trang
+              {{ pageSizeDetail }} bản ghi trên 1 trang
               <div
                 class="box-icon"
                 @click="showPageOptionDetail"
@@ -313,7 +317,7 @@ export default {
     Paginate,
     BaseLoading,
     MessageDelete,
-    MessageDeleteMultiple
+    MessageDeleteMultiple,
   },
   props: ["openForm"],
   data() {
@@ -345,6 +349,8 @@ export default {
       isShowFooterCbbDetail: false,
       isActiveBatch: false,
       isOpenbatch: false,
+      paymentDetails: [],
+      TotalAmountDetail: 0
     };
   },
   watch: {
@@ -367,27 +373,47 @@ export default {
   },
   methods: {
     /**
+     * Lấy payment detail chi chọn dòng
+     * Author: NHNam (27/3/2023)
+     */
+    getDetails(item) {
+      var me = this;
+      this.paymentSelected = item;
+      axios
+        .get(MISAapi.paymentDetail.base + "GetByPaymentIdAndPaging?ParentId=" + item.PaymentId + `&pageSize=${this.pageSizeDetail}&pageNumber=${this.pageNumberDetail}`)
+        .then((res) => {
+          console.log(res);
+          me.totalPageDetail = res.data.TotalPage;
+          me.totalRecordDetail = res.data.TotalRecord;
+          me.paymentDetails = res.data.Data;
+          this.TotalAmountDetail = 0;
+          this.paymentDetails.forEach(element => {
+            this.TotalAmountDetail += element.Amount;
+          });
+        });
+    },
+
+    /**
      * gọi api xóa hàng loạt
      * Author: NHNam (7/1/2023)
      */
-    async handleDeleteMultiple(){
-      var data = this.rowSelected
+    async handleDeleteMultiple() {
+      var data = this.rowSelected;
       try {
         await axios.delete(MISAapi.payment.deleteMultiple, { data });
         this.confirmDeleteMultiple = false;
-         this.filterPayment();
-         this.rowSelected = [];
+        this.filterPayment();
+        this.rowSelected = [];
       } catch (error) {
         console.error(error);
       }
     },
 
-
     /**
      * hiện thông báo xác nhận xóa
      * Author: NHNam (7/1/2023)
      */
-     deleteMuliple() {
+    deleteMuliple() {
       this.confirmDeleteMultiple = true;
     },
 
@@ -395,15 +421,15 @@ export default {
      * Cảnh báo xóa
      * Author: NHNam
      */
-     ShowWarningDelete() {
-        this.isShowMessageDelete = true;
+    ShowWarningDelete() {
+      this.isShowMessageDelete = true;
     },
 
     /**
      * Xác nhận xóa
      * Author: NHNam (203/2023)
      */
-     confirmDelete() {
+    confirmDelete() {
       var me = this;
       try {
         var url = MISAapi.payment.base + me.paymentSelected.PaymentId;
@@ -462,7 +488,7 @@ export default {
      * Đóng chọn thực hiện hàng loại
      * Author: NHNam (20/3/2023)
      */
-    closeBatch(){
+    closeBatch() {
       this.isOpenbatch = false;
     },
     /**
@@ -686,7 +712,10 @@ export default {
         this.isCheckAll = false;
       }
     },
-
+    /**
+     * Toggle context menu
+     * Author: NHNam (27/3/2023)
+     */
     toogleMenu(e) {
       if (this.$refs.menuContext.style.display === "block") {
         $(".context-menu").hide(100);
@@ -704,10 +733,24 @@ export default {
         $(".context-menu").show(100);
       }
     },
+    /**
+     * format tiền
+     * @param {số tiền} number
+     * Author: NHNam (22/3/2023)
+     */
+     formatMoney(number) {
+      if (number) {
+        return new Intl.NumberFormat().format(number);
+      }
+      return 0;
+    },
   },
-  created() {
+  async created() {
     this.isShowForm = this.openForm;
-    this.filterPayment();
+    await this.filterPayment();
+    if(this.payments[0].PaymentId){
+      this.getDetails(this.payments[0]);
+    }
   },
 };
 </script>

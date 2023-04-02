@@ -67,5 +67,16 @@ namespace MISA.AMIS.BL.PaymentDetailBL
         {
             return _paymentDetailDL.InsertPaymentDetails(paymentDetails);
         }
+
+        /// <summary>
+        /// Update nhiều payment detail
+        /// </summary>
+        /// <param name="paymentDetails">Mảng các payment detail</param>
+        /// <returns></returns>
+        public int UpdatePaymentDetails(IEnumerable<PaymentDetail> paymentDetails)
+        {
+            var result = _paymentDetailDL.UpdatePaymentDetails(paymentDetails);
+            return result;
+        }
     }
 }

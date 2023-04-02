@@ -34,5 +34,12 @@ namespace MISA.AMIS.DL.PaymentDetailDL
         /// <param name="paymentDetail"></param>
         /// <returns></returns>
         List<Guid> InsertPaymentDetails(IEnumerable<PaymentDetail> paymentDetail);
+
+        /// <summary>
+        /// Update nhiều payment detail
+        /// </summary>
+        /// <param name="paymentDetails">Mảng các payment detail</param>
+        /// <returns></returns>
+        int UpdatePaymentDetails(IEnumerable<PaymentDetail> paymentDetails);
     }
 }

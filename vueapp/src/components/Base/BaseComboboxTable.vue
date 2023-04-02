@@ -134,7 +134,6 @@ export default {
         this.setItemSelected();
       }
     }
-
     // if (this.isDisable) {
     //   this.textSelected = "";
     // }
@@ -163,6 +162,7 @@ export default {
     "data",
     "isDisable",
     "listTitle",
+    "defaultValue"
   ],
   emits: ["update:modelValue", "changeGrade"],
   components: {},
@@ -170,11 +170,11 @@ export default {
     //blur input
     checkValue() {
       if (!this.textSelected) {
-        this.$emit("removeParentId");
+        this.$emit("removeValue");
       }
     },
 
-    //Đóng option
+    //Đóng option 
     close() {
       this.isShowData = false;
     },
@@ -401,6 +401,7 @@ export default {
 .disable-combobox {
   /* background-color: #000;
     opacity: 0.1; */
+  opacity: 0.1;
   background-color: #e1e1e1;
   width: 100%;
   height: 100%;
