@@ -1,5 +1,8 @@
 <template>
-  <div class="combobox-container" :class="{ error: isError, 'border-focus': isFocus }">
+  <div
+    class="combobox-container"
+    :class="{ error: isError}"
+  >
     <div class="disable-combobox" v-if="isDisable">
       <div class="combobox-button-icon"></div>
     </div>
@@ -11,17 +14,21 @@
       v-model="textSelected"
       @input="onSearchItem"
       @keydown="inputOnKeyDown"
-      :class="{ 'none-border': isError }"
+      :class="{
+        'none-border': isError,
+        focuscbb: isFocusCbb
+      }"
       autocomplete="off"
       :readonly="readOnly"
       :disabled="isDisable"
       @blur="checkValue"
+      @focus="isFocus = true"
     />
     <div
       class="combobox-button"
       v-click-outside-element="close"
       @click="onShowHideData"
-      :class="{ 'none-border': isError }"
+      :class="{ 'none-border': isError}"
     >
       <div class="combobox-button-icon"></div>
     </div>
@@ -39,12 +46,14 @@
       <table cellspacing="0">
         <thead>
           <tr class="row-header-comboxbox">
-            <th v-for="(item, index) in listTitle" v-bind:key="index" :style="
-              {
+            <th
+              v-for="(item, index) in listTitle"
+              v-bind:key="index"
+              :style="{
                 width: item.width,
-                minWidth: item.width
-              }
-            ">
+                minWidth: item.width,
+              }"
+            >
               {{ item.title }}
             </th>
           </tr>
@@ -162,19 +171,21 @@ export default {
     "data",
     "isDisable",
     "listTitle",
-    "defaultValue"
+    "defaultValue",
+    "isFocusCbb",
   ],
   emits: ["update:modelValue", "changeGrade"],
   components: {},
   methods: {
     //blur input
     checkValue() {
+      this.isFocus = false;
       if (!this.textSelected) {
         this.$emit("removeValue");
       }
     },
 
-    //Đóng option 
+    //Đóng option
     close() {
       this.isShowData = false;
     },
@@ -290,31 +301,29 @@ export default {
 
 <style scoped>
 /* ****** */
-.row-header-comboxbox{
-    height: 26px;
-    line-height: 26px;
-    background-color: #e5e8ec;
-    position: sticky;
-    top: 0;
-    
+.row-header-comboxbox {
+  height: 26px;
+  line-height: 26px;
+  background-color: #e5e8ec;
+  position: sticky;
+  top: 0;
 }
-.row-header-comboxbox th{
-    text-align: left;
-    text-indent: 8px;
-    font-size: 13px;
+.row-header-comboxbox th {
+  text-align: left;
+  text-indent: 8px;
+  font-size: 13px;
 }
-.row-item-table{
-    text-indent: 8px;
-    height: 26px;
-    line-height: 26px;
-    font-size: 13px;
+.row-item-table {
+  text-indent: 8px;
+  height: 26px;
+  line-height: 26px;
+  font-size: 13px;
 }
-.row-item-table:hover{
-    background-color: #e8e9ec;
-    color: #2ca01c;
-    cursor: pointer;
+.row-item-table:hover {
+  background-color: #e8e9ec;
+  color: #2ca01c;
+  cursor: pointer;
 }
-
 
 /* ====== */
 .combobox-container {
@@ -331,8 +340,12 @@ export default {
   box-sizing: border-box;
   font-family: Notosans-Regular;
 }
-.border-focus{
+.border-focus {
   border: 1px solid #2ca01c;
+  border-radius: 2px;
+}
+.unset-border {
+  border: unset !important;
 }
 .error {
   border: 1px solid red;

@@ -21,6 +21,7 @@
       :placeholder="placeholderInput"
       :style="{ textAlign: textAlign }"
       :disabled="isDisable"
+      :maxlength="maxLength"
     />
     <br />
     <div class="input-tooltip-error" v-if="isError">{{ error }}</div>
@@ -39,6 +40,7 @@ export default {
     focus: Boolean,
     tooltip: String,
     tooltipContent: String,
+    maxLength: Number,
     isFocus: Boolean,
     shouldFocus: {
       type: Boolean,

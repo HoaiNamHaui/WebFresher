@@ -48,7 +48,8 @@ var MISAResource = {
             invalidDate: "Ngày hạch toán phải lớn hơn ngày phiếu chi",
             refNo: "Số phiếu chi không được để trống",
             debitAccount: "Tài khoản nợ không được bỏ trống",
-            creditAccount: "Tài khoản có không được bỏ trống"
+            creditAccount: "Tài khoản có không được bỏ trống",
+            refNoMaxLength: "Độ dài số phiếu chi không được quá 20 ký tự"
         }
     },
     "en":{

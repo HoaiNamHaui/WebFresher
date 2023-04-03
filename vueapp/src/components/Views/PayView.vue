@@ -228,7 +228,7 @@
           </table>
         </div>
         <div class="context-menu" ref="menuContext">
-          <div class="context-menu-item">Nhân bản</div>
+          <div class="context-menu-item" @click="handleDuplicate">Nhân bản</div>
           <div class="context-menu-item" @click="ShowWarningDelete">Xóa</div>
         </div>
         <div class="pay-detail-paging">
@@ -306,6 +306,7 @@ import MISAapi from "@/js/api";
 import BaseLoading from "../base/BaseLoading.vue";
 // import $ from "jquery";
 import Paginate from "vuejs-paginate-next";
+import MISAEnum from '@/js/base/enum';
 export default {
   name: "PayView",
   components: {
@@ -424,7 +425,7 @@ export default {
     ShowWarningDelete() {
       this.isShowMessageDelete = true;
     },
-
+    
     /**
      * Xác nhận xóa
      * Author: NHNam (203/2023)
@@ -498,7 +499,14 @@ export default {
     handleEditClick(id) {
       this.$router.push({ path: "/PayMoney", query: { id: id } });
     },
-
+    /**
+     * Nhân bản
+     * Author: NHNam
+     */
+     handleDuplicate(){
+      var me = this;
+      this.$router.push({ path: "/PayMoney", query: { id: me.paymentSelected.PaymentId, formMode: MISAEnum.FormMode.Duplicate } });
+    },
     /**
      * chuyển trang form detail
      * Author: NHNam (20/3/2023)
@@ -744,6 +752,18 @@ export default {
       }
       return 0;
     },
+
+    /**
+     * phím tắt mở form thêm mới
+     * Author: NHNam (22/2/2023)
+     */
+     handleKeydown(event) {
+      var me = this;
+      if (event.ctrlKey && event.key == "1") {
+        event.preventDefault();
+        me.redirectPayMoney();
+      }
+    },
   },
   async created() {
     this.isShowForm = this.openForm;
@@ -751,6 +771,9 @@ export default {
     if(this.payments[0].PaymentId){
       this.getDetails(this.payments[0]);
     }
+  },
+  mounted() {
+    document.addEventListener("keydown", this.handleKeydown);
   },
 };
 </script>

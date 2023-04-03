@@ -1,5 +1,5 @@
 <template>
-    <div class="button-option-container" v-click-outside-element="close">
+    <div class="button-option-container" v-click-outside-element="close"  >
       <div class="button-option-select" v-show="isShowSelection">
         <div class="button-option-select-item" @click="onClickSaveAndAdd">
           Cất và Thêm
@@ -8,8 +8,8 @@
           Cất và Đóng
         </div>
       </div>
-      <button class="button-option" @click="saveAndAdd" v-if="!toogleButton">Cất và Thêm</button>
-      <button class="button-option" @click="saveAndClose" v-if="toogleButton">Cất và Đóng</button>
+      <button class="button-option" :class="{lastElement: isLastElement}" @click="saveAndAdd" v-if="!toogleButton">Cất và Thêm</button>
+      <button class="button-option" :class="{lastElement: isLastElement}" @click="saveAndClose" v-if="toogleButton">Cất và Đóng</button>
       <div class="button-line"></div>
       <button
         class="button-option-icon"
@@ -28,6 +28,7 @@ export default{
       isShowSelection: false,
     };
   },
+  props: ['isLastElement'],
   methods: {
     /**
      * Đóng chọn option

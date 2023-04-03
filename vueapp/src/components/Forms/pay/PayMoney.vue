@@ -35,8 +35,10 @@
               @getObjectName="getObjectName"
               @getObjectCode="getObjectCode"
               @getObjectId="getObjectId"
-              @getAddw100validateress="getAddress"
+              @getAddress="getAddress"
               :isDisable="!isAddMode"
+              :isFocusCbb="true"
+              @keydown.shift.tab="focusLastElement"
             />
           </div>
           <base-small-input
@@ -140,6 +142,7 @@
               style="min-width: 150px"
               v-model="payment.RefNo"
               :isDisable="!isAddMode"
+              :max-length="20"
             />
           </div>
         </div>
@@ -294,6 +297,8 @@
           <base-button-option
             @saveAndAdd="saveAndAdd"
             @saveAndClose="saveAndClose"
+            @keydown.tab="focusFirstInput"
+            :is-last-element="true"
           />
         </div>
       </div>
@@ -320,6 +325,7 @@ import MessageError from "@/components/message/MessageError.vue";
 import MISAResource from "@/js/base/resource";
 import axios from "axios";
 import BaseLoading from "@/components/base/BaseLoading.vue";
+import MISAEnum from "@/js/base/enum";
 
 export default {
   name: "PayForm",
@@ -359,7 +365,8 @@ export default {
         postedDate: "",
         refDate: "",
         refNo: "",
-        accountDetail: "",
+        debitAccount: "",
+        creditAccount: "",
       },
       isValid: false,
       isSameDate: true,
@@ -376,13 +383,12 @@ export default {
       reasonTemp: "",
       isChangeByDetail: false,
       isLoading: false,
+      formMode: null,
     };
   },
   watch: {
     paymentDetails: {
-      handler: function (newValue, oldValue) {
-        console.log({ newValue });
-        console.log({ oldValue });
+      handler: function () {
         this.payment.TotalAmount = this.paymentDetails.reduce((result, cur) => {
           return (result += cur.Amount);
         }, 0);
@@ -390,10 +396,9 @@ export default {
       deep: true,
     },
   },
-  created() {
+  async created() {
     const id = this.$route.query.id;
     if (id) {
-      this.isAddMode = false;
       var url = MISAapi.payment.base + id;
       axios
         .get(url)
@@ -407,6 +412,15 @@ export default {
               this.paymentDetails = res.data;
             });
         })
+        .then(() => {
+          if (this.$route.query.formMode) {
+            this.getNewRefNo();
+            this.formMode = this.$route.query.formMode;
+            this.isAddMode = true;
+          } else {
+            this.isAddMode = false;
+          }
+        })
         .catch((error) => {
           console.log(error);
         });
@@ -414,12 +428,81 @@ export default {
       this.getNewRefNo();
     }
   },
+  mounted() {
+    document.addEventListener("keydown", this.handleKeydown);
+    var firstInput = document.getElementsByClassName("focuscbb");
+    console.log(firstInput[0]);
+    firstInput[0].focus();
+  },
   methods: {
+    /**
+     * focus ô đầu tiên
+     * Author: NHNam (203/2023)
+     */
+     focusFirstInput(e) {
+      e.preventDefault();
+      var firstInput = document.getElementsByClassName("focuscbb");
+      firstInput[0].focus();
+    },
+    /**
+     * focus ô đầu tiên
+     * Author: NHNam (203/2023)
+     */
+     focusLastElement(e) {
+      e.preventDefault();
+      var last = document.getElementsByClassName("lastElement");
+      console.log(last);
+      last[0].focus();
+    },
+    /**
+     * Xử lý phím tắt
+     * Author: NHNam (203/2023)
+     */
+    handleKeydown(event) {
+      var me = this;
+      // Đóng form
+      if (event.keyCode === 27) {
+        event.preventDefault();
+        // event.stopPropagation();
+        //me.checkChangeAndHideDialog();
+        me.closeForm();
+      }
+      // Lưu data và disable
+      if (event.ctrlKey && event.key == "s") {
+        event.preventDefault();
+        this.savePayment();
+      }
+
+      // cất và thêm
+      if (event.shiftKey && event.ctrlKey && event.key == "S") {
+        event.preventDefault();
+        this.saveAndAdd();
+      }
+
+      // cất và đóng
+      if (event.ctrlKey && event.key == "q") {
+        event.preventDefault();
+        event.stopPropagation();
+        this.saveAndClose();
+      }
+
+      // Thêm dòng
+      if (event.ctrlKey && event.key === "Insert") {
+        event.preventDefault();
+        this.addLine();
+      }
+      // xóa 1 dòng
+      if (event.ctrlKey && event.key === "Delete") {
+        event.preventDefault();
+        this.paymentDetails.pop();
+      }
+    },
+
     /**
      * Cất và thêm
      * Author: NHNam (20/1/2023)
      */
-    async saveAndAdd(){
+    async saveAndAdd() {
       await this.savePayment();
       this.payment = {
         RefNo: "",
@@ -444,7 +527,7 @@ export default {
      * Cất và đóng
      * Author: NHNam (20/1/2023)
      */
-     async saveAndClose(){
+    async saveAndClose() {
       await this.savePayment();
       this.closeForm();
     },
@@ -544,6 +627,7 @@ export default {
      */
     getObjectName(e) {
       this.payment.ObjectName = e;
+      this.payment.Reciver = e;
       if (!this.isChangeByDetail) {
         this.paymentDetails.forEach((element) => {
           element.ObjectName = e;
@@ -613,7 +697,10 @@ export default {
       this.validate();
       if (this.isValid) {
         try {
-          if (!this.payment.PaymentId) {
+          if (
+            !this.payment.PaymentId ||
+            this.$route.query.formMode == MISAEnum.FormMode.Duplicate
+          ) {
             await this.callApiSavePayment();
             // await this.callApiSavePaymentDetails();
             this.isLoading = false;
@@ -752,6 +839,8 @@ export default {
         this.errors.refDate = MISAResource.vi.errorPayment.refDate;
         this.isValid = false;
       }
+
+
       // Ngày hạch toán nhỏ hơn
       if (this.payment.RefDate && this.payment.PostedDate) {
         var postDate = new Date(this.payment.PostedDate);
@@ -767,11 +856,17 @@ export default {
         this.errors.refNo = MISAResource.vi.errorPayment.refNo;
         this.isValid = false;
       }
+      // số phiếu chi vượt quá max length
+      else if(this.payment.RefNo.length > 20){
+        this.errors.refNo = MISAResource.vi.errorPayment.refNoMaxLength;
+        this.isValid = false;
+      }
+
 
       // Bỏ trống tài khoản nợ ở detail
       for (let i = 0; i < this.paymentDetails.length; i++) {
         if (!this.paymentDetails[i].DebitAccount) {
-          this.errors.accountDetail = MISAResource.vi.errorPayment.debitAccount;
+          this.errors.debitAccount = MISAResource.vi.errorPayment.debitAccount;
           this.isValid = false;
           break;
         }
@@ -779,7 +874,7 @@ export default {
       // Bỏ trống tài khoản có ở detail
       for (let i = 0; i < this.paymentDetails.length; i++) {
         if (!this.paymentDetails[i].CreditAccount) {
-          this.errors.accountDetail =
+          this.errors.creditAccount =
             MISAResource.vi.errorPayment.creditAccount;
           this.isValid = false;
           break;
@@ -790,7 +885,8 @@ export default {
         !this.errors.postedDate &&
         !this.errors.refDate &&
         !this.errors.refNo &&
-        !this.errors.accountDetail
+        !this.errors.debitAccount &&
+        !this.errors.creditAccount
       ) {
         this.isValid = true;
       } else {
@@ -817,8 +913,12 @@ export default {
         this.error = this.errors.refNo;
         this.isError = true;
       }
-      if (this.errors.accountDetail) {
-        this.error = this.errors.accountDetail;
+      if (this.errors.debitAccount) {
+        this.error = this.errors.debitAccount;
+        this.isError = true;
+      }
+      if (this.errors.creditAccount) {
+        this.error = this.errors.creditAccount;
         this.isError = true;
       }
     },
