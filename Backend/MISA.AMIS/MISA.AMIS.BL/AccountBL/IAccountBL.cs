@@ -32,5 +32,13 @@ namespace MISA.AMIS.BL.AccountBL
         /// <param name="isActive">trang thái</param>
         /// <returns></returns>
         int UpdateIsActiveAccount(IEnumerable<Guid> accoundIds, bool isActive);
+
+        /// <summary>
+        /// Xóa tài khoản
+        /// </summary>
+        /// <param name="id">Id tài khoản</param>
+        /// <param name="parentId">Id tài khoản cha</param>
+        /// <returns></returns>
+        int DeleteAccount(Guid id);
     }
 }

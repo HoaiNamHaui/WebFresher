@@ -512,7 +512,7 @@ export default {
      * Author: NHNam (20/3/2023)
      */
     redirectPayMoney() {
-      this.$router.push("/PayMoney");
+      this.$router.push("/PaymentDetail");
     },
 
     /**
@@ -774,6 +774,9 @@ export default {
   },
   mounted() {
     document.addEventListener("keydown", this.handleKeydown);
+  },
+  unmounted(){
+    document.removeEventListener("keydown",this.handleKeydown);
   },
 };
 </script>

@@ -24,7 +24,7 @@ export default {
     handleClickPayMoney(e){
       e.preventDefault();
       // this.$emit('openFormPayMoney');
-      this.$router.push('/PayMoney')
+      this.$router.push('/PaymentDetail')
     }
   }
 };

@@ -1,56 +1,16 @@
 <template>
   <div style="padding: 20px 20px">
     <h1>Mua hàng</h1>
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <!-- <div class="button-option-container" v-click-outside-element="close">
-      <div class="button-option-select" v-show="isShowSelection">
-        <div class="button-option-select-item" @click="onClickSaveAndAdd">
-          Cất và Thêm
-        </div>
-        <div class="button-option-select-item" @click="onClickSaveAndClose">
-          Cất và Đóng
-        </div>
-      </div>
-      <button class="button-option" v-if="!toogleButton">Cất và Thêm</button>
-      <button class="button-option" v-if="toogleButton">Cất và Đóng</button>
-      <div class="button-line"></div>
-      <button
-        class="button-option-icon"
-        @click="isShowSelection = !isShowSelection"
-      >
-        <div></div>
-      </button>
-    </div> -->
-    <base-button-option />
   </div>
 </template>
 <script>
-import BaseButtonOption from '../base/button/BaseButtonOption.vue';
 export default {
   name: "PurchaseView",
-  components: {BaseButtonOption},
   data() {
     return {
-      toogleButton: true,
-      isShowSelection: false,
     };
   },
   methods: {
-    // close() {
-    //   this.isShowSelection = false;
-    // },
-    // onClickSaveAndAdd() {
-    //   this.toogleButton = false;
-    //   this.isShowSelection = false;
-    // },
-    // onClickSaveAndClose() {
-    //   this.toogleButton = true;
-    //   this.isShowSelection = false;
-    // },
   },
 };
 </script>

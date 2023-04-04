@@ -44,6 +44,8 @@ namespace MISA.AMIS.API.Controllers
             }
         }
 
+
+
         /// <summary>
         /// Lấy tất cả các tài khoản
         /// </summary>
@@ -61,6 +63,29 @@ namespace MISA.AMIS.API.Controllers
                 Console.WriteLine(ex.ToString());
                 return StatusCode(StatusCodes.Status500InternalServerError, ex);
 
+            }
+        }
+
+        /// <summary>
+        /// Xóa tài khoản
+        /// </summary>
+        /// <param name="id">id tài khoản</param>
+        /// Created by: NHNam (8/1/2023)
+        [HttpDelete("DeleteChildAccount/{id}")]
+        public virtual IActionResult DeleteAccount( [FromRoute] Guid id)
+        {
+            try
+            {
+                int result;
+
+                result = _accountBL.DeleteAccount(id);
+
+                return StatusCode(StatusCodes.Status200OK, result);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                return StatusCode(StatusCodes.Status500InternalServerError, ex);
             }
         }
 

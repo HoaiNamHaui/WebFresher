@@ -169,7 +169,7 @@ namespace MISA.AMIS.API.Controllers
         }
 
         /// <summary>
-        /// Xóa 1 nhân viên
+        /// Xóa 1 bản ghi
         /// </summary>
         /// <param name="id">ID bản ghi</param>
         /// <returns>Danh sách mới</returns>
@@ -190,6 +190,9 @@ namespace MISA.AMIS.API.Controllers
                 return HandleException(ex);
             }
         }
+
+
+
         /// <summary>
         /// Xử lý ngoại lệ trả về lỗi
         /// </summary>

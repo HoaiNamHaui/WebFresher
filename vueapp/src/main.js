@@ -24,7 +24,7 @@ import CategoryView from "./components/views/CategoryView.vue";
 import PayView from "./components/views/PayView.vue";
 import ProcessView from "./components/views/ProcessView.vue";
 import SystemAccount from "./components/views/SystemAccount.vue";
-import PayMoney from "./components/forms/pay/PayMoney.vue"
+import PaymentDetail from "./components/forms/pay/PaymentDetail.vue"
 const routers = [
   { path: "/", component: EmployeeList },
   {
@@ -55,7 +55,7 @@ const routers = [
   // { path: "/ReportView", component: ReportView },
   // { path: "/AnalysisView", component: AnalysisView },
   { path: "/SystemAccount", component: SystemAccount },
-  { path: "/PayMoney", name:'PayMoney' , component: PayMoney },
+  { path: "/PaymentDetail", name:'PaymentDetail' , component: PaymentDetail },
   {
     path: "/CategoryView",
     component: CategoryView,

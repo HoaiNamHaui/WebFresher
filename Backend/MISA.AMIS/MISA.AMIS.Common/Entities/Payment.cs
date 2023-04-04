@@ -19,9 +19,9 @@ namespace MISA.AMIS.Common.Entities
         public Guid PaymentId { get; set; }
 
         /// <summary>
-        /// Khóa ngoại
+        /// Id đối tượng
         /// </summary>
-        public Guid ObjectId { get; set; }
+        public Guid? ObjectId { get; set; }
 
         /// <summary>
         /// mã đối tượng
@@ -50,9 +50,9 @@ namespace MISA.AMIS.Common.Entities
 
 
         /// <summary>
-        /// Khóa ngoại
+        /// id nhân viên
         /// </summary>
-        public Guid EmployeeId { get; set; }
+        public Guid? EmployeeId { get; set; }
 
         /// <summary>
         /// kèm theo

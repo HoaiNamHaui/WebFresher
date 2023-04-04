@@ -45,6 +45,50 @@ namespace MISA.AMIS.DL.AccountDL
         }
 
         /// <summary>
+        /// Lấy tài khoản theo tài khoản cha
+        /// </summary>
+        /// <param name="parentId">id tài khoản cha</param>
+        /// <returns></returns>
+        public List<Account> GetAccountByParentId(Guid parentId)
+        {
+            var listAccount = new List<Account>();
+            string storedProcedureName = "Proc_Account_GetByParentId";
+            var parameters = new DynamicParameters();
+            parameters.Add("p_ParentId", parentId);
+            using (var mySqlConnection = new MySqlConnection(DatabaseContext.ConnectionString))
+            {
+                listAccount = mySqlConnection.Query<Account>(storedProcedureName, parameters, commandType: System.Data.CommandType.StoredProcedure).ToList();
+            }
+            return listAccount;
+        }
+
+        /// <summary>
+        /// Xóa tài khoản
+        /// </summary>
+        /// <param name="id">Id tài khoản</param>
+        /// <param name="parentId">Id tài khoản cha</param>
+        /// <returns></returns>
+        public int DeleteAccount(Guid id)
+        {
+            var account = this.GetById(id);
+            var res = this.DeleteRecord(id);
+            var childAccounts = this.GetAccountByParentId(account.ParentId);
+
+            if(childAccounts.Count() == 0)
+            {
+                var parent = this.GetById(account.ParentId);
+                parent.IsParent = false;
+                if(parent != null)
+                {
+                    this.UpdateRecord(parent, account.ParentId);
+                }
+                
+            }
+            return res;
+            
+        }
+
+        /// <summary>
         /// Lấy tài khoản theo số tài khoản
         /// </summary>
         /// <param name="id"></param>

@@ -60,6 +60,17 @@ namespace MISA.AMIS.BL.AccountBL
         }
 
         /// <summary>
+        /// Xóa tài khoản
+        /// </summary>
+        /// <param name="id">Id tài khoản</param>
+        /// <param name="parentId">Id tài khoản cha</param>
+        /// <returns></returns>
+        public int DeleteAccount(Guid id)
+        {
+            return _accountDL.DeleteAccount(id);
+        }
+
+        /// <summary>
         /// Validate custom theo đối tượng cụ thể
         /// </summary>
         /// <param name="account">Tài khoản validate</param>

@@ -27,7 +27,7 @@ namespace MISA.AMIS.Common.Entities
         public Guid ObjectId { get; set; }
 
         /// <summary>
-        /// Tên đối tượng
+        /// Id đối tượng
         /// </summary>
         public String? ObjectName { get; set; }
 

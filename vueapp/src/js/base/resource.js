@@ -25,13 +25,14 @@ var MISAResource = {
             referenceMessage: "Tài khoản đã có phát sinh trên các danh mục, chứng từ. không thể xóa."
         },
         errorAccount:{
-            accountNumberEmpty: "Số tài khoản không được để trống",
-            accountNameEmpty: "Tên tài khoản không được để trống",
-            typeEmpty: "Tính chất không được để trống",
-            duplicateAccount: "Số tài khoản đã tồn tại",
-            childrenAccount: "Số tài khoản chi tiết phải bắt đầu bằng số của tài khoản tổng hợp",
-            minLength: "Số tài khoản phải có độ dài >= 3 ký tự",
-            maxLength: "Số tài khoản phải có độ dài <= 25 ký tự",
+            accountNumberEmpty: "Số tài khoản không được để trống.",
+            accountNameEmpty: "Tên tài khoản không được để trống.",
+            typeEmpty: "Tính chất không được để trống.",
+            duplicateAccount: "Số tài khoản đã tồn tại.",
+            childrenAccount: "Số tài khoản chi tiết phải bắt đầu bằng số của tài khoản tổng hợp.",
+            minLength: "Số tài khoản phải có độ dài >= 3 ký tự.",
+            maxLength: "Số tài khoản phải có độ dài <= 25 ký tự.",
+            changeParentAccount: "Không được sửa số tài khoản cha."
         },
         formAccountMode: {
             Add: "Thêm tài khoản",
@@ -43,13 +44,14 @@ var MISAResource = {
             reason: "Chi tiền cho "
         },
         errorPayment:{
-            postedDate: "Ngày hạch toán không được để trống",
-            refDate : "Ngày phiếu chi không được để trống",
-            invalidDate: "Ngày hạch toán phải lớn hơn ngày phiếu chi",
-            refNo: "Số phiếu chi không được để trống",
-            debitAccount: "Tài khoản nợ không được bỏ trống",
-            creditAccount: "Tài khoản có không được bỏ trống",
-            refNoMaxLength: "Độ dài số phiếu chi không được quá 20 ký tự"
+            postedDate: "Ngày hạch toán không được để trống.",
+            refDate : "Ngày phiếu chi không được để trống.",
+            invalidDate: "Ngày hạch toán phải lớn hơn ngày phiếu chi.",
+            refNo: "Số phiếu chi không được để trống.",
+            debitAccount: "Tài khoản nợ không được bỏ trống.",
+            creditAccount: "Tài khoản có không được bỏ trống.",
+            refNoMaxLength: "Độ dài số phiếu chi không được quá 20 ký tự.",
+            noDetail: "Bạn phải nhập chứng từ chi tiết."
         }
     },
     "en":{

@@ -338,10 +338,11 @@
     </div>
     <base-loading v-if="isLoading" />
     <message-error v-if="isError" :error="error" @close="isError = false" />
-    <message-change v-if="isChanged"
-    @closeMessageChange="isChanged = false"
-    @hideDialogAndMessage="closeForm"
-    @acceptSave="saveAndClose"
+    <message-change
+      v-if="isChanged"
+      @closeMessageChange="isChanged = false"
+      @hideDialogAndMessage="closeForm"
+      @acceptSave="saveAndClose"
     />
   </div>
 </template>
@@ -358,7 +359,7 @@ import MISAEnum from "@/js/base/enum";
 import MISAResource from "@/js/base/resource";
 import BaseLoading from "@/components/base/BaseLoading.vue";
 import BaseTooltip from "@/components/base/BaseTooltip.vue";
-import BaseComboboxTable from '@/components/base/BaseComboboxTable.vue';
+import BaseComboboxTable from "@/components/base/BaseComboboxTable.vue";
 import MessageChange from "../../../components/message/MessageChange.vue";
 export default {
   name: "AccountDetail",
@@ -371,7 +372,7 @@ export default {
     MessageError,
     BaseLoading,
     BaseTooltip,
-    MessageChange
+    MessageChange,
   },
   data() {
     return {
@@ -441,6 +442,7 @@ export default {
       dataOther: accountData.dataOther,
       dataType: accountData.dataType,
       errors: {
+        changeParentAccount: "",
         accountNumber: "",
         accountName: "",
         type: "",
@@ -466,6 +468,7 @@ export default {
           this.accountTemp = Object.assign({}, this.account);
         });
     }
+
     // else{
     //   this.employeeTemp = Object.assign({}, this.account);
     // }
@@ -492,9 +495,9 @@ export default {
         this.validate();
         if (this.isValid) {
           await this.saveAccount();
-          if(!this.error){
+          if (!this.error) {
             this.closeForm();
-          }   
+          }
         }
       } catch (error) {
         console.log(error);
@@ -515,6 +518,9 @@ export default {
           !this.account.AccountId ||
           this.isDuplicate === MISAEnum.FormMode.Duplicate
         ) {
+          if (this.isDuplicate === MISAEnum.FormMode.Duplicate) {
+            this.account.IsParent = false;
+          }
           await axios
             .post(MISAapi.account.base, newData)
             .then(() => {
@@ -539,8 +545,8 @@ export default {
             .put(MISAapi.account.base + this.account.AccountId, newData)
             .then(() => {
               this.isLoading = false;
-              // me.$emit("reloadListAccount");
-              // me.$emit("showToast", MISAResource.vi.update);
+              me.$emit("reloadListAccount");
+              me.$emit("showToast", MISAResource.vi.update);
             })
             .catch((res) => {
               console.log(res);
@@ -553,8 +559,8 @@ export default {
               }
               this.isLoading = false;
             });
-          me.$emit("reloadListAccount");
-          me.$emit("showToast", MISAResource.vi.update);
+          // me.$emit("reloadListAccount");
+          // me.$emit("showToast", MISAResource.vi.update);
         }
         this.$emit("changeDuplicateMode");
         this.isProcessing = false;
@@ -594,6 +600,12 @@ export default {
      */
     validate() {
       this.resetError();
+      // Sửa tài khoản cha
+      if(this.account.IsParent && this.account.AccountNumber != this.accountTemp.AccountNumber){
+        this.errors.changeParentAccount =
+          MISAResource.vi.errorAccount.changeParentAccount;
+        this.isValid = false;
+      }
 
       // Bỏ trống số tài khoản
       if (!this.account.AccountNumber) {
@@ -602,16 +614,14 @@ export default {
         this.isValid = false;
       }
       // độ dài nhỏ hơn 3
-      else if(this.account.AccountNumber.length < 3){
-        this.errors.accountNumber = 
-        MISAResource.vi.errorAccount.minLength;
+      else if (this.account.AccountNumber.length < 3) {
+        this.errors.accountNumber = MISAResource.vi.errorAccount.minLength;
         this.isValid = false;
       }
 
       // độ dài lớn hơn 25
-      else if(this.account.AccountNumber.length > 25){
-        this.errors.accountNumber = 
-        MISAResource.vi.errorAccount.maxLength;
+      else if (this.account.AccountNumber.length > 25) {
+        this.errors.accountNumber = MISAResource.vi.errorAccount.maxLength;
         this.isValid = false;
       }
 
@@ -638,6 +648,7 @@ export default {
       }
 
       if (
+        !this.errors.changeParentAccount &&
         !this.errors.accountName &&
         !this.errors.accountNumber &&
         !this.errors.type
@@ -653,6 +664,10 @@ export default {
      * Author: NHNam (19/3/2023)
      */
     sendErrorMessage() {
+      if (this.errors.changeParentAccount) {
+        this.error = this.errors.changeParentAccount;
+        this.isError = true;
+      }
       if (this.errors.accountNumber) {
         this.error = this.errors.accountNumber;
         this.isError = true;
@@ -675,6 +690,7 @@ export default {
      */
     resetError() {
       this.errors = {
+        changeParentAccount: "",
         accountNumber: "",
         accountName: "",
         type: "",
@@ -720,7 +736,7 @@ export default {
      * Check thay đổi dữ liệu để đóng
      * Author: NHNam (203/2023)
      */
-    checkChangeAndHideDialog(){
+    checkChangeAndHideDialog() {
       if (JSON.stringify(this.account) == JSON.stringify(this.accountTemp)) {
         this.closeForm();
       } else {

@@ -220,7 +220,7 @@ import BaseLoading from "../base/BaseLoading.vue";
 import MessageDelete from "../message/MessageDelete.vue";
 import MISAResource from "@/js/base/resource";
 import MISAEnum from "@/js/base/enum";
-import MesageConfirm from '../message/MesageConfirm.vue';
+import MesageConfirm from "../message/MesageConfirm.vue";
 // import $ from "jquery";
 export default {
   name: "SystemAccount",
@@ -240,7 +240,7 @@ export default {
     MessageDelete,
     BaseToast,
     MessageError,
-    MesageConfirm
+    MesageConfirm,
   },
   data() {
     return {
@@ -281,6 +281,9 @@ export default {
   mounted() {
     document.addEventListener("keydown", this.handleKeydown);
   },
+  unmounted() {
+    document.removeEventListener("keydown", this.handleKeydown);
+  },
   watch: {
     txtSearch: function () {
       this.page = 1;
@@ -314,7 +317,7 @@ export default {
       // if (this.accountSelected.ParentId == 0) {
       //   this.accountSelected.ParentId = MISAResource.vi.GUID_EMPTY;
       // }
-      // axios
+      // axiosfilterAccount
       //   .put(
       //     MISAapi.account.base + this.accountSelected.AccountId,
       //     this.accountSelected
@@ -325,7 +328,12 @@ export default {
       //   .catch((res) => {
       //     console.log(res);
       //   });
-      await this.handleActiveAccount(this.accountSelected.AccountId, true, this.accountSelected.IsParent, true)
+      await this.handleActiveAccount(
+        this.accountSelected.AccountId,
+        true,
+        this.accountSelected.IsParent,
+        true
+      );
       await this.getChildrenAccount();
       this.filterAccount();
     },
@@ -371,15 +379,20 @@ export default {
           } else {
             await this.updateIsActiveAccount([accountId], !isActive);
           }
-        }else{
+        } else {
           await this.updateIsActiveAccount([accountId], !isActive);
         }
       } catch (error) {
         console.log(error);
       }
     },
-    async closeAndUse(){
-      await this.handleActiveAccount(this.accountSelected.AccountId, false, this.accountSelected.IsParent, false)
+    async closeAndUse() {
+      await this.handleActiveAccount(
+        this.accountSelected.AccountId,
+        false,
+        this.accountSelected.IsParent,
+        false
+      );
       await this.getChildrenAccount();
       this.isShowMessageConfirm = false;
       this.filterAccount();
@@ -406,10 +419,9 @@ export default {
       //   .catch((res) => {
       //     console.log(res);
       //   });
-      if(this.accountSelected.IsParent){
+      if (this.accountSelected.IsParent) {
         this.isShowMessageConfirm = true;
-      }
-      else{
+      } else {
         await this.confirmMessage();
       }
     },
@@ -418,8 +430,13 @@ export default {
      * xử lý active tài khoản
      * Author: NHNam (20/3/2023)
      */
-    async confirmMessage(){
-      await this.handleActiveAccount(this.accountSelected.AccountId, false, this.accountSelected.IsParent, true)
+    async confirmMessage() {
+      await this.handleActiveAccount(
+        this.accountSelected.AccountId,
+        false,
+        this.accountSelected.IsParent,
+        true
+      );
       await this.getChildrenAccount();
       this.isShowMessageConfirm = false;
       this.filterAccount();
@@ -452,11 +469,15 @@ export default {
     confirmDelete() {
       var me = this;
       try {
-        var url = MISAapi.account.base + me.accountSelected.AccountId;
+        var url =
+          MISAapi.account.base +
+          "DeleteChildAccount/" +
+          me.accountSelected.AccountId;
         me.isLoading = true;
         me.isShowMessageDelete = false;
+
         axios
-          .delete(url)
+          .delete(url, me.accountSelected.ParentId)
           .then(() => {
             me.getChildrenAccount();
             me.filterAccount();

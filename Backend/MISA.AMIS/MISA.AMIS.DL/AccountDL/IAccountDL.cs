@@ -38,5 +38,20 @@ namespace MISA.AMIS.DL.AccountDL
         /// <param name="isActive">trang thái</param>
         /// <returns></returns>
         int UpdateIsActiveAccount(IEnumerable<Guid> accoundIds, bool isActive);
+
+        /// <summary>
+        /// Xóa tài khoản
+        /// </summary>
+        /// <param name="id">Id tài khoản</param>
+        /// <param name="parentId">Id tài khoản cha</param>
+        /// <returns></returns>
+        int DeleteAccount(Guid id);
+
+        /// <summary>
+        /// Lấy tài khoản theo tài khoản cha
+        /// </summary>
+        /// <param name="parentId">id tài khoản cha</param>
+        /// <returns></returns>
+        List<Account> GetAccountByParentId(Guid parentId);
     }
 }
