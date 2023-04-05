@@ -83,6 +83,7 @@
             v-for="(item, index) in payments"
             v-bind:key="index"
             @click="getDetails(item)"
+            @dblclick="handleEditClick(item.PaymentId)"
           >
             <td class="w50px">
               <base-checkbox

@@ -111,7 +111,7 @@ namespace MISA.AMIS.API.Controllers
                     worksheet.Cells["A1"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                     worksheet.Cells["A1"].Style.Font.Bold = true;
                     worksheet.Cells["A1"].Style.Font.Size = 16;
-                    worksheet.Cells["A1"].Style.Font.Name = "Arial";
+                    worksheet.Cells["A1"].Style.Font.Name = "Times New Roman";
                     worksheet.Cells["A2:I2"].Merge = true;
                     worksheet.Cells["A3:I3"].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
                     worksheet.Cells["A3:I3"].Style.Fill.BackgroundColor.SetColor(Color.LightGray);

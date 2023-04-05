@@ -223,7 +223,7 @@
               v-model="detail.ObjectId"
               prop-name="ObjectCode"
               prop-value="ObjectId"
-              @getObjectName="paymentDetails[index].ObjectName = $event"
+              @getObjectName="handleCbbDetailChange(index, $event)"
               @getObjectCode="paymentDetails[index].ObjectCode = $event"
               @selfChange="isChangeByDetail = true"
               :isDisable="!isAddMode"
@@ -275,7 +275,7 @@
           class="small-button-white small-button"
           id="btnCancel"
           @click="cancelPaymentDetail"
-          :class="{'disable-button-color' : !isAddMode}"
+          :class="{ 'disable-button-color': !isAddMode }"
         >
           Hủy
         </button>
@@ -386,6 +386,7 @@ export default {
       isChangeByDetail: false,
       isLoading: false,
       formMode: null,
+      isProcessing: false,
     };
   },
   watch: {
@@ -436,15 +437,20 @@ export default {
     console.log(firstInput[0]);
     firstInput[0].focus();
   },
-  unmounted(){
-    document.removeEventListener("keydown",this.handleKeydown);
+  unmounted() {
+    document.removeEventListener("keydown", this.handleKeydown);
   },
   methods: {
+    handleCbbDetailChange(index, e) {
+      this.paymentDetails[index].ObjectName = e;
+      // this.paymentDetails[index].Description = MISAResource.vi.payment.reason + e;
+    },
+
     /**
      * focus ô đầu tiên
      * Author: NHNam (203/2023)
      */
-     focusFirstInput(e) {
+    focusFirstInput(e) {
       e.preventDefault();
       var firstInput = document.getElementsByClassName("focuscbb");
       firstInput[0].focus();
@@ -453,7 +459,7 @@ export default {
      * focus ô đầu tiên
      * Author: NHNam (203/2023)
      */
-     focusLastElement(e) {
+    focusLastElement(e) {
       e.preventDefault();
       var last = document.getElementsByClassName("lastElement");
       console.log(last);
@@ -620,9 +626,12 @@ export default {
      * Author: NHNam (24/3/2023)
      */
     getTempReson(e) {
-      this.reasonTemp = MISAResource.vi.payment.reason + e;
+      this.reasonTemp = MISAResource.vi.payment.reason + (e || " ");
       if (!this.isChangeByUser) {
         this.payment.Reason = this.reasonTemp;
+        this.paymentDetails.forEach((element) => {
+          element.Description = this.reasonTemp;
+        });
       }
     },
     /**
@@ -698,10 +707,9 @@ export default {
       if (this.isSameDate) {
         var dateClone = JSON.stringify(this.payment.PostedDate);
         // this.payment.RefDate = this.payment.PostedDate;
-        if(this.payment.PostedDate){
+        if (this.payment.PostedDate) {
           this.payment.RefDate = JSON.parse(dateClone);
         }
-        
       }
       this.handleRefDateChange();
     },
@@ -710,29 +718,35 @@ export default {
      * Author: NHNam (23/3/2023)
      */
     async savePayment() {
-      this.isLoading = true;
-      this.validate();
-      if (this.isValid) {
-        try {
-          if (
-            !this.payment.PaymentId ||
-            this.$route.query.formMode == MISAEnum.FormMode.Duplicate
-          ) {
-            await this.callApiSavePayment();
-            // await this.callApiSavePaymentDetails();
-            this.isLoading = false;
-            this.isAddMode = false;
-          } else {
-            await this.callApiUpdatePayment();
-            // await this.callApiSavePaymentDetails();
-            this.isLoading = false;
-            this.isAddMode = false;
+      if (!this.isProcessing) {
+        this.isProcessing = true;
+        this.isLoading = true;
+        this.validate();
+        if (this.isValid) {
+          try {
+            if (
+              !this.payment.PaymentId ||
+              this.$route.query.formMode == MISAEnum.FormMode.Duplicate
+            ) {
+              await this.callApiSavePayment();
+              // await this.callApiSavePaymentDetails();
+              this.isLoading = false;
+              this.isAddMode = false;
+              this.isProcessing = false;
+            } else {
+              await this.callApiUpdatePayment();
+              // await this.callApiSavePaymentDetails();
+              this.isLoading = false;
+              this.isAddMode = false;
+              this.isProcessing = false;
+            }
+          } catch (error) {
+            console.log(error);
           }
-        } catch (error) {
-          console.log(error);
+        } else {
+          this.isLoading = false;
+          this.isProcessing = false;
         }
-      } else {
-        this.isLoading = false;
       }
     },
     /**
@@ -790,10 +804,8 @@ export default {
             .then((res) => {
               this.paymentDetails = res.data;
             });
-          
         })
-        
-        
+
         // .then(() => {
         //   for (var i = 0; i < me.paymentDetails.length; i++) {
         //     me.paymentDetails[i].PaymentId = me.payment.PaymentId;
@@ -861,7 +873,6 @@ export default {
         this.isValid = false;
       }
 
-
       // Ngày hạch toán nhỏ hơn
       if (this.payment.RefDate && this.payment.PostedDate) {
         var postDate = new Date(this.payment.PostedDate);
@@ -878,13 +889,13 @@ export default {
         this.isValid = false;
       }
       // số phiếu chi vượt quá max length
-      else if(this.payment.RefNo.length > 20){
+      else if (this.payment.RefNo.length > 20) {
         this.errors.refNo = MISAResource.vi.errorPayment.refNoMaxLength;
         this.isValid = false;
       }
 
       // Không có chi tiết phiếu chi
-      if(this.paymentDetails.length < 1){
+      if (this.paymentDetails.length < 1) {
         this.errors.noDetail = MISAResource.vi.errorPayment.noDetail;
         this.isValid = false;
       }
@@ -929,24 +940,19 @@ export default {
       if (this.errors.postedDate) {
         this.error = this.errors.postedDate;
         this.isError = true;
-      }
-      else if (this.errors.refDate) {
+      } else if (this.errors.refDate) {
         this.error = this.errors.refDate;
         this.isError = true;
-      }
-      else if (this.errors.refNo) {
+      } else if (this.errors.refNo) {
         this.error = this.errors.refNo;
         this.isError = true;
-      }
-      else if (this.errors.noDetail) {
+      } else if (this.errors.noDetail) {
         this.error = this.errors.noDetail;
         this.isError = true;
-      }
-      else if (this.errors.debitAccount) {
+      } else if (this.errors.debitAccount) {
         this.error = this.errors.debitAccount;
         this.isError = true;
-      }
-      else if (this.errors.creditAccount) {
+      } else if (this.errors.creditAccount) {
         this.error = this.errors.creditAccount;
         this.isError = true;
       }
@@ -980,8 +986,8 @@ export default {
      * hủy form
      * Author: NHNam (4/4/2023)
      */
-    cancelPaymentDetail(){
-      if(this.isAddMode){
+    cancelPaymentDetail() {
+      if (this.isAddMode) {
         this.closeForm();
       }
     },

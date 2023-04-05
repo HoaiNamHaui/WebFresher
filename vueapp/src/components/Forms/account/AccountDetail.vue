@@ -581,8 +581,8 @@ export default {
       if (event.keyCode === 27) {
         event.preventDefault();
         // event.stopPropagation();
-        //me.checkChangeAndHideDialog();
-        me.closeForm();
+        me.checkChangeAndHideDialog();
+        // me.closeForm();
       }
       // Lưu data và đóng
       if (event.ctrlKey && event.key == "s") {
