@@ -100,6 +100,9 @@ export default {
       if (this.modelValue || this.modelValue === 0) {
         this.setItemSelected();
       }
+      else{
+        this.textSelected = "";
+      }
     },
     //Lỗi hiển thị border lỗi
     error: function () {

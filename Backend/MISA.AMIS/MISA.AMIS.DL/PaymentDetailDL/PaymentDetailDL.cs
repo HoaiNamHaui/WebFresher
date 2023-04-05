@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.WebSockets;
 using System.Reflection.Metadata;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -141,6 +142,37 @@ namespace MISA.AMIS.DL.PaymentDetailDL
                             rowsEffected ++;  
                         }
                         if (rowsEffected != paymentDetails.Count()) transaction.Rollback();
+                        transaction.Commit();
+                        return rowsEffected;
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        throw new Exception(ex.Message);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Xóa nhiều detail
+        /// </summary>
+        /// <param name="paymentId"></param>
+        /// <returns></returns>
+        public int DeletePaymentDetails(Guid paymentId)
+        {
+            var storeName = "Proc_PaymentDetail_DeleteByPaymentId";
+            var parameters = new DynamicParameters();
+            parameters.Add("p_PaymentId", paymentId);
+            using (var mySqlConnection = new MySqlConnection(DatabaseContext.ConnectionString))
+            {
+                mySqlConnection.Open();
+                using (var transaction = mySqlConnection.BeginTransaction())
+                {
+                    try
+                    {
+                        int rowsEffected = 0;
+                        rowsEffected = mySqlConnection.Execute(storeName, parameters, commandType: System.Data.CommandType.StoredProcedure, transaction: transaction);
                         transaction.Commit();
                         return rowsEffected;
                     }

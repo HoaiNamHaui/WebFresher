@@ -274,8 +274,8 @@
           style="margin-left: 20px"
           class="small-button-white small-button"
           id="btnCancel"
-          @click="closeForm"
-          :disabled="isAddMode"
+          @click="cancelPaymentDetail"
+          :class="{'disable-button-color' : !isAddMode}"
         >
           Hủy
         </button>
@@ -698,7 +698,10 @@ export default {
       if (this.isSameDate) {
         var dateClone = JSON.stringify(this.payment.PostedDate);
         // this.payment.RefDate = this.payment.PostedDate;
-        this.payment.RefDate = JSON.parse(dateClone);
+        if(this.payment.PostedDate){
+          this.payment.RefDate = JSON.parse(dateClone);
+        }
+        
       }
       this.handleRefDateChange();
     },
@@ -840,7 +843,7 @@ export default {
      * Validate phiếu chi
      * Author: NHNam (23/3/2023)
      */
-    async validate() {
+    validate() {
       this.resetError();
       // Ngày hạch toán trống
       if (
@@ -927,25 +930,23 @@ export default {
         this.error = this.errors.postedDate;
         this.isError = true;
       }
-
-      if (this.errors.refDate) {
+      else if (this.errors.refDate) {
         this.error = this.errors.refDate;
         this.isError = true;
       }
-
-      if (this.errors.refNo) {
+      else if (this.errors.refNo) {
         this.error = this.errors.refNo;
         this.isError = true;
       }
-      if (this.errors.noDetail) {
+      else if (this.errors.noDetail) {
         this.error = this.errors.noDetail;
         this.isError = true;
       }
-      if (this.errors.debitAccount) {
+      else if (this.errors.debitAccount) {
         this.error = this.errors.debitAccount;
         this.isError = true;
       }
-      if (this.errors.creditAccount) {
+      else if (this.errors.creditAccount) {
         this.error = this.errors.creditAccount;
         this.isError = true;
       }
@@ -968,11 +969,23 @@ export default {
 
     /**
      * đóng form
+     * Author: NHNam (4/4/2023)
      */
     closeForm() {
       // this.$emit('closeForm')
       this.$router.go(-1);
     },
+
+    /**
+     * hủy form
+     * Author: NHNam (4/4/2023)
+     */
+    cancelPaymentDetail(){
+      if(this.isAddMode){
+        this.closeForm();
+      }
+    },
+
     formatDate(date) {
       try {
         if (date) {

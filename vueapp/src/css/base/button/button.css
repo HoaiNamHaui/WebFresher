@@ -26,6 +26,11 @@
     cursor: pointer;
     min-width: 80px;
 }
+
+.disable-button-color{
+    background-color: #d2d3d6 !important;
+    cursor: unset !important;
+}
 .button-red{
     background-color: #DE3617 !important;
 }

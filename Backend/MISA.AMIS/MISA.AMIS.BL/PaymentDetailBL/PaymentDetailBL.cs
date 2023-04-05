@@ -75,8 +75,10 @@ namespace MISA.AMIS.BL.PaymentDetailBL
         /// <returns></returns>
         public int UpdatePaymentDetails(IEnumerable<PaymentDetail> paymentDetails)
         {
-            var result = _paymentDetailDL.UpdatePaymentDetails(paymentDetails);
-            return result;
+            var paymentId = paymentDetails.First().PaymentId;
+            _paymentDetailDL.DeletePaymentDetails(paymentId);
+            var result = _paymentDetailDL.InsertPaymentDetails(paymentDetails);
+            return result.Count();
         }
     }
 }

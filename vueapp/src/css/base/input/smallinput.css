@@ -33,7 +33,7 @@ input[type="text"]{
 .input-money{
     height: 26px;
     border-radius: 2px;
-    border: 1px solid #babec5;
+    border: 1px solid #babec5 !important;
     box-sizing: border-box;
     outline: none;
     /* margin-top: 6px; */

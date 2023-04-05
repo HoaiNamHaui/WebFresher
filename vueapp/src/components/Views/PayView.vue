@@ -497,7 +497,7 @@ export default {
      * Author: NHNam (20/3/2023)
      */
     handleEditClick(id) {
-      this.$router.push({ path: "/PayMoney", query: { id: id } });
+      this.$router.push({ path: "/PaymentDetail", query: { id: id } });
     },
     /**
      * Nhân bản
@@ -505,7 +505,7 @@ export default {
      */
      handleDuplicate(){
       var me = this;
-      this.$router.push({ path: "/PayMoney", query: { id: me.paymentSelected.PaymentId, formMode: MISAEnum.FormMode.Duplicate } });
+      this.$router.push({ path: "/PaymentDetail", query: { id: me.paymentSelected.PaymentId, formMode: MISAEnum.FormMode.Duplicate } });
     },
     /**
      * chuyển trang form detail

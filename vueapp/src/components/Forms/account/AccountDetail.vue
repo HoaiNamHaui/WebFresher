@@ -492,6 +492,9 @@ export default {
      */
     async saveAndClose() {
       try {
+        if (this.isDuplicate === MISAEnum.FormMode.Duplicate) {
+          this.account.IsParent = false;
+        }
         this.validate();
         if (this.isValid) {
           await this.saveAccount();
@@ -601,7 +604,10 @@ export default {
     validate() {
       this.resetError();
       // Sửa tài khoản cha
-      if(this.account.IsParent && this.account.AccountNumber != this.accountTemp.AccountNumber){
+      if (
+        this.account.IsParent &&
+        this.account.AccountNumber != this.accountTemp.AccountNumber
+      ) {
         this.errors.changeParentAccount =
           MISAResource.vi.errorAccount.changeParentAccount;
         this.isValid = false;
@@ -668,17 +674,17 @@ export default {
         this.error = this.errors.changeParentAccount;
         this.isError = true;
       }
-      if (this.errors.accountNumber) {
+      else if (this.errors.accountNumber) {
         this.error = this.errors.accountNumber;
         this.isError = true;
       }
 
-      if (this.errors.accountName) {
+      else if (this.errors.accountName) {
         this.error = this.errors.accountName;
         this.isError = true;
       }
 
-      if (this.errors.type) {
+      else if (this.errors.type) {
         this.error = this.errors.type;
         this.isError = true;
       }
